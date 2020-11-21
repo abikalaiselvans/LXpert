@@ -1,0 +1,86 @@
+
+CHR_GST_TYPE,,DOU_FRIEGHT_CHARGE_BASE_AMOUNT,DOU_FRIEGHT_CHARGE_PERCENT,
+inv_t_directpurchase field added 
+
+inv_t_swapsalesitem field INT_WARRANTY change int to double
+inv_t_directsales field added INT_SHIPPING_CUSTOMERID
+
+pay_m_basicsettings  field added 
+CHR_PAYSLIP_FOOTER
+
+m_inventorysetting field added 
+CHR_BANK_NAME,CHR_IFSCCODE,CHR_ACCOUNT_NO, CHR_FOOTER_CONTENT
+
+inv_t_directsales 
+Field added CHR_DISCOUNTBILL 
+==========================================================================================
+function created
+UPDATE inv_m_item  SET INT_UNITID = 1
+
+UPDATE inv_m_produtlist  SET INT_UNITID = 1
+
+
+CREATE  FUNCTION `FUN_INV_UNITS`(itype VARCHAR(50),icode VARCHAR(50)   ) RETURNS varchar(250) 
+BEGIN
+     DECLARE d VARCHAR(250) DEFAULT '';
+     DECLARE unit VARCHAR(250) DEFAULT '';
+     
+     SELECT IF(itype='I' ,(SELECT INT_UNITID FROM inv_m_item  WHERE CHR_ITEMID =icode) ,
+         (SELECT INT_UNITID FROM inv_m_produtlist  WHERE CHR_PRODUCTID =icode)
+        )  INTO unit;
+        
+     SELECT IF(LENGTH(CHR_SYMBOL)> 0,CHR_SYMBOL,'') INTO d  from inv_m_units  where INT_UNITID = unit;
+        
+     RETURN d;
+END
+
+
+==========================================================================================
+CHR_HSNCODE added to inv_t_servicebilling
+
+
+DROP  FUNCTION `FUN_ATT_GET_EXTRADAYS`
+
+
+ CREATE  FUNCTION `FUN_ATT_GET_EXTRADAYS`(empid varchar(25),dmonth varchar(25),dyear varchar(25)) RETURNS double(10,2)
+BEGIN
+     DECLARE extradays DOUBLE DEFAULT 0; 
+     DECLARE record char DEFAULT '0'; 
+     
+     SELECT COUNT(*) INTO record FROM att_t_extradays WHERE CHR_EMPID=empid 
+     AND  DATE_FORMAT( DT_EXTRADATE,'%M' )  = dmonth AND YEAR(DT_EXTRADATE) = dyear;
+     
+     IF  record != "0" THEN
+     
+     SELECT SUM(DOU_VALUE) INTO extradays FROM att_t_extradays WHERE CHR_EMPID=empid 
+     AND DATE_FORMAT( DT_EXTRADATE,'%M' )  = dmonth AND YEAR(DT_EXTRADATE) = dyear;
+    
+     END IF;
+     RETURN extradays;
+        
+END 
+
+DROP  FUNCTION `FIND_A_CURRENTMONTH_JOINNER`
+ 
+CREATE  FUNCTION `FIND_A_CURRENTMONTH_JOINNER`(empid varchar(20), iyear  varchar(20), imonth  varchar(20)) RETURNS varchar(1) CHARSET latin1
+BEGIN
+     
+     DECLARE d varchar(1) DEFAULT '0';
+     
+     SELECT count(*)INTO d from com_m_staff WHERE CHR_EMPID=empid  AND year(DT_DOJCOLLEGE)=iyear AND  DATE_FORMAT( DT_DOJCOLLEGE,'%M') =imonth;
+     RETURN d;
+END 
+
+DROP FUNCTION `FUN_ATT_GET_LEAVETAKEN`
+
+CREATE FUNCTION `FUN_ATT_GET_LEAVETAKEN`(leavetype varchar(100),empid varchar(100),dmonth varchar(100),dyear varchar(100) ) RETURNS double(10,2)
+BEGIN
+     
+     DECLARE leavetaken DOUBLE DEFAULT 0; 
+     
+     SELECT SUM(DOU_VALUE) INTO leavetaken FROM att_t_leave 
+     WHERE CHR_LEAVETYPE=leavetype AND CHR_EMPID=empid AND  DATE_FORMAT(DT_LDATE ,'%M' )  =dmonth 
+     AND YEAR(DT_LDATE) = dyear GROUP BY CHR_EMPID;
+      
+     RETURN leavetaken;
+END 
