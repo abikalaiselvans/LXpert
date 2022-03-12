@@ -151,9 +151,11 @@ try
 }
 catch(Exception e)
 {
-	//System.out.println(e.getMessage());
+	e.printStackTrace();
+	System.out.println(e.getMessage());
 }
 %>
+ 
 </form>
 <%@ include file="../footer.jsp"%>
 </body>

@@ -109,7 +109,7 @@ try
 					  <select name="bank" id="bank" style="width:200">
 					  <option value="0">Select Bank</option>
 					  <%
-					 String bankdata[][] =  CommonFunctions.QueryExecute("SELECT a.INT_BANKID, b.CHR_BANKGROUPNAME FROM com_m_bank a, com_m_bankgroup b WHERE a.INT_BANKGROUPID=b.INT_BANKGROUPID  ORDER BY  b.CHR_BANKGROUPNAME");
+					 String bankdata[][] =  CommonFunctions.QueryExecute("SELECT INT_BANKGROUPID, CHR_BANKGROUPNAME FROM com_m_bankgroup ORDER BY CHR_BANKGROUPNAME");
 					 for(int u=0; u<bankdata.length; u++)
 						out.print("<option selected='selected' value='"+bankdata[u][0]+"'>"+bankdata[u][1]  +"</option>");
 					  %>

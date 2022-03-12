@@ -96,7 +96,7 @@ function validate()
 	count=0;
 	coffee1=document.forms[0].accept;
 	txt=""
-	 
+	alert(coffee1.length);
 	for (i=0;i<coffee1.length;++ i)
 	{
 		if (coffee1[i].checked)

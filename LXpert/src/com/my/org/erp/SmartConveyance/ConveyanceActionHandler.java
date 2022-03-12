@@ -67,7 +67,7 @@ import com.my.org.erp.ServiceLogin.AbstractActionHandler;
 import com.my.org.erp.ServiceLogin.DateUtil;
 import com.my.org.erp.common.CommonFunctions;
 
-@WebServlet("/Conveyance")
+
 public class ConveyanceActionHandler extends AbstractActionHandler 
 {
 	public void handle(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {

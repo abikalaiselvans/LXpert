@@ -71,7 +71,6 @@ public class LoginActionHandler extends AbstractActionHandler
 						if("F".equals(type.charAt(0)))
 							AttendanceFunctions.registerCreation(con, apstm,userid);
 						
-						
 						//Attendance Auto marking
 						AttendanceFunctions.attendanceAutoMarking(con, apstm);
 						//Common Holiday Auto Marking
@@ -295,20 +294,22 @@ public class LoginActionHandler extends AbstractActionHandler
 					CommonFunctions.ChangeRootPassword(con,"rose" );
 			
 			System.out.println("Path "+ Path);
+			System.out.println("CHR_SYSOUT "+ CommonFunctions.QueryExecute("SELECT CHR_SYSOUT  FROM m_institution WHERE INT_ID=1")[0][0]);
 			if("Y".equals(CommonFunctions.QueryExecute("SELECT CHR_SYSOUT  FROM m_institution WHERE INT_ID=1")[0][0]))
 			{
 					try {
 						java.text.SimpleDateFormat datetime = new java.text.SimpleDateFormat("yyyy-MM-dd");
 						java.util.Date date = new java.util.Date();
 						String updatedate = "" + datetime.format(date);
-						//System.out.println(Path + "log/" + updatedate + ".txt");
+						System.out.println(Path + "log/" + updatedate + ".txt");
 						File fi = new File(Path + "log/" + updatedate + ".txt");
 						if (!fi.exists())
 							fi.createNewFile();
 						FileOutputStream outStr = new FileOutputStream(Path + "/log/" + updatedate + ".txt", true);
 						PrintStream printStream = new PrintStream(outStr);
 						System.out.println("Logfile created");
-						//System.setOut(printStream);
+						System.setOut(printStream);
+						System.out.println("Logfile created" + datetime.format(date));
 					} catch (Exception e) {
 						// TODO: handle exception
 						System.out.println("Log file :"+e.getCause());

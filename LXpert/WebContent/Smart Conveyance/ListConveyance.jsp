@@ -63,7 +63,11 @@ try
 						 
 						<tr class="bolddeepblue">
 							<td height="22" colspan="2" valign="middle" class="style3"><table width="100%" border="0" align="center" cellpadding="3" cellspacing="4">
-                              <tr>
+                             
+							 <%
+							 if("S".equals(session.getAttribute("USRTYPE"))) {
+							 %>
+							  <tr>
                                 <td>&nbsp;</td>
                                 <td><a href="ListConveyanceAll.jsp">Conveyance Employee with CTC</a></td>
                               </tr>
@@ -71,6 +75,7 @@ try
                                 <td>&nbsp;</td>
                                 <td><a href="AllemployeeListConveyanceAll.jsp">All Employee with CTC</a></td>
                               </tr>
+							  <%}%>
                               <tr>
                                 <td>&nbsp;</td>
                                 <td><a href="ListConveyancee.jsp">Individual Employee  </a></td>

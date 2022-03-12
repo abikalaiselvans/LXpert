@@ -214,8 +214,6 @@ public class ConveyanceMethod extends HttpServlet
 	   		String month=request.getParameter("month");
 	   		String year=request.getParameter("year");
 	   		
-	   		
-	   		
     	 	String OfficeData[][] = CommonFunctions.QueryExecute(" SELECT b.INT_OFFICEID,b.CHR_OFFICENAME FROM  com_m_office  b " +
 		 			"WHERE b.INT_OFFICEID IN("+CommonFunctions.QueryExecute("SELECT a.CHR_OFFICELIST FROM m_user a " +
 		 					"WHERE a.CHR_USRNAME='"+""+session.getAttribute("USRID")+"' ")[0][0]+" )");

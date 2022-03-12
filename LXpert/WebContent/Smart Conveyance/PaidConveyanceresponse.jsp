@@ -83,31 +83,31 @@ try
 
 				child = new Vector();
 				child.addElement((u+1));
-				child.addElement(cdata[u][1] +" /" +cdata[u][0] ); 
+				child.addElement(cdata[u][1] +" /" +cdata[u][0] );  //id & name
 				
-				child.addElement(cdata[u][15]);
-				child.addElement(cdata[u][16]);
-				child.addElement(cdata[u][17]);
+				child.addElement(cdata[u][15]); // office
+				child.addElement(cdata[u][16]); //depart
+				child.addElement(cdata[u][17]); //cteg
 				
 				
-				child.addElement(cdata[u][12]);
-				child.addElement("A/c No : "+cdata[u][13]);
-				child.addElement(cdata[u][14]); 
+				child.addElement(cdata[u][12]); //bank
+				child.addElement("A/c No : "+cdata[u][13]); //account
+				child.addElement(cdata[u][14]);  //ifsc
 				
-				child.addElement(cdata[u][10]);
-				child.addElement(cdata[u][11]);
+				child.addElement(cdata[u][10]); //totl
+				child.addElement(cdata[u][11]);// date
 				
-				child.addElement(cdata[u][2]);
-				child.addElement(cdata[u][3]);
-				child.addElement(cdata[u][4]);
-				child.addElement(cdata[u][5]);
-				child.addElement(cdata[u][6]);
-				child.addElement(cdata[u][7]);
-				child.addElement(cdata[u][8]);
-				child.addElement(cdata[u][18]);
-				child.addElement(cdata[u][19]);
+				child.addElement(cdata[u][2]); //travel
+				child.addElement(cdata[u][3]); //train
+				child.addElement(cdata[u][4]); //auto
+				child.addElement(cdata[u][5]); //lunch
+				child.addElement(cdata[u][6]); //telephone
+				child.addElement(cdata[u][7]); //otheramount
+				child.addElement(cdata[u][8]); //sum
+				child.addElement(cdata[u][18]);//deduction
+				child.addElement(cdata[u][19]); //givenamount
 				
-				child.addElement("");
+				child.addElement("------------------");
 				 
 				
 				sum1= sum1+Double.parseDouble(cdata[u][2]);
@@ -153,18 +153,18 @@ try
 					<display:column title=" IFSC CODE" sortable="true"><%=temp.elementAt(7)%></display:column>
 					<display:column title=" From Date" sortable="true"><%=temp.elementAt(8)%></display:column>
 					<display:column title=" To Date" sortable="true"><%=temp.elementAt(9)%></display:column>
-					<display:column title=" Vehicle Amount"  style="text-align:right"sortable="true"><%=temp.elementAt(10)%></display:column>
-					<display:column title=" Train/Bus are"  style="text-align:right"sortable="true"><%=temp.elementAt(11)%></display:column>
-					<display:column title=" Auto Fare"  style="text-align:right"sortable="true"><%=temp.elementAt(12)%></display:column>
-					<display:column title=" Lunch / Dinner"  style="text-align:right"sortable="true"><%=temp.elementAt(13)%></display:column>
-					<display:column title=" Telephone Charges"  style="text-align:right"sortable="true"><%=temp.elementAt(14)%></display:column>
-					<display:column title=" Others Amt"  style="text-align:right"sortable="true"><%=temp.elementAt(15)%></display:column>
-					<display:column title=" Total "  style="text-align:right"sortable="true"><%=temp.elementAt(16)%></display:column>
+				
+					<display:column title=" Vehicle Amount"  style="text-align:right" sortable="true"><%=temp.elementAt(10)%></display:column>
+					<display:column title=" Train/Bus are"  style="text-align:right" sortable="true"><%=temp.elementAt(11)%></display:column>
+					<display:column title=" Auto Fare"  style="text-align:right" sortable="true"><%=temp.elementAt(12)%></display:column>
+					<display:column title=" Lunch / Dinner"  style="text-align:right" sortable="true"><%=temp.elementAt(13)%></display:column>
+					<display:column title=" Telephone Charges"  style="text-align:right" sortable="true"><%=temp.elementAt(14)%></display:column>
+					<display:column title=" Others Amt"  style="text-align:right" sortable="true"><%=temp.elementAt(15)%></display:column>
+					<display:column title=" Total "  style="text-align:right" sortable="true"><%=temp.elementAt(16)%></display:column>
 					 <display:column title="Deduction" style="text-align:right" sortable="true"><%=temp.elementAt(17)%></display:column>
 					<display:column title=" Balance" style="text-align:right" sortable="true"><%=temp.elementAt(18)%></display:column>	 
 					<display:column title=" Signature " sortable="true"><%=temp.elementAt(19)%></display:column>
-					
-					
+					 
 
 
 					 
@@ -185,7 +185,8 @@ try
 }
 catch(Exception e)
 {
-	
+	e.printStackTrace();
+	System.out.println(e.getMessage());
 }
 %>
  

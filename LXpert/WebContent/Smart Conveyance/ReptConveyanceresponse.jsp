@@ -1,7 +1,13 @@
-   <%@ page import="java.sql.*,java.io.*,java.util.*,com.my.org.erp.ServiceLogin.*"%>
+ <%@ page import="java.sql.*,java.io.*,java.util.*,com.my.org.erp.ServiceLogin.*,com.my.org.erp.common.*"%>
+<%@ page import="java.sql.*,java.io.*,java.util.*,com.my.org.erp.ServiceLogin.*"%>
 <%@ page import="com.my.org.erp.common.CommonFunctions"%>
 <%@ taglib uri="/WEB-INF/displaytag.tld" prefix="display" %>
 <%@ page import="java.util.*"%>
+ <script language="javascript" src="../JavaScript/comfunction.js"></script>
+ <%
+ try
+{
+ %> 
  <head>
 <link rel="icon" type="image/ico" href="../images/ERP.ico"></link>
 <link rel="shortcut icon" href="../images/ERP.ico"></link>
@@ -50,7 +56,7 @@ function  Print(links)
 <%
 try
 {
- 		String reportheader=" REPORT CONVEYANCE "; 
+		String reportheader=" REPORT CONVEYANCE "; 
 		String companyid=request.getParameter("company");
 		String branch=request.getParameter("branch");
 		String officeid=request.getParameter("Office");
@@ -58,6 +64,7 @@ try
 		String link="ReptConveyanceprint.jsp?company="+companyid+"&branch="+branch+"&Office="+officeid+"&paiddate="+paiddate;
 		paiddate = paiddate.split("-")[2]+"-"+paiddate.split("-")[1]+"-"+paiddate.split("-")[0];
 		String cname[][] =CommonFunctions.QueryExecute("SELECT CHR_COMPANYNAME FROM com_m_company WHERE INT_COMPANYID="+companyid);
+		
 		String branchname = "";
 		if("0".equals(branch))
 		{
@@ -77,12 +84,8 @@ try
 		sql=sql + "  sum(a.DOU_OTHERAMT),";
 		sql=sql + "(sum(a.DOU_TRAVEL)+sum(a.DOU_TRAIN)+sum(a.DOU_AUTO)+sum(a.DOU_LUNCH)+sum(a.DOU_TELEPHONE)+sum(a.DOU_OTHERAMT))"; 
 		sql = sql + " ,sum(a.DOU_TOTAL),DATE_FORMAT(MIN(DAT_CONDATE),'%e-%M-%Y'), DATE_FORMAT(MAX(DAT_CONDATE),'%e-%M-%Y') ,FIND_A_BANKGROUP_NAME(b.CHR_BANK) ,b.CHR_ACCNO, d.CHR_OFFICENAME,e.CHR_DEPARTNAME,f.CHR_CATEGORYNAME,b.CHR_IFSC , ";
-		 
 		sql = sql + "  FUN_GET_CONVEYANCE_ADVANCE_BEFORE(a.CHR_EMPID,'"+paiddate+"') ,  ";
 		sql = sql + "  (SUM(a.DOU_TOTAL) -FUN_GET_CONVEYANCE_ADVANCE_BEFORE(a.CHR_EMPID,'"+paiddate+"')   )";
-		
-		
-		
 		sql = sql + " FROM conveyance_t_conveyance a, com_m_staff b , com_m_office  d ,com_m_depart e, com_m_employeecategory  f";
 		sql = sql + "  WHERE a.CHR_EMPID=b.CHR_EMPID	 ";
 		sql = sql + "  AND a.CHR_STATUS='Y' AND a.CHR_ACCSTATUS='Y'  AND b.INT_OFFICEID =d.INT_OFFICEID AND b.INT_DEPARTID= e.INT_DEPARTID  AND b.CHR_CATEGORY = f.INT_EMPLOYEECATEGORYID";
@@ -90,13 +93,13 @@ try
 		sql = sql + "  AND b.INT_COMPANYID= "+companyid;		
 		if(!"0".equals(officeid))
 			sql = sql + " AND b.INT_OFFICEID = " +officeid;
-		
 		if(!"0".equals(branch))
 			sql = sql + "  AND b.INT_BRANCHID = " +branch;
-			
 		sql = sql + "  GROUP BY a.CHR_EMPID	 ORDER BY  b.CHR_STAFFNAME";
+		//out.println(sql);
 		String cdata[][]=CommonFunctions.QueryExecute(sql);
 		String companyname = cname[0][0];
+		
 		
 		double sum=0;
 		double sum1=0;
@@ -176,7 +179,10 @@ try
 		} 
 		
 		request.setAttribute("table",mn);
+		 
 %>
+
+ 
 <display:table   id="_table" name="table"   export="true" pagesize="25">
  
 	 				<display:caption><%=reportheader.toUpperCase()%></display:caption>
@@ -211,13 +217,21 @@ try
 					 
 </display:table> 
     
-<br />	<center>	<a href='ReptConveyance.jsp'> CLOSE</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:Print('<%=link%>')">Print</a></center>
- <%
+  <%
 }
 catch(Exception e)
 {
+	e.printStackTrace();
+	System.out.println(e.getMessage());
 }
 %>		 
 </body>
 </html>
-
+<%
+}
+catch(Exception e)
+{
+	e.printStackTrace();
+	System.out.println(e.getMessage());
+}
+%>	

@@ -1,4 +1,4 @@
- <%@ page contentType="text/html; charset=iso-8859-1" language="java" import="java.sql.*" %>
+<%@ page contentType="text/html; charset=iso-8859-1" language="java" import="java.sql.*" %>
 <%@ page import="com.my.org.erp.common.CommonFunctions"%>
 <%@ page import="com.my.org.erp.ServiceLogin.DateUtil"%><%
 try
@@ -172,8 +172,9 @@ function validate()
 		{
 			if( conveyance>=advance  )
 			{
-				 
-				if(deduction <advance)
+				alert("deduction :"+deduction + " advance :"+advance + "/"  +(deduction <=advance) );
+				
+				if(deduction <=advance)
 					d = 1;
 				else
 				{
@@ -184,8 +185,8 @@ function validate()
 			}
 			else
 			{
-				 
-				if(deduction <conveyance)
+				alert("deduction :"+deduction + " conveyance :"+conveyance + "/"  +(deduction <=conveyance) );
+				if(deduction <=conveyance)
 					d = 1;
 				else
 				{
