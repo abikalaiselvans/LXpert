@@ -141,7 +141,7 @@ function contributionChange()
               <tr>
                 <td colspan="4" class="boldThirteen"><div align="center">INVERTORY SETTINGS 
 				<%
-				String data[][] = CommonFunctions.QueryExecute("SELECT INT_ROWID ,CHR_PURCHASEREQUEST,CHR_PURCHASEACCEPT,CHR_INVOICEDELETE,CHR_DELETEUSER,CHR_DAILY_COLLECTION_MAIL,CHR_DAILY_COLLECTION_MAIL_IDS, INT_DAILY_COLLECTION_MAIL_TIME,INT_DELIVERYDAYS,INT_DELIVERY_KM,INT_ME_NAME_CHANGE,CHR_EMD_MAILIDS,CHR_DELIVERY_PENDING_MAIL_IDS,CHR_INSTALLATION_PENDING_MAIL_IDS,INT_PURCHASEREQUEST_LOCK ,CHR_STOCKMAIL_ALERT_BRANCH,INT_UNBLOCK, INT_CONTRIBUTION_LEVEL1, INT_CONTRIBUTION_LEVEL2,CHR_CUSTOMERCREDITLIMIT,INT_INVOCECHANGES,CHR_MAILENABLE,CHR_PR_APPROVAL ,CHR_PR_CLOSED,CHR_INWARDMAIL,CHR_PAYMENTMAIL,CHR_STOCKTRANSFERMAIL,CHR_PR_BYPASS,CHR_BANK_NAME,CHR_ACCOUNT_NO,CHR_IFSCCODE, CHR_FOOTER_CONTENT    FROM m_inventorysetting  WHERE INT_ROWID=1");
+				String data[][] = CommonFunctions.QueryExecute("SELECT INT_ROWID ,CHR_PURCHASEREQUEST,CHR_PURCHASEACCEPT,CHR_INVOICEDELETE,CHR_DELETEUSER,CHR_DAILY_COLLECTION_MAIL,CHR_DAILY_COLLECTION_MAIL_IDS, INT_DAILY_COLLECTION_MAIL_TIME,INT_DELIVERYDAYS,INT_DELIVERY_KM,INT_ME_NAME_CHANGE,CHR_EMD_MAILIDS,CHR_DELIVERY_PENDING_MAIL_IDS,CHR_INSTALLATION_PENDING_MAIL_IDS,INT_PURCHASEREQUEST_LOCK ,CHR_STOCKMAIL_ALERT_BRANCH,INT_UNBLOCK, INT_CONTRIBUTION_LEVEL1, INT_CONTRIBUTION_LEVEL2,CHR_CUSTOMERCREDITLIMIT,INT_INVOCECHANGES,CHR_MAILENABLE,CHR_PR_APPROVAL ,CHR_PR_CLOSED,CHR_INWARDMAIL,CHR_PAYMENTMAIL,CHR_STOCKTRANSFERMAIL,CHR_PR_BYPASS,CHR_BANK_NAME,CHR_ACCOUNT_NO,CHR_IFSCCODE, CHR_FOOTER_CONTENT ,CHR_SALES_INVOICE_CREATED   FROM m_inventorysetting  WHERE INT_ROWID=1");
 				//String s[]="000150,001277,004464".split(",");
 				//String ss="001277";
 				//boolean contains = org.apache.commons.lang.ArrayUtils.contains(s, ss);
@@ -152,14 +152,14 @@ function contributionChange()
               <tr>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
-                <td>&nbsp;</td>
+                <td width="21%">&nbsp;</td>
                 <td>&nbsp;</td>
               </tr>
               <tr>
-                <td width="20%" class="boldEleven">Mail feature enabled </td>
-                <td width="20%"><input <%="Y".equals(data[0][21])?" checked='checked' ":" "%> name="mailfeatue" type="checkbox" class="formText135" id="mailfeatue" value="Y"></td>
+                <td width="17%" class="boldEleven">Mail feature enabled </td>
+                <td width="21%"><input <%="Y".equals(data[0][21])?" checked='checked' ":" "%> name="mailfeatue" type="checkbox" class="formText135" id="mailfeatue" value="Y"></td>
                 <td class="boldEleven">&nbsp;</td>
-                <td width="52%">&nbsp;</td>
+                <td width="41%">&nbsp;</td>
               </tr>
               <tr>
                 <td class="boldEleven">Invoice Delete information <span class="boldred">*</span> </td>
@@ -273,8 +273,7 @@ function contributionChange()
 				  <option value="Y">Yes</option>
 				  <option value="N">No</option>
                 </select>
-				<script language="javascript">setOptionValue('bypasspr','<%=data[0][27]%>')</script>  
-				</td>
+				<script language="javascript">setOptionValue('bypasspr','<%=data[0][27]%>')</script>				</td>
               </tr>
               <tr>
                 <td align="left" valign="top" class="boldEleven">Release Unblock invoice in days </td>
@@ -306,6 +305,17 @@ function contributionChange()
 				%>
                 </select>
 				<script language="javascript">setOptionValue('contributionlevel2','<%=data[0][18]%>')</script>				</td>
+              </tr>
+              <tr>
+                <td align="left" valign="top" class="boldEleven">&nbsp;</td>
+                <td align="left" valign="top" class="boldEleven">&nbsp;</td>
+                <td align="left" valign="top" class="boldEleven">Sales Invoice Created By </td>
+                <td class="boldEleven"><select name="salesinvoice" class="formText135" id="salesinvoice"  >
+                  <option value="A">Automatic</option>
+				  <option value="M">Manual</option>
+                </select><%=data[0][32]%>
+				<script language="javascript">setOptionValue('salesinvoice','<%=data[0][32]%>')</script>
+				</td>
               </tr>
               <tr>
                 <td align="left" valign="top" class="boldEleven">Enable daily stock report   <span class="boldred">*</span></td>

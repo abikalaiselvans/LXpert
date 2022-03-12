@@ -1,5 +1,4 @@
 <%@ page import="java.io.*,java.util.*"%>
-<%@ page import="sun.net.smtp.SmtpClient"%>
 <%@ page import="com.my.org.erp.common.CommonFunctions"%><html>
 <head>
 <title>:: INVENTORY ::</title><link rel="icon" type="image/ico" href="../images/ERP.ico"></link>

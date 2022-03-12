@@ -5,7 +5,7 @@
 	{
  	 
 String dateCheckData[][] = CommonFunctions.QueryExecute("SELECT DATE_FORMAT(now(),'%d-%m-%Y'), DAT_LOCK,MONTHNAME(NOW()),MONTH(NOW()), YEAR(NOW())  FROM m_institution  WHERE INT_ID=1");
-							
+String inventorysettingData[][] =  CommonFunctions.QueryExecute("SELECT CHR_SALES_INVOICE_CREATED,DATE_FORMAT(now(),'%Y%m%d%H%i%s')  FROM m_inventorysetting  WHERE INT_ROWID=1");		
 String taxids[][] =  CommonFunctions.QueryExecute("Select INT_TAXID,CHR_TAXNAME from inv_m_tax ORDER BY CHR_TAXNAME");
 String optiontaxname="<option value=''>Select Tax</option>";//<option value='0'>No Tax</option>
 for(int u=0; u<taxids.length; u++)
@@ -47,7 +47,7 @@ for(int u=2;u<=10;u++)
 <script language="JavaScript" src="../JavaScript/Inventory/InvenAJAX.js" type="text/javascript"></script>
 <script language="JavaScript" src="../JavaScript/Inventory/InventAJAX.js" type="text/javascript"></script>
 <script language="javascript" src="../JavaScript/Inventory/CustomerSalesCreditlimit.js"></script>
-
+<script language="JavaScript" src="../JavaScript/ComAJAX.js"></script>
 
 <script language="javascript" src="../JavaScript/jquery/jquery-1.7.1.js"></script>
 <script language="javascript" src="../JavaScript/jquery/ui/jquery.ui.core.js"></script>
@@ -771,7 +771,7 @@ function valid()
 		svalue="";
 		for(u=0; u<checkArray.length-1;u++)
 			svalue =svalue+"item"+checkArray[u]+","+"qty"+checkArray[u]+","+"uprice"+checkArray[u]+","+"discount"+checkArray[u]+","+"unitdiscount"+checkArray[u]+","+"stax"+checkArray[u]+","+"total"+checkArray[u]+",";
-		var s = "saleDate,customerId,payment,division,";//
+		var s = "manualsalesinvoicenumber,saleDate,customerId,payment,division,";//
 		s = s+svalue+"memo,ref,totals,totaldiscount,tax,salestax,salestaxamount,frieghtcharge,nettotal,";
 		var v = s.split(",");
 		var flag =false;
@@ -875,6 +875,10 @@ function valid()
 		{
 			calculateTotal();
 			var tot = parseFloat(document.getElementById("totals").value);
+			var tcsamount = parseFloat(document.getElementById("tcsamount").value);
+			 
+			
+			
 			var discount = parseFloat(document.getElementById("totaldiscount").value);
 			var discountamount=0.0;
 			if(discount>0)
@@ -882,7 +886,8 @@ function valid()
 			else
 				discountamount	=0.0;
 				
-			tot = tot-	discountamount;	
+			tot = tot + tcsamount-	discountamount;	
+			//alert(tot);
 			var sstax=document.getElementById("salestax").value;
 			if(sstax == "" )
 				sstax=="0";
@@ -891,10 +896,12 @@ function valid()
 			document.getElementById("salestaxamount").value = salestaxamount.toFixed(2);
 			var frieghtcharge = parseFloat(document.getElementById("frieghtcharge").value);
 			
+			tot = tot+salestaxamount;
+			
 			document.getElementById("roundedoption").value= (Math.round(tot) - tot).toFixed(2);
 			var roundedoption = parseFloat(document.getElementById("roundedoption").value);
 			//console.log(roundedoption);
-			var grandtotal = Round((tot+salestaxamount+roundedoption));
+			var grandtotal = Round((tot+roundedoption));
 			
 			//var grandtotal = Round((tot+salestaxamount+frieghtcharge));
 			document.getElementById("nettotal").value= Round(grandtotal) ;
@@ -909,7 +916,13 @@ function valid()
 					
 				var nettotal = parseFloat(document.getElementById("nettotal").value);
 				document.getElementById("nettotal").value= Round(nettotal-bybackamount) ;
-			}	
+			}
+				
+			if(document.getElementById('roundoffcheck').checked == false)
+			{
+				var nettotal = parseFloat(document.getElementById("nettotal").value);
+				document.getElementById("nettotal").value =  (nettotal-roundedoption) ;
+			}
 		}
 		catch(err) {
 			console.log(err);
@@ -1095,12 +1108,35 @@ for(int y=0;y<custData.length;y++)
 									  <input name="gststateid" type="hidden" id="gststateid">
                                   </div></td>
 									<td width="289" class="boldEleven">
-								  <div align="left">Sale Date</div></td>
-									<td width="420" class="boldEleven"><div align="left">
-									  <input tabindex="2" name="saleDate" value="<%=dateCheckData[0][0]%>" type="text" class="formText135" id="saleDate" size="15" readonly>
-									  
-									  
-							      </div></td>
+									<%
+									if(inventorysettingData[0][0].equals("M"))
+									{
+										out.println("Sales Invoice No  : <b class='boldred'>Manual</b>");
+									}
+									else
+									{
+									out.println("Sales Invoice No  : <b class='boldred'>Automatic</b>");
+									}
+									%>
+									</td>
+									<td width="420" class="boldEleven">
+									<%
+									if(inventorysettingData[0][0].equals("M"))
+									{
+									%>
+									<input name="manualsalesinvoicenumber" type="text" value=""
+										class="formText135" id="manualsalesinvoicenumber"
+										    onBlur="upperMe(this)"  size="31" maxlength="50"  onKeyUp=CheckUnique(this,'divsalesinvoicenumber','inv_t_directsales','CHR_SALESNO')><div id='divsalesinvoicenumber'></div>
+											
+									<%
+									}
+									else
+									{
+									 out.println("<input name='manualsalesinvoicenumber' type='hidden'  id='manualsalesinvoicenumber' value='"+inventorysettingData[0][1]+"'/>");
+									}
+									
+									%>
+									</td>
 								</tr>
 								<tr>
 								  <td class="boldEleven"><div align="left">Shipping Address</div></td>
@@ -1119,46 +1155,49 @@ for(int y=0;y<custData.length;y++)
                                         </tr>
                                       </table>
 						          </div></td>
-									<td class="boldEleven">
-									  <div align="left">Payment Terms<span class="ui-state-error-text"> * </span></div></td>
+									<td class="boldEleven"><div align="left">Sale Date</div></td>
 									<td class="boldEleven"><div align="left">
-									  <select name="payment"
-										class="formText135" id="payment" tabindex="3"  style="width:170"> 
-									    <option value="Select">Select</option>
-									    <%
-								String paymentids[][] =  CommonFunctions.QueryExecute("Select INT_PAYMENTTERMID,CHR_PAYMENTNAME from inv_m_paymentterms");
-								for(int u=0; u<paymentids.length; u++)
-									out.print("<option value='"+paymentids[u][0]+"'>"+paymentids[u][1]+"</option>");
-							%>
-								      </select>
-								    </div></td>
+                                      <input tabindex="2" name="saleDate" value="<%=dateCheckData[0][0]%>" type="text" class="formText135" id="saleDate" size="15" readonly>
+                                    </div></td>
 								</tr>
 								<tr>
-								  <td rowspan="5" valign="top" class="boldEleven">&nbsp; </td>
-									<td rowspan="5" valign="top" class="boldEleven">								      
-									  <div align="left">
-									  <table>
-									  	<tr>
-											<td>
-											<select name="shippingCustomerId" id="shippingCustomerId" class="formText135"   onchange="loadAddress('shippingCustomerId','shippingaddress') "  style="width:170">
-											  <option value="Select">Select</option>
-											  <%
+								  <td rowspan="6" valign="top" class="boldEleven">&nbsp; </td>
+								  <td rowspan="6" valign="top" class="boldEleven">								      
+								    <div align="left">
+								      <table>
+								        <tr>
+								          <td>
+								            <select name="shippingCustomerId" id="shippingCustomerId" class="formText135"   onchange="loadAddress('shippingCustomerId','shippingaddress') "  style="width:170">
+								              <option value="Select">Select</option>
+								              <%
 												for(int y=0;y<custData.length;y++)
 													out.println("<option  style='height:20'  value='"+custData[y][0]+"'>"+custData[y][1]+ "  / "+custData[y][3]+ "  / "+custData[y][4]+ "</option>");	
 													 
 											%>
-											</select>
-											</td>
-										</tr>
-										 <tr>	
-											<td><textarea name="shippingaddress" style="text-transform:uppercase;width:170;"
+							                </select>								            </td>
+									    </tr>
+								        <tr>	
+								          <td><textarea name="shippingaddress" style="text-transform:uppercase;width:170;"
 										cols="40" rows="7" class="formText135" id="shippingaddress"  ></textarea></td>
-										</tr>
-									  </table>
-									    
+									    </tr>
+							          </table>
 							        </div></td>
-									<td class="boldEleven">
-									  <div align="left">Order Reference</div></td>
+								  <td class="boldEleven"><div align="left">Payment Terms<span class="ui-state-error-text"> * </span></div></td>
+								  <td class="boldEleven"><div align="left">
+                                    <select name="payment"
+										class="formText135" id="payment" tabindex="3"  style="width:170">
+                                      <option value="Select">Select</option>
+                                      <%
+								String paymentids[][] =  CommonFunctions.QueryExecute("Select INT_PAYMENTTERMID,CHR_PAYMENTNAME from inv_m_paymentterms");
+								for(int u=0; u<paymentids.length; u++)
+									out.print("<option value='"+paymentids[u][0]+"'>"+paymentids[u][1]+"</option>");
+							%>
+                                    </select>
+                                  </div></td>
+							  </tr>
+								<tr>
+								  <td class="boldEleven">
+								    <div align="left">Order Reference</div></td>
 									<td class="boldEleven"><div align="left">
 									  <input name="oref" type="text"
 										class="formText135" id="oref"     onBlur="upperMe(this)"      value="ORAL" size="31" maxlength="100"
@@ -1342,9 +1381,9 @@ for(int y=0;y<custData.length;y++)
 							<table width="100%" border="0" align="center" cellpadding="1"
 								cellspacing="1">
 								<tr>
-									<td width="310" rowspan="4" valign="top" class="boldEleven">
+									<td width="310" rowspan="5" valign="top" class="boldEleven">
 								  <div align="left">Memo <span class="ui-state-error-text">* </span></div>									</td>
-									<td width="432" rowspan="4" valign="top" class="boldEleven">
+									<td width="432" rowspan="5" valign="top" class="boldEleven">
 									<div align="left"><textarea name="memo" cols="30"    onBlur="upperMe(this)"   
 										rows="5" onKeyUp="textArea('memo','200')"  class="formText135" id="memo" tabindex="9"></textarea>
 								  </div>									</td>
@@ -1359,6 +1398,35 @@ for(int y=0;y<custData.length;y++)
 										onkeypress="numericValue('totals','12')" size="34" readonly />
 								  </div>									</td>
 								</tr>
+								<tr>
+								  <td valign="top" class="boldEleven"><input type="checkbox" name="tcs" id="tcs" value="Y" onClick="byTCS()">&nbsp;&nbsp;TCS @ 0.1% 
+								 
+								  <script language="javascript">
+								  function byTCS()
+								  {
+								  		var tcsamount =0; 
+										if(document.getElementById('tcs').checked == true)
+										{
+										 	tcsamount = document.getElementById("totals").value * (0.1/100);
+										}
+										else
+										{
+											tcsamount =0; 
+										}
+										
+										document.getElementById("tcsamount").value = parseFloat( tcsamount).toFixed(2);
+										// onBlur="assignGrandTotal()"
+										assignGrandTotal();
+								
+								  }
+								  
+								  </script><input type="hidden" name="tcspercentage" id="tcspercentage" value="0.01" />
+								  
+							      </td>
+								  <td valign="top" class="boldEleven" ><input name="tcsamount"
+										type="text" class="formText135" id="tcsamount" style='text-align:right' tabindex="14" value="0" size="34"
+										readonly="readonly" /></td>
+							  </tr>
 								<tr>
 									<td valign="top" class="boldEleven">
 									<%--<div align="left">Total Discount (%)</div>		--%>							</td>
@@ -1382,24 +1450,23 @@ for(int y=0;y<custData.length;y++)
 								</tr>
 								<tr>
 									<td valign="top" class="boldEleven">
-									<%--<div align="left">Sales Tax (%)</div>--%>									</td>
+									<div align="left">TDS (%)</div>									</td>
 									<td width="376" valign="top" class="boldEleven" id="salestax1">
-								  <%--<div align="left"><input name="salestax"
-										type="text" class="formText135" id="salestax" style='text-align:right' tabindex="14" value="0" size="34"
-										readonly="readonly" />
-								  </div>--%>									<input type="hidden" name="salestax" id="salestax" value="0" /></td>
+								  <div align="left"><input name="salestax"
+										type="text" class="formText135" id="salestax" style='text-align:right' tabindex="14" value="0" size="34" onBlur="assignGrandTotal()"/>
+								  </div>									<!--<input type="hidden" name="salestax" id="salestax" value="0" />--></td>
 								</tr>
 								<tr>
 									<td align="left" valign="top" class="boldEleven">Added ME Name 
 								    <input name="addmetarget" type="checkbox" id="addmetarget" value="Y"  /></td>
 									<td align="left" valign="top" class="boldEleven">&nbsp;</td>
 									<td valign="top" class="boldEleven">
-									<%--<div align="left">Sales Tax Amount</div>--%>									</td>
+									<div align="left">TDS Amount</div>									</td>
 									<td valign="top" class="boldEleven" id="salestaxamount1">
-									<%--<div align="left"><input name="salestaxamount"
+									<div align="left"><input name="salestaxamount"
 										type="text" class="formText135" id="salestaxamount" style='text-align:right' tabindex="14" value="0" size="34"
 										readonly="readonly" />
-									</div>--%>									<input type="hidden" name="salestaxamount" id="salestaxamount" value="0" /></td>
+									</div>									<!--<input type="hidden" name="salestaxamount" id="salestaxamount" value="0" />--></td>
 								</tr>
 								<tr>
 								  <td align="left" valign="top" class="boldEleven">Buy Back Value 
@@ -1481,6 +1548,17 @@ for(int y=0;y<custData.length;y++)
 							      <input name="frieghtcharge" type="hidden"
 										class="formText135" id="frieghtcharge"
 										style='text-align:right' tabindex="15"  onBlur="assignGrandTotal()" onKeyPress="return numeric_only(event,'frieghtcharge','7') " value="0" maxlength="5" />
+							      <input name="roundoffcheck" type="checkbox" id="roundoffcheck" onClick="Roundoffcheck()" value="Y" checked>
+								  <script language="javascript">
+								  function Roundoffcheck()
+								  {
+								  		 
+									 
+										assignGrandTotal();
+								
+								  }
+								  
+								  </script>
 							      </span></td>
 								  <td class="boldEleven" id="nettotal1"><input name="roundedoption" type="text"
 										class="formText135" id="roundedoption"

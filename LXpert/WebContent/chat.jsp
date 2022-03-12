@@ -28,7 +28,7 @@ return start + newToken + end;
 
 <body  onpaste="return false;" bgcolor="#993300" topmargin="0" leftmargin="0">
 
-<jsp:include page="loginheader.htm"  flush="true"/>
+<%-- <jsp:include page="loginheader.htm"  flush="true"/> --%>
 
 <%!
 //public boolean equalsIgnoreCase(String textMessage);

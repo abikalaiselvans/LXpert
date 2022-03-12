@@ -330,8 +330,8 @@ h1=" onKeyUp=\"upperMe(this),LoadUniqueCheckSales('serial"+(v+1)+"','Valid"+(v+1
 		if("-".equals(recdData[v][3]))		
 			recdData[v][3]="";
 		kalaiserial ="";
-		if(stockCollectAssignSerialData.length>0)
-			kalaiserial = stockCollectAssignSerialData[v];
+		//if(stockCollectAssignSerialData.length>0)
+		//	kalaiserial = stockCollectAssignSerialData[v];
 			
 		out.print("<td><input name='serial"+row+"'   id='serial"+row+"'  class='formText135' maxlength='50'   size=20 type='text' value='"+kalaiserial+"'   "+h1+"  "+h+">    </td>");// recdData[v][3]
 		out.println("<td>&nbsp; <div id='Valid"+row+"'></DIV></TD>");

@@ -549,9 +549,10 @@ sql = sql +" WHERE CHR_SALESNO ='"+salesno+"' ORDER By INT_ID  ";
 										<td width="169" valign="top" class="boldEleven" id="tax1">
 										<div align="right">
 										<%
-							sql = "SELECT CHR_TAXNAME,DOU_VALUE FROM inv_m_tax WHERE INT_TAXID ="+perdata[0][11];
-							String taxdata[][] = com.my.org.erp.common.CommonInfo.RecordSetArray(sql);
-							out.println(taxdata[0][0] );
+							//sql = "SELECT CHR_TAXNAME,DOU_VALUE FROM inv_m_tax WHERE INT_TAXID ="+perdata[0][11];
+							//String taxdata[][] = com.my.org.erp.common.CommonInfo.RecordSetArray(sql);
+							//out.println(taxdata[0][0] );
+							out.println("TDS @ "+perdata[0][11] +"%" );
 							%>
 										</div>										</td>
 									</tr>
@@ -571,16 +572,16 @@ sql = sql +" WHERE CHR_SALESNO ='"+salesno+"' ORDER By INT_ID  ";
 										%>
 							            </div></td>
 										<td valign="top" class="boldEleven">
-										<div align="left">Sales Tax</div>										</td>
+										<div align="left"><!--Sales Tax--></div>										</td>
 										<td width="169" valign="top" class="boldEleven" id="salestax1">
 
-										<div align="right"><%=taxdata[0][1] %>(%)</div>										</td>
+										<div align="right"><%//=taxdata[0][1] %>(%)</div>										</td>
 									</tr>
 									<tr>
 										<td valign="top" class="boldEleven">&nbsp; </td>
 										<td class="boldEleven">&nbsp; </td>
 										<td class="boldEleven">
-										<div align="left">Sales Tax Amount</div>										</td>
+										<div align="left">TDS Amount</div>										</td>
 										<td width="169" class="boldEleven" id="salestaxamount1">
 										<div align="right"><%=perdata[0][12]%></div>										</td>
 									</tr>

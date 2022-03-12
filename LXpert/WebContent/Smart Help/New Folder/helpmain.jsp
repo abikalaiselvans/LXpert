@@ -31,7 +31,7 @@
 	</td>
   </tr>
   <tr>
-    <td><%@ include file="../footer.jsp"%></td>
+    <td><%@ include file="../../footer.jsp"%></td>
   </tr>
 </table>
 

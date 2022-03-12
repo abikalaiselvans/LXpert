@@ -64,7 +64,7 @@
 						type="block" /></td>
 					<td width="6"><spacer height="1" width="1" type="block" /></td>
 					<td width="412">
-					<table cellspacing="2" cellpadding="2" width="500" align="center"
+					<table cellspacing="2" cellpadding="2" width="600" align="center"
 						border="0">
 						<!--DWLayoutTable-->
 						<tbody>
@@ -161,6 +161,27 @@
                                   <td class="boldEleven">&nbsp;</td>
                                 </tr>
                                 <tr>
+                                  <td class="boldEleven">25.</td>
+                                  <td class="boldEleven"><a href="Rept_Sales_ExportwithstockTally.jsp" target="_blank">Export with stock to Tally [ Sales ] </a></td>
+                                  <td class="boldEleven">26</td>
+                                  <td class="boldEleven"><a href="Rept_Purchase_ExportWithStockTally.jsp" target="_blank">Export with stock to Tally[ Purchae ] </a></td>
+                                  <td class="boldEleven">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                  <td class="boldEleven">&nbsp;</td>
+                                  <td class="boldEleven">&nbsp;</td>
+                                  <td class="boldEleven">&nbsp;</td>
+                                  <td class="boldEleven">&nbsp;</td>
+                                  <td class="boldEleven">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                  <td class="boldEleven">&nbsp;</td>
+                                  <td class="boldEleven">&nbsp;</td>
+                                  <td class="boldEleven">&nbsp;</td>
+                                  <td class="boldEleven">&nbsp;</td>
+                                  <td class="boldEleven">&nbsp;</td>
+                                </tr>
+                                <tr>
                                   <td class="boldEleven">&nbsp;</td>
                                   <td class="boldEleven">&nbsp;</td>
                                   <td class="boldEleven">&nbsp;</td>
@@ -176,8 +197,7 @@
 											class="buttonbold13" id="Close"  value="Close"   accesskey="c" 
 											onClick="redirect('InventoryMains.jsp')"></td>
         </tr>
-      </table>
-                                  </td>
+      </table>                                  </td>
                                 </tr>
                                
                               </table></td>

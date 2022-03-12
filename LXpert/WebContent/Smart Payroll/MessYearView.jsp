@@ -128,7 +128,7 @@ a:active {
 		  //System.out.println(e);
 		}
 		st.close();
-        rs.close();
+        //rs.close();
          
 	    %>
 		</table>

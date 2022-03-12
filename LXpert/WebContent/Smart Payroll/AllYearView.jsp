@@ -28,24 +28,13 @@
 		String strpass =jdbc.getProperty("Passw");
 		Class.forName(driver);
 		con = DriverManager.getConnection(url,struser,strpass);
-	}
-	catch(Exception e)
-	{
-		//System.out.println(e);
-	}
-		
-	try
-	{
+	
+	 
 	   	st=con.createStatement();
 			
 		sql="select CHR_EMPCODE,CHR_STAFFFNAME,CHR_DESIGNAME,INT_YEAR from m_staff,t_all,m_desig where m_staff.CHR_EMPID=t_all.CHR_EMPCODE and m_staff.INT_DESIGID=m_desig.INT_DESIGID and t_all.INT_YEAR='"+year+"'";
 		rs = st.executeQuery(sql);
-	}
-	
-	catch(Exception npe)
-	{
-		//System.out.println(npe);
-	}
+	 
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
@@ -145,7 +134,7 @@ a:active {
 					class="style54 style52"> <% out.println(rs.getInt("INT_YEAR")); %>
 				</span></td>
 				<% 
-		try{
+		 
 		StringTokenizer dts=new StringTokenizer(rs.getString("DT_WEDDATE"));
 		StringTokenizer dt=new StringTokenizer(dts.nextToken(),"-");
 		String y=dt.nextToken();
@@ -155,27 +144,17 @@ a:active {
 				<td align="center" valign="middle"><span
 					class="style54 style52"> <% out.println(d+"-"+m+"-"+y); %> </span></td>
 				<%
-		}
-		catch(Exception e)
-		{
-		}
-	%>
-				<% 
-		try{
-		StringTokenizer dts=new StringTokenizer(rs.getString("DT_DOB"));
-		StringTokenizer dt=new StringTokenizer(dts.nextToken(),"-");
-		String y=dt.nextToken();
-		String m=dt.nextToken();
-		String d=dt.nextToken();
+		 
+		  dts=new StringTokenizer(rs.getString("DT_DOB"));
+		  dt=new StringTokenizer(dts.nextToken(),"-");
+		  y=dt.nextToken();
+		  m=dt.nextToken();
+		  d=dt.nextToken();
 	 %>
 				<td align="center" valign="middle"><span
 					class="style54 style52"> <% out.println(d+"-"+m+"-"+y); %> </span></td>
-				<%
-		}
-		catch(Exception e)
-		{
-		}
-	%>
+		 
+	 
 				<td align="center" valign="middle"><span
 					class="style54 style52"> <% out.println(rs.getString("CHR_BG")); %>
 				</span></td>
@@ -183,6 +162,12 @@ a:active {
 			<%
 		}
 		rs.close();
+	}
+catch(Exception e)
+{
+	//System.out.println(e);
+}
+	
 	 %>
 		</table>
 		</td>

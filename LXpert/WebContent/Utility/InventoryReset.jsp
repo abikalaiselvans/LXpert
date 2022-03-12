@@ -115,6 +115,7 @@ function validate()
                         <option value="inv_t_scrabgenerate">Scrab </option>
                         <option value="inv_m_purchaserequestnogenerate">Purchase Request</option>
                         <option value="inv_m_stocktransfergenerate">Stock Transfer </option>
+						<option value="All">All</option>
                         </select>                      </td>
                     </tr>
                     <tr>

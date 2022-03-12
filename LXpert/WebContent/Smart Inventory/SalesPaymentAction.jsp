@@ -301,7 +301,7 @@ function Validate()
 								<td height="17" class="boldEleven">Cheque/ D.D /Credit Card
 								/NEFT / RTGS Number<span class="bolddeepred">* </span></td>
 								<td colspan="2" align="left"><input name="Challanno"
-									type="text" class="formText135"   onBlur="upperMe(this)"    id="Challanno" size="31" maxlength="20"></td>
+									type="text" class="formText135"   onBlur="upperMe(this)"    id="Challanno" size="31" maxlength="50"></td>
 							</tr>
 							<tr id="chk3">
 							  <td height="17" class="boldEleven">Cheque/ D.D  / Date</td>

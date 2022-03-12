@@ -7,15 +7,16 @@
 <%@ page  import="org.jfree.chart.*" %>
 <%@ page  import="org.jfree.chart.entity.*" %>
 <%@ page  import ="org.jfree.data.general.*"%>
+<%@ page import="com.my.org.erp.common.CommonFunctions"%>
 <%
   final DefaultPieDataset data = new DefaultPieDataset();
  String sql = "";
 		  sql = " SELECT  c.CHR_CALLTYPE, COUNT(*) FROM mkt_t_daillycalls a, mkt_k_calltype c WHERE a.CHR_CALLTYPE=c.INT_CALLTYPEID GROUP BY   a.CHR_CALLTYPE ORDER BY  c.CHR_CALLTYPE  ";
-		    String[][] data = CommonFunctions.QueryExecute(sql);
+		    String[][] datas = CommonFunctions.QueryExecute(sql);
 			
 			
-			for(int u=0;u<data.length;u++)
-				data.setValue(""+data[u][0], new Double(data[u][1]));	
+			for(int u=0;u<datas.length;u++)
+				data.setValue(""+datas[u][0], new Double(datas[u][1]));	
 
   JFreeChart chart = ChartFactory.createPieChart
   ("Pie Chart ", data, true, true, false);

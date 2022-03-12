@@ -427,9 +427,11 @@ function cloneInvoice(salnumber)
 	    }
 		else
 		{
+			noofclone = 1;
+			var newsaleno=prompt("Kindly give the Sales Invoice No ","MKM"); 
 			//../SmartLoginAuth?filename=SwapSale&actionS=INVSwapSaleCancel&salesno="+salNo+"'
 			var query = "../SmartLoginAuth?filename=SwapSale&actionS=INVSwapSaleClone&salesno="+salnumber+"&noofclone="+noofclone;
-			location = query;
+			location = query+"&newsaleno="+newsaleno;
 		}
 		
 		

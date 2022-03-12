@@ -256,7 +256,8 @@ public class SwapSaleActionHandler extends AbstractActionHandler
 								String saleunitprice=request.getParameter("saleunitprice"+u).trim();
 								String swapdescription="";
 								sql = "SELECT DOU_UNITPRICE  FROM  inv_t_vendorgoodsreceived WHERE CHR_SERIALNO='"+serial.trim()+"'";
-								String camount[][] =CommonFunction.doubleRecordSetArray(sql);
+								String camount[][] =CommonFunction.doubleRecordSetArraywithCon(con,sql);
+								
 								// = contributionamount+Double.parseDouble(camount[0][0]);
 								serialamount=Double.parseDouble(camount[0][0]);
 								String swapdesc="";
@@ -287,7 +288,7 @@ public class SwapSaleActionHandler extends AbstractActionHandler
 											String swapitem =""+request.getParameter("swapitem"+swaprow).trim();
 											String SSwapSerial =""+request.getParameter("SSwapSerial"+swaprow).trim();
 											sql = "SELECT DOU_UNITPRICE  FROM  inv_t_vendorgoodsreceived WHERE CHR_SERIALNO='"+SSwapSerial+"'";
-											String ssamount[][] =CommonFunction.doubleRecordSetArray(sql);
+											String ssamount[][] =CommonFunction.doubleRecordSetArraywithCon(con, sql);
 											String SSwapprice =ssamount[0][0];
 											samount = samount+Double.parseDouble(Swapprice);
 											ramount = ramount +Double.parseDouble(SSwapprice);
@@ -1124,6 +1125,15 @@ public class SwapSaleActionHandler extends AbstractActionHandler
 							System.out.println(""+apstm);
 							apstm.execute();
 							
+							//deleting inv_t_paymentcommitment
+							asql = "DELETE FROM inv_t_paymentcommitment WHERE CHR_SALESNO=? AND CHR_INVOICETYPE=?";
+							apstm = con.prepareStatement(asql);
+							apstm.setString(1, salnos);
+							apstm.setString(2, "C");
+							System.out.println(""+apstm);
+							apstm.execute();
+							apstm.close();
+							
 							asql =" INSERT INTO inv_t_directsalesdelete (INT_BRANCHID,CHR_SALESNO,CHR_DES,DAT_DELETEDATE,CHR_INVOICEMODE,CHR_USRNAME,DT_UPDATEDATE,CHR_UPDATESTATUS) ";
 							asql = asql +"VALUES ( "+branchid+", ";
 							asql = asql+"'"+salnos+"', ";
@@ -1301,17 +1311,26 @@ public class SwapSaleActionHandler extends AbstractActionHandler
 						response.sendRedirect("Smart Inventory/SwapSaleerror.jsp?er=Swapping serial number sold");
 					}
 				}
-				else if(action.equals("INVSwapSaleClone"))
+				else if(action.equals("INVSwapSaleClone"))//_Manual_invoice_not_allowed
 				{
 					String fromsalesno = request.getParameter("salesno");
+					String newsaleno = request.getParameter("newsaleno");
+					String salesinvoicecreatedby = CommonFunctions.QueryExecute("SELECT CHR_SALES_INVOICE_CREATED  FROM m_inventorysetting  WHERE INT_ROWID=1")[0][0];
+					
 					//String salesno="";
 					int noofclone = Integer.parseInt(request.getParameter("noofclone"));
-					
 					String userid=""+session.getAttribute("USRID");	
 					branchid = session.getAttribute("BRANCHID").toString();
 					String officeid=""+session.getAttribute("OFFICEID");
 					String divisionid = CommonFunctions.QueryExecute("SELECT INT_DIVIID FROM inv_t_directsales WHERE CHR_SALESNO='"+fromsalesno+"'")[0][0];
-					String invoicenumber=InventoryInvoiceFunctions.directSalesNumberGet(""+session.getAttribute("INVSTATE"),officeid,divisionid);
+					String invoicenumber=InventoryInvoiceFunctions.directSalesNumberGet(branchid,""+session.getAttribute("INVSTATE"),officeid,divisionid);
+					System.out.println(invoicenumber);
+					if(!salesinvoicecreatedby.equals("A")){
+						invoicenumber = newsaleno;
+					}
+					System.out.println(invoicenumber);
+					
+					
 					String payment ="N";
 					String dt =DateUtil.getCurrentDateTime() ;
 					String field ="";  
@@ -1328,7 +1347,8 @@ public class SwapSaleActionHandler extends AbstractActionHandler
 						sql = sql + " DOU_BYBACKAMOUNT,CHR_INSTALLATION,CHR_INVOICEBLOCK,INT_PAYMENT_COMMITMENT_DAYS,CHR_TAXTYPE,CHR_REF1,CHR_REF2,";
 						sql = sql + " INT_REF_PERCENTAGE1,INT_REF_PERCENTAGE2,INT_REF_PERCENTAGE3,INT_PROJECTID,CHR_GST_TYPE, "; 
 						sql = sql + " CHR_ADD_TO_ME_NAME,DOU_FRIEGHT_CHARGE,DOU_ROUNDED,CHR_DCREFENCE,CHR_DISCOUNTBILL,INT_SHIPPING_CUSTOMERID,";
-						sql = sql + " CHR_INVOICEBLOCK FROM inv_t_directsales WHERE CHR_SALESNO ='"+fromsalesno+"'";
+						sql = sql + " CHR_INVOICEBLOCK, CHR_TCS,DOU_TCS_PERCENTAGE,DOU_TCS_AMOUNT FROM inv_t_directsales WHERE CHR_SALESNO ='"+fromsalesno+"'";
+						System.out.println(sql);
 						String fromData[][] = CommonFunctions.QueryExecute(sql);
 						if(fromData.length>0) {
 							blockinvoice = fromData[0][42];//
@@ -1346,12 +1366,12 @@ public class SwapSaleActionHandler extends AbstractActionHandler
 							field = field+"	DOU_BYBACKAMOUNT,CHR_INSTALLATION,CHR_INVOICEBLOCK,  ";
 							field = field+"	INT_PAYMENT_COMMITMENT_DAYS,CHR_TAXTYPE,CHR_REF1,CHR_REF2,";
 							field = field+"	INT_REF_PERCENTAGE1,INT_REF_PERCENTAGE2,INT_REF_PERCENTAGE3,INT_PROJECTID,CHR_GST_TYPE,";
-							field = field+"	CHR_ADD_TO_ME_NAME,DOU_FRIEGHT_CHARGE,DOU_ROUNDED,CHR_DCREFENCE,CHR_DISCOUNTBILL,INT_SHIPPING_CUSTOMERID) ";
+							field = field+"	CHR_ADD_TO_ME_NAME,DOU_FRIEGHT_CHARGE,DOU_ROUNDED,CHR_DCREFENCE,CHR_DISCOUNTBILL,INT_SHIPPING_CUSTOMERID, CHR_TCS, DOU_TCS_PERCENTAGE,DOU_TCS_AMOUNT, CHR_CLONE) ";
 							sql = " INSERT INTO inv_t_directsales "+field+" VALUES (";
 							sql = sql +"?,?,?,?,?,?,?,?,?,?,";
 							sql = sql +"?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? , ";
 							sql = sql +"?,?,?,?,?,";
-							sql = sql +"?,?,?,?,?,?,?,?,?,?) ";
+							sql = sql +"?,?,?,?,?,?,?,?,?,?,?,?,?) ";
 							apstm=con.prepareStatement(sql);
 							apstm.setString(1, fromData[0][0]);
 							apstm.setString(2, invoicenumber);
@@ -1402,6 +1422,11 @@ public class SwapSaleActionHandler extends AbstractActionHandler
 							apstm.setString(47, fromData[0][39]);
 							apstm.setString(48, fromData[0][40]);
 							apstm.setString(49, fromData[0][41]);
+							
+							apstm.setString(50, fromData[0][43]);
+							apstm.setString(51, fromData[0][44]);
+							apstm.setString(52, fromData[0][45]);
+							apstm.setString(53, "Y");
 							System.out.println("SQL : "+apstm);
 							apstm.execute();
 							System.out.println("Insert inv_t_directsales ");
@@ -1647,7 +1672,7 @@ public class SwapSaleActionHandler extends AbstractActionHandler
 					
 					asql ="UPDATE inv_t_swapsalesserialno SET CHR_SERIALNO=? WHERE CHR_SALESNO=?";
 					apstm = con.prepareStatement(asql);
-					apstm.setString(1,"" );
+					apstm.setString(1,null );
 					apstm.setString(2,salesno );
 					System.out.println(""+apstm);
 					apstm.execute();

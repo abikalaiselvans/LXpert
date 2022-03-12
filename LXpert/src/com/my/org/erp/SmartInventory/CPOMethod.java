@@ -27,7 +27,7 @@ public class CPOMethod
 			String divisionid =d.getDivision();
 			//String invoicenumber="IN/"+InventoryInvoiceFunctions.accountYear()+InventoryInvoiceFunctions.directSalesinvoiceNumber(""+session.getAttribute("INVSTATE"))+"/"+InventoryInvoiceFunctions.invoiceLocation(officeid)+"/"+InventoryInvoiceFunctions.invoiceDivision(divisionid);
 			
-			String invoicenumber=InventoryInvoiceFunctions.directSalesNumberGet(""+session.getAttribute("INVSTATE"),officeid,divisionid);
+			String invoicenumber=InventoryInvoiceFunctions.directSalesNumberGet(branchid,""+session.getAttribute("INVSTATE"),officeid,divisionid);
 			System.out.println(invoicenumber);
 			
 			

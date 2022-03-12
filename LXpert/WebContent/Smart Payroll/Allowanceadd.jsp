@@ -171,23 +171,28 @@ function mainPage()
 	<tr>
 		<td>
 		<% 	
+    }
 	if(!msg.equals("null")){
-%>
+	%>
+		<table width="50%" border="1" cellspacing="2" cellpadding="2"
+					 >
+					<tr>
+						<td align="center" class="tabledata"><%=msg%></td>
+					</tr>
+					
+				</table>
+	<% } %>
 		</td>
 	</tr>
 	<tr>
 		<td>
-		<table width="50%" border="1" cellspacing="2" cellpadding="2"
-			 >
-			<tr>
-				<td align="center" class="tabledata"><%=msg%></td>
-			</tr>
-			<% } %>
-		</table>
+		
 		</td>
 	</tr>
 	<tr>
-		<td><%@ include file="../footer.jsp"%></td>
+		<td>
+	 
+		</td>
 	</tr>
 </table>
 <CENTER></CENTER>

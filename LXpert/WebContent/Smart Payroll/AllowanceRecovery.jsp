@@ -54,8 +54,11 @@
 										<tr>
 											<td width="167">
 											<%
+											String msg="",empId="",empName="";
     if(msg.equalsIgnoreCase("List"))  {
-   	  out.println("<table border='0' width='100%'><tr><td width='40%' class='tabledata' align='center'>Emp Id&nbsp;&nbsp;&nbsp;"+empId +"</td><td width='60%' class='tabledata' align='center'>Name&nbsp;&nbsp;&nbsp;"+empName+"</td></tr></table>");
+   	  out.println("<table border='0' width='100%'><tr><td width='40%' class='tabledata' align='center'>Emp Id&nbsp;&nbsp;&nbsp;"+empId 
+   	  +"</td><td width='60%' class='tabledata' align='center'>Name&nbsp;&nbsp;&nbsp;"+empName+"</td></tr></table>");
+    }
    	%>
 											</td>
 											<td width="233">&nbsp;</td>
@@ -138,18 +141,18 @@
 														<option value="Select">Select</option>
 														<%
               
-              
+          
 	//Loading JDBC Connection Information
 	    try
        {      
-		con = conbean.getConnection();
+		/* con = conbean.getConnection();
 		pstm = con.prepareStatement(sql_Select_Query);
 		rst = pstm.executeQuery();
 
 		while(rst.next())
 		{
 			out.println("<option>"+rst.getString("chr_STATENAME")+"</option>");		
-		}
+		} */
        }
        catch(Exception e)
        {

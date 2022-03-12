@@ -30,25 +30,14 @@
 		String strpass =jdbc.getProperty("Passw");
 		Class.forName(driver);
 		con = DriverManager.getConnection(url,struser,strpass);
-	}
-	catch(Exception e)
-	{
-		//System.out.println(e);
-	}
-		
-	try
-	{
+	
+	 
 	   	st=con.createStatement();
 			
 		sql="select m_staff.CHR_EMPID,m_staff.CHR_STAFFNAME,m_advance.Chr_Month,m_advance.Int_Advamt,m_desig.CHR_DESIGNAME from m_staff,m_advance,m_desig WHERE m_advance.Chr_Month='"+month+"' and m_desig.CHR_DESIGNAME='"+des+"'";
 	    
 		rs = st.executeQuery(sql);
-	}
-	
-	catch(Exception npe)
-	{
-		//System.out.println(npe);
-	}
+	 
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
@@ -157,6 +146,11 @@ a:active {
 			<%
 		}
 		rs.close();
+	}
+	catch(Exception e)
+	{
+		//System.out.println(e);
+	}
 	 %>
 		</table>
 		</td>

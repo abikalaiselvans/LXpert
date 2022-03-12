@@ -40,10 +40,10 @@ public class CustomerInfoMethod extends HttpServlet
 			sql = sql+" INT_COUNTRYID ,INT_PINCODE ,CHR_AREACODE ,CHR_PHONE ,CHR_MOBILE ,CHR_FAX , ";
 			sql = sql+" CHR_EMAIL ,CHR_WEBSITE ,INT_ACTIVE ,DAT_SINCE ,CHR_ACCNO ,INT_BANKGROUPID , ";
 			sql = sql+" DOU_BALANCE ,DAT_BALANCEASOF ,DOU_CREDITLIMIT ,INT_CUSTOMERTYPEID , ";
-			sql = sql+" CHR_TIN ,CHR_CST ,CHR_PAN,CHR_BILLING,CHR_BILLINGADDRESS,CHR_TAXEXAMPTION,CHR_TAXEXAMPTIONNO,CHR_GSTNO,CHR_USRNAME ,DT_UPDATEDATE ,CHR_UPDATESTATUS ) "; 
+			sql = sql+" CHR_TIN ,CHR_CST ,CHR_PAN,CHR_BILLING,CHR_BILLINGADDRESS,CHR_TAXEXAMPTION,CHR_TAXEXAMPTIONNO,CHR_GSTNO,CHR_USRNAME ,DT_UPDATEDATE ,CHR_UPDATESTATUS, CHR_ACCOUNTTYPE ) "; 
 			sql = sql+" VALUES ( ";
 			sql = sql+" ? ,? ,? ,? , ? ,?,? ,? ,? ,? , ? ,? ,? ,? ,? ,? , ? ,? ,? ,? ,? ,? , ";
-			sql = sql+" ? ,? ,? ,? , ? ,? ,? ,? ,? ,? ,?,? ,? ,DATE(NOW()) ,'Y' "; 
+			sql = sql+" ? ,? ,? ,? , ? ,? ,? ,? ,? ,? ,?,? ,? ,DATE(NOW()) ,'Y', ? "; 
 			sql = sql+" )"; 
 			apstm = con.prepareStatement(sql);
 			apstm.setString(1, d.getCustomergroup());
@@ -81,6 +81,7 @@ public class CustomerInfoMethod extends HttpServlet
 			apstm.setString(33, d.getTaxexamptionno() );
 			apstm.setString(34, d.getGst());
 			apstm.setString(35, userid);
+			apstm.setString(36, d.getAccounttype());
 			System.out.println(""+apstm);
 			apstm.execute(); 
 			apstm.close();  
@@ -109,7 +110,7 @@ public class CustomerInfoMethod extends HttpServlet
 			sql = sql+" CHR_EMAIL=? ,CHR_WEBSITE=? ,INT_ACTIVE=? ,DAT_SINCE=? ,CHR_ACCNO=? ,INT_BANKGROUPID=? , ";
 			sql = sql+" DOU_BALANCE=? ,DAT_BALANCEASOF=? ,DOU_CREDITLIMIT=? ,INT_CUSTOMERTYPEID=? , ";
 			sql = sql+" CHR_TIN=? ,CHR_CST =?,CHR_PAN=?,CHR_USRNAME=? ,DT_UPDATEDATE=DATE(NOW()) ,CHR_UPDATESTATUS='Y',CHR_VERIFIED=?, "; 
-			sql = sql+" CHR_BILLING=?,CHR_BILLINGADDRESS=?,CHR_TAXEXAMPTION=?,CHR_TAXEXAMPTIONNO=?,CHR_GSTNO=? WHERE INT_CUSTOMERID = ? ";
+			sql = sql+" CHR_BILLING=?,CHR_BILLINGADDRESS=?,CHR_TAXEXAMPTION=?,CHR_TAXEXAMPTIONNO=?,CHR_GSTNO=?, CHR_ACCOUNTTYPE=? WHERE INT_CUSTOMERID = ? ";
 			apstm = con.prepareStatement(sql);
 			apstm.setString(1, d.getCustomergroup());
 			apstm.setString(2, d.getAlias());
@@ -147,7 +148,8 @@ public class CustomerInfoMethod extends HttpServlet
 			apstm.setString(34, ""+d.getTaxexamption());
 			apstm.setString(35, ""+d.getTaxexamptionno());
 			apstm.setString(36, d.getGst());
-			apstm.setString(37, ""+d.getCustid());
+			apstm.setString(37, d.getAccounttype());
+			apstm.setString(38, ""+d.getCustid());
 			
 			System.out.println(""+apstm);
 			apstm.execute(); 

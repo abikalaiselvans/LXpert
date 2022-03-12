@@ -480,6 +480,19 @@ for(int u=0; u<bdata.length; u++)
 							</tr>
 
 							<tr>
+                      <td height="17" class="boldEleven">Account Type </td>
+                      <td colspan="3" align="left">
+					  <select name="accounttype"  id="accounttype">
+					  	<option value="Acquition" selected="selected">Acquition</option>
+						<option value="Farming">Farming</option>
+						<option value="Home">Home</option>
+						<option value="OTR">OTR</option>
+						<option value="SOHO">SOHO</option>
+						<option value="Others">Others</option>
+					  </select>
+					  </td>
+                    </tr>
+							<tr>
 								<td height="17" class="boldEleven">Customer Type <span class="bolddeepred"> * </span></td>
 								<td colspan="2" align="left"><select name="customertype" id="customertype"
 									class="formText135" style="width:170">

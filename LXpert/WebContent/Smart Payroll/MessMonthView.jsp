@@ -130,7 +130,7 @@ a:active {
         	 //System.out.println(e);
         	 
          }
-		rs.close();
+		//rs.close();
 	     
 	    %>
 		</table>

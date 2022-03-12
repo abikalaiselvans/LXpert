@@ -15,7 +15,11 @@
 		<td>Office Name</td>
 		<%try{
 			con=conbean.getConnection();
-			pstm=con.prepareStatement();
+			//pstm=con.prepareStatement();
+		}
+		catch(Exception e)
+		{
+			
 		}
 		%>
 		<td><input type="text" name="TxtOffice"></td>

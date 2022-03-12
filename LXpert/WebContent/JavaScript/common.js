@@ -638,3 +638,15 @@ function isFutureDate(txtbox,obj) {
         return false;
     }
 }
+
+
+
+
+function confirmMessage(message) {
+	var userselection = confirm(message);
+	if (userselection == true) {
+		return true;
+	} else {
+		return false;
+	}
+}

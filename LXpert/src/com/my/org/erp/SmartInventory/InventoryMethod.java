@@ -7649,12 +7649,15 @@ public class InventoryMethod extends HttpServlet
 		{
 			String id = request.getParameter("id");
 			String sql = "";
-			sql = "  SELECT CONCAT(f.CHR_NAME,',',e.CHR_CITYNAME,',',d.CHR_DISTRICT,',',   ";
-			sql = sql + " c.CHR_STATENAME,',', CONCAT('PIN :',a.INT_PINCODE),',',   ";
-			sql = sql + " IF(LENGTH(a.CHR_MOBILE)>4 ,CONCAT('MOBILE :',a.CHR_MOBILE,','),''),";
-			sql = sql + " IF(LENGTH(a.CHR_PHONE)>4 ,CONCAT('Phone :',a.CHR_AREACODE,'-',a.CHR_PHONE,','),''),";
-			sql = sql + "  IF(LENGTH(a.CHR_EMAIL )>4 ,CONCAT('E-Mail : :',a.CHR_EMAIL),'') ), a.INT_STATEID    ";
-			sql = sql + " FROM  inv_m_customerinfo a, com_m_country b,com_m_state c,com_m_district d,   ";
+			
+			sql = "  SELECT CONCAT(f.CHR_NAME,'~', a.CHR_ADDRESS1, '~',a.CHR_ADDRESS2, '~', a.CHR_ADDRESS3, '~', e.CHR_CITYNAME,'~',d.CHR_DISTRICT,'~',   ";
+			sql = sql + " c.CHR_STATENAME,'~', CONCAT(a.INT_PINCODE),'~' )   ";
+			
+			//sql = sql + " IF(LENGTH(a.CHR_MOBILE)>4 ,CONCAT('MOBILE :',a.CHR_MOBILE,','),''),";
+			//sql = sql + " IF(LENGTH(a.CHR_PHONE)>4 ,CONCAT('Phone :',a.CHR_AREACODE,'-',a.CHR_PHONE,','),''),";
+			//sql = sql + "  IF(LENGTH(a.CHR_EMAIL )>4 ,CONCAT('E-Mail : :',a.CHR_EMAIL),'') )   ";
+			
+			sql = sql + " , a.INT_STATEID   FROM  inv_m_customerinfo a, com_m_country b,com_m_state c,com_m_district d,   ";
 			sql = sql + " com_m_city e  ,inv_m_customergroup f      ";
 			sql = sql + " WHERE a.INT_CUSTOMERGROUPID = f.INT_CUSTOMERGROUPID   ";
 			sql = sql + " AND a.INT_COUNTRYID = b.INT_COUNTRYID       ";

@@ -509,16 +509,16 @@ public class InventoryInvoiceFunctions
 	
 	
 	//DIRECT SALE INVOICE NUMBER GET
-	public static String directSalesNumberGet(String state, String officeid,String divisionid) 
+	public static String directSalesNumberGet(String branchid, String state, String officeid,String divisionid) 
 	 {
 		try 
 	 	{
-			return CommonFunctions.QueryExecute("  SELECT FUN_INV_DIRECT_SALESNUMBER('"+state+"','"+officeid+"','"+divisionid+"' ) ")[0][0];
+			return CommonFunctions.QueryExecute("  SELECT FUN_INV_DIRECT_SALESNUMBER('"+branchid+"', '"+state+"','"+officeid+"','"+divisionid+"' ) ")[0][0];
 			
 	 	}
 	 	catch (Exception e) 
 	 	{
-	 		 System.out.println(e.getMessage());
+	 		 System.out.println("directSalesNumberGet ERROR : branchid:"+branchid+ " state:"+state + " officeid :" + officeid +" divisionid:"+ divisionid+ " "+e.getMessage());
 	 	}
 	 	return null;
 	 }

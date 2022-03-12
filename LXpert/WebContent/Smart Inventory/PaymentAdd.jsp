@@ -308,7 +308,7 @@ for(int x=0; x<purchaseids.length;x++)
 								<td height="17" class="boldEleven">Cheque/ D.D/NEFT / RTGS Number <span
 									class="bolddeepred">*</span></td>
 								<td colspan="2" align="left"><input name="Challanno"
-									type="text" class="formText135" id="Challanno"   onBlur="upperMe(this)"    size="26" maxlength="16"></td>
+									type="text" class="formText135" id="Challanno"   onBlur="upperMe(this)"    size="26" maxlength="50"></td>
 							</tr>
 							<tr id="chk3">
 							  <td height="17" class="boldEleven">Cheque/D.D/ /NEFT / RTGS Others Date </td>

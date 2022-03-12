@@ -133,7 +133,7 @@ function loadCustomerMessages()
 	  	 tb.innerHTML=str  ; 
 	  	
 	  	 tb=document.getElementById('totalrecord');
-	 	 tb.innerHTML="<br><font class='bolddeepred'>Total no of Staffs :: "+batchs.childNodes.length+"</font><br>"  ; 
+	 	 tb.innerHTML="<br><font class='bolddeepred'>Total no of Records :: "+batchs.childNodes.length+"</font><br>"  ; 
 	}
 	catch(err)
 	{

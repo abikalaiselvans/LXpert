@@ -446,7 +446,7 @@ for(int u=0; u<PRequestDatat.length; u++)
 			
 			out.print("<td  class='boldEleven'  valign='top'><select class='formText135'   style='width:100'  name='"+i14+"' id ='"+i14+"'   >"+warrantyinsert+"</select></td>");
 			
-            out.print("<td  class='boldEleven'  valign='top'><input style='text-align:right' class='formText135' type=text size =10 name='"+i2+"' id='"+i2+"' value ='"+itemDatas[u][5]+"' "+vf2+" readonly='readonly' ></td>");
+            out.print("<td  class='boldEleven'  valign='top'><input style='text-align:right' class='formText135' type=text size =10 name='"+i2+"' id='"+i2+"' value ='"+itemDatas[u][5]+"' "+vf2+"  ></td>"); //readonly='readonly'
             out.print("<td  class='boldEleven'  valign='top'><input style='text-align:right' class='formText135' type=text size =10 name='"+i3+"' id='"+i3+"' value ='"+itemDatas[u][6]+"' "+vf3+" readonly='readonly' ></td>");
             out.print("<td  class='boldEleven'  valign='top'><input style='text-align:right' class='formText135' type=text size =10 name='"+i4+"' id='"+i4+"' value ='"+itemDatas[u][7]+"' "+vf4+" readonly='readonly' ></td>");
 			

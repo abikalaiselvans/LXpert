@@ -1,4 +1,4 @@
-<%@ page import="java.sql.*,java.util.*,java.io.*"%>
+<%-- <%@ page import="java.sql.*,java.util.*,java.io.*"%>
 
 <%!
 	Connection con ;
@@ -21,7 +21,7 @@ String sql_Insert_Query ="INSERT INTO m_supplier(int_SUPPLIERID,chr_SUPPLIERNAME
 				
 			pstm = con.prepareStatement(sql_Insert_Query);
 
-			pstm.setString(1,);
+			pstm.setString(1,"");
 			//System.out.println(Count);	
 			pstm.setString(2,coursename);
 			pstm.setString(3,description);
@@ -38,36 +38,10 @@ String sql_Insert_Query ="INSERT INTO m_supplier(int_SUPPLIERID,chr_SUPPLIERNAME
 		}
 	}
 	
-	public void releaseJDBCResource() 
-	{
-		try
-		{
-			rst.close();
-			pstm.close();
-			 
-
-		}catch(NullPointerException ex)
-		{
-			//System.out.println(ex);
-		}catch(SQLException ex)
-		{
-			//System.out.println(ex);
-		}
-	}
+	 
 		
-%>
-<%
-	
-
-
-
-
-
-
-
-<%
-
-	String sql_Select_Query = "SELECT CHR_USRNAME FROM m_user";
+ 
+	  sql_Select_Query = "SELECT CHR_USRNAME FROM m_user";
 
 	//Form Information
 
@@ -168,3 +142,4 @@ String sql_Insert_Query ="INSERT INTO m_supplier(int_SUPPLIERID,chr_SUPPLIERNAME
 	}
 		releaseJDBCResource();	
 %>
+ --%>

@@ -19,7 +19,7 @@
  
 <script src="../JavaScript/common/StaffloadAjax.js"></script>
 <script language="JavaScript" src="../JavaScript/comfunction.js"></script>
-
+<script language="JavaScript" src="../JavaScript/common.js"></script>
 
 <script language="javascript" src="../JavaScript/jquery/jquery-1.7.1.js"></script>
 <script language="javascript" src="../JavaScript/jquery/ui/jquery.ui.core.js"></script>
@@ -53,8 +53,15 @@ function validate()
 	&& checkNull("desc","Enter Description") 
 	&& checkNullSelect("authorised","Enter Authorised Signatory",'0') 
 	 	
-	)
-    	return true;
+	){
+    	if(confirmMessage("Are you sure you want to Submit.....")){
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
     else
     	return false;
 }

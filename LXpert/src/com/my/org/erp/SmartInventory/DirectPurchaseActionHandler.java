@@ -603,7 +603,7 @@ public class DirectPurchaseActionHandler extends AbstractActionHandler
 						String warranty = request.getParameter("warranty"+v);
 						String good = request.getParameter("good"+v);
 						 
-						apstm.setString(1,serail.trim() );
+						apstm.setString(1,serail.trim().replaceAll(",", "") );
 						apstm.setString(2,warranty);
 						apstm.setString(3,good);
 						apstm.setString(4,warranty);

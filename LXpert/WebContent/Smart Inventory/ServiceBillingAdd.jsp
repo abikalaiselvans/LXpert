@@ -548,7 +548,8 @@ for(int y=0;y<custData.length;y++)
 						  </tr>
 							<tr>
 							  <td height="17" valign="top" class="boldEleven">Service Description <span class="boldred">* </span></td>
-							  <td colspan="3" align="left"></td>
+							  <td colspan="3" align="left"><textarea name="memo" cols="30"    onBlur="upperMe(this)"   
+										rows="5" onKeyUp="textArea('memo','200')"  class="formText135" id="memo"  ></textarea></td>
 						  </tr>
 							<tr>
 							  <td height="17" colspan="4" valign="top" class="boldEleven">							  </td>

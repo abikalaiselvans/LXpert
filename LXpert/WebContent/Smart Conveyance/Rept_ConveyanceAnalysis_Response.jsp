@@ -70,7 +70,7 @@ try
 		 
 		String cdata[][]= CommonFunctions.QueryExecute(sql);
 		
-		 
+		 /* 
 			final String[][] data = cdata;
 
             final CategoryDataset dataset = DatasetUtilities.createCategoryDataset(
@@ -86,7 +86,7 @@ try
                 ChartUtilities.saveChartAsPNG(file1, chart, 800, 600, info);
             } catch (Exception e) {
                 out.println(e);
-            }	 
+            }	  */
  
 	 
 		

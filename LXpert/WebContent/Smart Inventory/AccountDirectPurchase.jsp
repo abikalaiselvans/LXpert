@@ -1,6 +1,5 @@
 <%@ page import="java.io.*,java.util.*"%>
 <%@ page import="DBConnection.*"%>
-<%@ page import="sun.net.smtp.SmtpClient"%>
 
 <html>
 <head>

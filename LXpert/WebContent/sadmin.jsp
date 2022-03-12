@@ -22,7 +22,7 @@ try
 {
 	
 	if("1".equals(CommonFunctions.QueryExecute("SELECT FUN_WEDDINGDATE(FIND_WEDDINGDATE())")[0][0]))
-		response.sendRedirect("Logout.jsp");
+		response.sendRedirect("../Logout.jsp");
 
 
  	String sesUserName=(""+session.getAttribute("USRID")).trim(); 
@@ -255,7 +255,7 @@ try
           </div>
 		   
 		   
-		   
+	<div class="row" align="center"></div>	   
       <br><h1>
         Dashboard
         <small>Control panel</small>

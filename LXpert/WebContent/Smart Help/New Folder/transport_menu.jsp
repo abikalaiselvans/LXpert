@@ -27,7 +27,7 @@ loadServer()
 <table>
 	<tr bgcolor="#2C5F93">
 		<td>
-		<%@ include file="../JavaScript/dynamicStylesheet.jsp" %>
+		<%@ include file="../../JavaScript/dynamicStylesheet.jsp" %>
 		<!-- menu script itself. you should not modify this file --> <script
 			language="JavaScript" src="../JavaScript/menu.js"></script> <script
 			language="JavaScript">

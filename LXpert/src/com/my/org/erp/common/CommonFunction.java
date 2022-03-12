@@ -451,6 +451,47 @@ public static String[][] doubleRecordSetArray(String sql)
 		 	return null;
 		 }
 
+
+
+
+public static String[][] doubleRecordSetArraywithCon(Connection co, String sql) 
+	 {
+	 		String stringValue[][] ;
+		 	try 
+		 	{
+		 		Statement st = co.createStatement();
+		 		ResultSet rs;
+		 		rs = st.executeQuery(sql);
+		 		ResultSetMetaData rsmd = rs.getMetaData();
+		 		int colcount = rsmd.getColumnCount();
+		 		int rowcount =0;
+		 		while(rs.next())
+		 			rowcount = rowcount +1;
+		 		String svalue[][] = new String[rowcount][colcount];
+		 		rs = st.executeQuery(sql);
+		 		int i=0;
+		 		while(rs.next())
+		 		{	
+		 			for(int u=0; u<rsmd.getColumnCount();u++)
+		 			{
+		 					svalue[i][u] = ""+rs.getString((u+1));
+		 					if(svalue[i][u].equals("null") || svalue[i][u].equals(""))svalue[i][u]="0.0";
+		 			}
+		 			i= i+1;
+		 				
+		 		} 		
+		 		
+		 		stringValue = svalue;
+		 		return stringValue;
+		 		}
+		 	catch (Exception e) 
+		 	{
+		 			 System.out.println(e.getMessage());
+		 			 
+		 	}
+		 	return null;
+		 }
+
 public static String[][] intRecordSetArray(String sql) 
 {
 		String stringValue[][] ;

@@ -32,7 +32,7 @@ try
 <script language="javascript">
  </script>
 <body  onpaste="return false;" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0"  >
- <%@ include file="index.jsp"%>
+ <%@ include file="indexhrm.jsp"%>
 
 <table width="100%" height="285" align="center">
 	<tr>
