@@ -6,5 +6,11 @@
 /bean/
 /com/
 /examples/
+/hibernate.cfg.xml
+/lock.properties
+/log4j.dtd
+/log4j.properties
+/log4j.xml
 /properties/
 /sample/
+/struts.xml
