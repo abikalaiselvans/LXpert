@@ -361,10 +361,10 @@ function Validate()
 							  <td height="17" class="boldEleven">Transaction </td>
 							  <td colspan="2" align="left">
                               <select name="transactiontype" class="formText135" id="transactiontype"  style="width:200">
-                              <option value="1">Receipts</option>
+                              <option value="1" selected="selected">Receipts</option>
                               <option value="2">TDS</option>
                               <option value="3">Freight</option>
-                              transaction
+                              <option value="4">CashDiscount</option>
 						      </select></td>
 						  </tr>
 							<tr>

@@ -96,7 +96,7 @@ try
 					sql = sql + "  AND c.CHR_REF IN("+empids+"'0') ";
 				
 				sql = sql + " GROUP BY a.CHR_SALESNO ORDER BY c.CHR_SALESNO";
-				//out.println(sql);
+				out.println(sql);
 				String data[][] = CommonFunctions.QueryExecute(sql);
 				if(data.length>0)
 				{

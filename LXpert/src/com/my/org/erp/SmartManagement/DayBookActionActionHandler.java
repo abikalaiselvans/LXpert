@@ -76,8 +76,9 @@ public class DayBookActionActionHandler extends AbstractActionHandler
 			 String  type= request.getParameter("type");
 			 String  amount= request.getParameter("amount");
 			 String desc = request.getParameter("desc");
-			 asql = "INSERT INTO mgt_t_daybook (  INT_CATEGORYID,DT_DATE,CHR_DESC,CHR_TYPE,INT_CREDITAMOUNT,INT_DEBITAMOUNT,CHR_USRNAME,DT_UPDATEDATE,CHR_UPDATESTATUS) ";
-			 asql = asql +" VALUES (?,?,?,?,?,?,?,NOW(),'Y') ";
+			 String paymentmode = request.getParameter("paymentmode");
+			 asql = "INSERT INTO mgt_t_daybook (  INT_CATEGORYID,DT_DATE,CHR_DESC,CHR_TYPE,INT_CREDITAMOUNT,INT_DEBITAMOUNT,CHR_USRNAME,DT_UPDATEDATE,CHR_UPDATESTATUS,INT_PAYMENTMODE) ";
+			 asql = asql +" VALUES (?,?,?,?,?,?,?,NOW(),'Y',?) ";
 			 apstm = con.prepareStatement(asql);
 			 apstm.setString(1,category);
 			 apstm.setString(2, DateUtil.FormateDateSQL(fromdate));
@@ -95,6 +96,7 @@ public class DayBookActionActionHandler extends AbstractActionHandler
 				 
 			 }
 			 apstm.setString(7, auserid);
+			 apstm.setString(8, paymentmode);
 			 System.out.println(""+apstm);
 			 apstm.execute();
 			 apstm.close();
@@ -125,12 +127,13 @@ public class DayBookActionActionHandler extends AbstractActionHandler
 			 String  type= request.getParameter("type");
 			 String  amount= request.getParameter("amount");
 			 String desc = request.getParameter("desc");
+			 String paymentmode = request.getParameter("paymentmode");
 			 asql = " UPDATE mgt_t_daybook SET  INT_CATEGORYID=? , DT_DATE=?, CHR_TYPE=? ,  ";
 			 if("C".equals(type))
 				 asql = asql + " INT_CREDITAMOUNT=?, INT_DEBITAMOUNT=null, ";
 			 else
 				 asql = asql + " INT_CREDITAMOUNT=null, INT_DEBITAMOUNT=?, ";
-			 asql = asql + " CHR_DESC =?, CHR_USRNAME = ?, DT_UPDATEDATE=NOW() ";
+			 asql = asql + " CHR_DESC =?, CHR_USRNAME = ?, DT_UPDATEDATE=NOW() ,INT_PAYMENTMODE =?";
 			 asql = asql + " WHERE INT_ROWID=?";
 			 
 			 apstm = con.prepareStatement(asql);
@@ -140,7 +143,8 @@ public class DayBookActionActionHandler extends AbstractActionHandler
 			 apstm.setString(4,amount);
 			 apstm.setString(5, desc);
 			 apstm.setString(6, auserid);
-			 apstm.setString(7, rowid);
+			 apstm.setString(7, paymentmode);
+			 apstm.setString(8, rowid);
 			 System.out.println(""+apstm);
 			 apstm.execute();
 			 apstm.close();

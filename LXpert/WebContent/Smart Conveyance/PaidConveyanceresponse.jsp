@@ -64,7 +64,7 @@ try
 		sql = sql + "  AND b.INT_DEPARTID= e.INT_DEPARTID ";
 		sql = sql + "  AND b.CHR_CATEGORY=f.INT_EMPLOYEECATEGORYID AND a.DAT_ACCDATE='"+date+"' ";
 		sql = sql + "  GROUP BY a.CHR_EMPID	 ORDER BY  b.CHR_STAFFNAME";
-		//out.println(sql);
+		out.println(sql);
 		String cdata[][]= CommonFunctions.QueryExecute(sql);
 		 
 		
@@ -161,7 +161,7 @@ try
 					<display:column title=" Telephone Charges"  style="text-align:right" sortable="true"><%=temp.elementAt(14)%></display:column>
 					<display:column title=" Others Amt"  style="text-align:right" sortable="true"><%=temp.elementAt(15)%></display:column>
 					<display:column title=" Total "  style="text-align:right" sortable="true"><%=temp.elementAt(16)%></display:column>
-					 <display:column title="Deduction" style="text-align:right" sortable="true"><%=temp.elementAt(17)%></display:column>
+					 <display:column title="Advance Deduction" style="text-align:right" sortable="true"><%=temp.elementAt(17)%></display:column>
 					<display:column title=" Balance" style="text-align:right" sortable="true"><%=temp.elementAt(18)%></display:column>	 
 					<display:column title=" Signature " sortable="true"><%=temp.elementAt(19)%></display:column>
 					 

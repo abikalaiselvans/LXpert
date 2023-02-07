@@ -16,7 +16,14 @@ public final class PettyCashIncome
 	String  desc,incomedate ;
 	double income;
 	int source;
+	String paymentmode;
  
+	public String getPaymentmode() {
+		return paymentmode;
+	}
+	public void setPaymentmode(String paymentmode) {
+		this.paymentmode = paymentmode;
+	}
 	public int getSource() {
 		return source;
 	}

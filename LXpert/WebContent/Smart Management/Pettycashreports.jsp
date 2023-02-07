@@ -154,8 +154,12 @@ function Validate()
               </tr>
               
               <tr>
-                <td class="boldEleven">&nbsp;</td>
-                <td class="boldEleven">&nbsp;</td>
+                <td class="boldEleven">7.</td>
+                <td class="boldEleven"><a href="Rept_Tally_PettyCashReceipts.jsp">Tally Export Receipts </a></td>
+              </tr>
+              <tr>
+                <td class="boldEleven">8.</td>
+                <td class="boldEleven"><a href="Rept_Tally_PettyCashExpenses.jsp">Tally Export Payments </a></td>
               </tr>
               <tr>
                 <td colspan="2" class="boldEleven"><table width="60" border="0" align="center" cellpadding="1"

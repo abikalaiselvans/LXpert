@@ -52,6 +52,7 @@ function validate()
 	&& checkNull("opendate","Select Open Date") 
 	&& checkNull("advamount","Enter Advance Amount") 
 	&& checkNull("desc","Enter Description") 
+	&& checkNullSelect("creditto","Select credited to",'')  
 	&& checkNullSelect("authorised","Enter Authorised Signatory",'0') 
 	 	
 	)
@@ -250,6 +251,19 @@ function manual()
 									<td><textarea name="desc"   cols="40" rows="7"
 										class="formText135" id="desc"></textarea></td>
 								</tr>
+								<tr>
+								  <td class="boldEleven">Credit via <span
+									class="bolddeepred">* </span></td>
+								  <td class="tabledata"><select name="creditto" class="formText135" id="creditto" style="width:200">
+                              <option value="">Select</option>
+								<%
+					  String sql = "SELECT INT_DEPOSITID, CHR_DEPOSITNAME FROM com_m_deposit_to WHERE CHR_STATUS !='N' ORDER BY CHR_DEPOSITNAME";
+					   String deposit[][] = CommonFunctions.QueryExecute(sql);
+					  for(int u=0; u<deposit.length;u++)
+					  		out.println("<option value='"+deposit[u][0]+"'>"+deposit[u][1]+"</option>");
+					  %>
+						      </select></td>
+							  </tr>
 								<tr>
 									<td class="boldEleven">Authorised By<span class="boldred"> * </span></td>
 									<td class="tabledata">

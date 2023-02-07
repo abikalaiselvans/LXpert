@@ -840,9 +840,17 @@ public class InventoryAJAX extends HttpServlet
 			{	
 				InventoryMethod.loadPaymentData(request,response);			    
 			}
+			else if(action.equals("loadSearchVendorPO"))
+			{	
+				InventoryMethod.loadSearchVendorPO(request,response);			    
+			}
 			else if(action.equals("INVLoadSalesPayment"))
 			{	
 				InventoryMethod.loadSalesPayment(request, response);
+			}
+			else if(action.equals("loadSearchSalesPaymentno"))
+			{	
+				InventoryMethod.loadSearchSalesPaymentno(request, response);
 			}
 			else if(action.equals("INVGoodsReceivedId"))
 			{	

@@ -143,40 +143,50 @@
                                   <td class="boldEleven">19.</td>
                                   <td class="boldEleven"><a href="Rept_Customer_NoofSaleswithRef.jsp" target="_blank">Customer Wise with Ref </a></td>
                                   <td class="boldEleven">20.</td>
-                                  <td class="boldEleven"><a href="Rept_ExportTally.jsp" target="_blank">Export to Tally-1 [ Sales ] </a></td>
+                                  <td class="boldEleven"><a href="Rept_DetailedSales.jsp" target="_blank">Detailed Sales Report </a></td>
                                   <td class="boldEleven">&nbsp;</td>
                                 </tr>
                                 <tr>
                                   <td class="boldEleven">21.</td>
-                                  <td class="boldEleven"><a href="Rept_DetailedSales.jsp" target="_blank">Detailed Sales Report </a></td>
+                                  <td class="boldEleven"><a href="emd_reports.jsp" target="_blank">EMD</a></td>
                                   <td class="boldEleven">22.</td>
+                                  <td class="boldEleven">&nbsp;</td>
+                                  <td class="boldEleven">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                  <td class="boldEleven">&nbsp;</td>
+                                  <td class="boldEleven">&nbsp;</td>
+                                  <td class="boldEleven">&nbsp;</td>
+                                  <td class="boldEleven">&nbsp;</td>
+                                  <td class="boldEleven">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                  <td colspan="5" class="boldEleven"><div align="center" class="copyright">Tally Integration </div></td>
+                                </tr>
+                                <tr>
+                                  <td class="boldEleven">&nbsp;</td>
+                                  <td class="boldEleven"><a href="Rept_Purchase_ExportWithStockTally.jsp" target="_blank">Export with stock to Tally[ Purchae ] </a></td>
+                                  <td class="boldEleven">&nbsp;</td>
                                   <td class="boldEleven"><a href="Rept_Purchase_ExportTally.jsp" target="_blank">Export to Tally-2 [ Purchae ] </a></td>
                                   <td class="boldEleven">&nbsp;</td>
                                 </tr>
                                 <tr>
-                                  <td class="boldEleven">23.</td>
-                                  <td class="boldEleven"><a href="emd_reports.jsp" target="_blank">EMD</a></td>
-                                  <td class="boldEleven">24.</td>
+                                  <td class="boldEleven">&nbsp;</td>
+                                  <td class="boldEleven"><a href="Rept_Sales_ExportwithstockTally.jsp" target="_blank">Export with stock to Tally [ Sales ] </a></td>
+                                  <td class="boldEleven">&nbsp;</td>
+                                  <td class="boldEleven"><a href="Rept_ExportTally.jsp" target="_blank">Export to Tally-1 [ Sales ] </a></td>
+                                  <td class="boldEleven">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                  <td class="boldEleven">&nbsp;</td>
+                                  <td class="boldEleven"><a href="Rept_PurchasePayments_ExportTally.jsp">Export Purchase Payments </a></td>
+                                  <td class="boldEleven">&nbsp;</td>
                                   <td class="boldEleven"><a href="Rept_ledger_ExportTally.jsp" target="_blank">Export to ledger </a></td>
                                   <td class="boldEleven">&nbsp;</td>
                                 </tr>
                                 <tr>
-                                  <td class="boldEleven">25.</td>
-                                  <td class="boldEleven"><a href="Rept_Sales_ExportwithstockTally.jsp" target="_blank">Export with stock to Tally [ Sales ] </a></td>
-                                  <td class="boldEleven">26</td>
-                                  <td class="boldEleven"><a href="Rept_Purchase_ExportWithStockTally.jsp" target="_blank">Export with stock to Tally[ Purchae ] </a></td>
                                   <td class="boldEleven">&nbsp;</td>
-                                </tr>
-                                <tr>
-                                  <td class="boldEleven">&nbsp;</td>
-                                  <td class="boldEleven">&nbsp;</td>
-                                  <td class="boldEleven">&nbsp;</td>
-                                  <td class="boldEleven">&nbsp;</td>
-                                  <td class="boldEleven">&nbsp;</td>
-                                </tr>
-                                <tr>
-                                  <td class="boldEleven">&nbsp;</td>
-                                  <td class="boldEleven">&nbsp;</td>
+                                  <td class="boldEleven"><a href="Rept_SalesPayments_ExportTally.jsp">Export Sales Payments </a></td>
                                   <td class="boldEleven">&nbsp;</td>
                                   <td class="boldEleven">&nbsp;</td>
                                   <td class="boldEleven">&nbsp;</td>

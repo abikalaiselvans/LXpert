@@ -34,77 +34,7 @@ try
  <script language="javascript" src="../JavaScript/Numericfunctions.js"></script>
 
 <script language="JavaScript">
-    function Add()
-	{ 
-		document.frm.action="CategoryMaster.jsp";
- 	}
-	function Edit()
- 	{		
-		var count;
-		count=0;
-		coffee1=document.forms[0].optcatid
-		txt=""
-		for (i=0;i<coffee1.length;++ i)
-		{
-			if (coffee1[i].checked)
-			{
-			count=count+1;
-			}
-		}
-		if(count==0)
-		{
-			if (document.forms[0].optcatid.checked) { count=1;}
-		}
-		if(count==1){			
-			document.frm.action="CategoryMaster.jsp";
-			return true;
-		}
-		else
-		{
-		    alert("Select Only one Value");
-		    return false;
-		}
- 	}	
-
- 	function Delete()
- 	{		
-		var count;
-		count=0;
-		coffee1=document.forms[0].optcatid
-		txt=""
-		for (i=0;i<coffee1.length;++ i)
-		{
-			if (coffee1[i].checked)
-			{
-			count=count+1;
-			}
-		}
-		if(count==0)
-		{
-			if (document.forms[0].optcatid.checked) { count=1;}
-		}
-		if(count>=1){			
-			var name=confirm("Confirm to Delete")
-			if (name==true)
-			{ 
-				document.frm.action="../SmartLoginAuth";
-				return true;			
-			}
-			else
-				return false;
-		}
-		else
-		{
-		    alert("Select Atleast One Value");
-		    return false;
-		}		
- 	}
-
- 	function PageBack()
-	{
-	     //future enhancement
-    }
- 	
+  
   function Validate()
   {
 	try
@@ -175,8 +105,9 @@ function checkBankName()
 		<%
     	String payment=request.getParameter("payment"); 
 		String month=request.getParameter("month"); 
-		String year=request.getParameter("year"); 
-		
+		String year=request.getParameter("year");
+		String vendorid=request.getParameter("vendorid"); 
+		//out.println(vendorid);
    	%>
 		</td>
 	</tr>
@@ -217,11 +148,18 @@ function checkBankName()
 								<td height="16" colspan="3" align="center" valign="top"
 									class="boldThirteen"><%=payment %> Payment Details <%				  
 String sql="";
-if("Purchase".equals(payment))	
-	sql="SELECT CHR_PURCHASEORDERNO,DOU_TOTALAMOUNT,DOU_PAIDAMOUNT,INT_VENDORID,CHR_PURCHASEORDERNO,CONCAT(CHR_PURCHASEORDERNO,',',DOU_TOTALAMOUNT,',',DOU_PAIDAMOUNT,',',INT_VENDORID,',',CHR_PURCHASEORDERNO) FROM   inv_t_vendorpurchaseorder  WHERE CHR_PAYMENTSTATUS <>'Y' AND month(DAT_ORDERDATE)='"+month+"' and year(DAT_ORDERDATE)='"+year+"' ORDER BY CHR_PURCHASEORDERNO ";
-else
-	sql="SELECT CHR_PURCHASEORDERNO,DOU_TOTALAMOUNT,DOU_PAIDAMOUNT,INT_VENDORID,CHR_VENDORPO,CONCAT(CHR_PURCHASEORDERNO,',',DOU_TOTALAMOUNT,',',DOU_PAIDAMOUNT,',',INT_VENDORID,',',CHR_VENDORPO) FROM  inv_t_directpurchase WHERE CHR_PAYMENTSTATUS <> 'Y'  ORDER BY CHR_PURCHASEORDERNO ";
+if("Purchase".equals(payment))	{
+	sql="SELECT CHR_PURCHASEORDERNO,DOU_TOTALAMOUNT,DOU_PAIDAMOUNT,INT_VENDORID,CHR_PURCHASEORDERNO,CONCAT(CHR_PURCHASEORDERNO,',',DOU_TOTALAMOUNT,',',DOU_PAIDAMOUNT,',',INT_VENDORID,',',CHR_PURCHASEORDERNO),,CHR_VENDORPO FROM   inv_t_vendorpurchaseorder  WHERE CHR_PAYMENTSTATUS <>'Y' AND month(DAT_ORDERDATE)='"+month+"' and year(DAT_ORDERDATE)='"+year+"' ORDER BY CHR_PURCHASEORDERNO ";
+	}
+else {
+	sql="SELECT a.CHR_PURCHASEORDERNO, a.DOU_TOTALAMOUNT, a.DOU_PAIDAMOUNT, a.INT_VENDORID, a.CHR_VENDORPO,CONCAT(a.CHR_PURCHASEORDERNO,',',a.DOU_TOTALAMOUNT,',',a.DOU_PAIDAMOUNT,',',a.INT_VENDORID,',', a.CHR_VENDORPO), a.CHR_VENDORPO FROM  inv_t_directpurchase a WHERE a.CHR_PAYMENTSTATUS <> 'Y' ";
+		if(!vendorid.equals("0"))
+			sql = sql+" AND a.INT_VENDORID ="+vendorid;
+		sql = sql+"  and (a.DOU_TOTALAMOUNT-FUN_INV_GET_VENDORPAYMENT(a.CHR_PURCHASEORDERNO))>0 ORDER BY CHR_PURCHASEORDERNO ";
+	}
+	
 
+//and (a.DOU_TOTALAMOUNT-FUN_INV_GET_VENDORPAYMENT(a.CHR_PURCHASEORDERNO))>0
 //out.print(sql);
 String purchaseids[][] =  CommonFunctions.QueryExecute(sql);
 String lvalue="";
@@ -265,7 +203,7 @@ for(int x=0; x<purchaseids.length;x++)
 									 
 					   
 					  for(int u=0; u<purchaseids.length;u++)
-					  		out.println("<option value='"+purchaseids[u][0]+"'> " +purchaseids[u][0]+"</option>");
+					  		out.println("<option value='"+purchaseids[u][0]+"'> " +purchaseids[u][0]+"&nbsp;&nbsp;[&nbsp;"+purchaseids[u][6]+"&nbsp;]&nbsp;"+"</option>");
 					  %>
 								</select></td>
 							</tr>
@@ -354,6 +292,15 @@ for(int x=0; x<purchaseids.length;x++)
 									cols="25" rows="5" class="formText135" id="paymentdesc"></textarea></td>
 							</tr>
 							<tr>
+							  <td height="17" class="boldEleven">Transaction</td>
+							  <td colspan="2" align="left"><select name="transactiontype" class="formText135" id="transactiontype"  style="width:200">
+                              <option value="1">Payments</option>
+                              <option value="2">TDS</option>
+                              <option value="3">Freight</option>
+                              <option value="4">CashDiscount</option>
+						      </select></td>
+						  </tr>
+							<tr>
 								<td height="17" class="boldEleven">Purchase Amount</td>
 								<td colspan="2" align="left"><input name="amount"
 									type="text" class="formText135" id="amount" maxlength="12" readonly></td>
@@ -373,9 +320,7 @@ for(int x=0; x<purchaseids.length;x++)
 									type="text" class="formText135" id="given" maxlength="15" onKeyUp="extractNumber(this,2,true),CheckBalance(this);" onKeyPress="return blockNonNumbers(this, event, true, true);"
 									   >
 									   
-								<div id="Valid"></div>		
-								
-																</td>
+								<div id="Valid"></div>																</td>
 							</tr>
 							<tr>
 								<td height="17" class="boldEleven">Balance</td>
@@ -433,12 +378,17 @@ for(int x=0; x<purchaseids.length;x++)
 </table>
 <script language="javascript">
 	var cvalue = "<%=lvalue%>";
+	 
  	var cvalue1 =cvalue.split("~");
+	 
 	var ids ="<%=vendorids%>";
+	 
 	var names ="<%=vendornames%>";
+	 
 	var VendoridArray = ids.split(",");
+	 
 	var VendorNameArray = names.split("98650");
-	
+	 
 	function assignValue(itm)
 	{
 		try
@@ -483,12 +433,12 @@ for(int x=0; x<purchaseids.length;x++)
 	{
 		
 		var its = itm.value.split(",");
-		if(its[1] != "CASH" || its[1] != "CASH")
+		if(its[1] != "CASH" || its[1] != "CASH" || its[1] != "TDS")
 			enable();
 		else
 			disable();
-			
 	}
+	
 	function CheckBalance(gctr)
 	{
 		var bval=document.getElementById('balance').value;

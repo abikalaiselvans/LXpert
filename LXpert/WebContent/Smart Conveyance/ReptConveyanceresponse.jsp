@@ -85,7 +85,10 @@ try
 		sql=sql + "(sum(a.DOU_TRAVEL)+sum(a.DOU_TRAIN)+sum(a.DOU_AUTO)+sum(a.DOU_LUNCH)+sum(a.DOU_TELEPHONE)+sum(a.DOU_OTHERAMT))"; 
 		sql = sql + " ,sum(a.DOU_TOTAL),DATE_FORMAT(MIN(DAT_CONDATE),'%e-%M-%Y'), DATE_FORMAT(MAX(DAT_CONDATE),'%e-%M-%Y') ,FIND_A_BANKGROUP_NAME(b.CHR_BANK) ,b.CHR_ACCNO, d.CHR_OFFICENAME,e.CHR_DEPARTNAME,f.CHR_CATEGORYNAME,b.CHR_IFSC , ";
 		sql = sql + "  FUN_GET_CONVEYANCE_ADVANCE_BEFORE(a.CHR_EMPID,'"+paiddate+"') ,  ";
-		sql = sql + "  (SUM(a.DOU_TOTAL) -FUN_GET_CONVEYANCE_ADVANCE_BEFORE(a.CHR_EMPID,'"+paiddate+"')   )";
+		sql = sql + "  FUN_GET_CONVEYANCE_ADVANCE_DEDUCTION(a.CHR_EMPID,'"+paiddate+"'),  ";
+		//sql = sql + "  (SUM(a.DOU_TOTAL) -FUN_GET_CONVEYANCE_ADVANCE_BEFORE(a.CHR_EMPID,'"+paiddate+"')   ), ";
+		sql = sql + "  (SUM(a.DOU_TOTAL) -FUN_GET_CONVEYANCE_ADVANCE_DEDUCTION(a.CHR_EMPID,'"+paiddate+"')   )";
+		
 		sql = sql + " FROM conveyance_t_conveyance a, com_m_staff b , com_m_office  d ,com_m_depart e, com_m_employeecategory  f";
 		sql = sql + "  WHERE a.CHR_EMPID=b.CHR_EMPID	 ";
 		sql = sql + "  AND a.CHR_STATUS='Y' AND a.CHR_ACCSTATUS='Y'  AND b.INT_OFFICEID =d.INT_OFFICEID AND b.INT_DEPARTID= e.INT_DEPARTID  AND b.CHR_CATEGORY = f.INT_EMPLOYEECATEGORYID";
@@ -96,7 +99,7 @@ try
 		if(!"0".equals(branch))
 			sql = sql + "  AND b.INT_BRANCHID = " +branch;
 		sql = sql + "  GROUP BY a.CHR_EMPID	 ORDER BY  b.CHR_STAFFNAME";
-		//out.println(sql);
+		out.println(sql);
 		String cdata[][]=CommonFunctions.QueryExecute(sql);
 		String companyname = cname[0][0];
 		
@@ -144,6 +147,7 @@ try
 				child.addElement("");
 				child.addElement(cdata[u][18]);
 				child.addElement(cdata[u][19]);
+				child.addElement(cdata[u][20]);
 				sum1= sum1+Double.parseDouble(cdata[u][2]);
 				sum2= sum2+Double.parseDouble(cdata[u][3]);
 				sum3= sum3+Double.parseDouble(cdata[u][4]);
@@ -172,6 +176,7 @@ try
 			child.addElement(Math.round(sum5));
 			child.addElement(Math.round(sum6));
 			child.addElement(Math.round(sum));
+			child.addElement("");
 			child.addElement("");
 			child.addElement("");
 			child.addElement("");
@@ -206,7 +211,8 @@ try
 					<display:column title="Others Amt"   sortable="true"><%=temp.elementAt(16)%></display:column>
 					<display:column title="Total"   sortable="true"><%=temp.elementAt(17)%></display:column>
 					<display:column title="Advance"   sortable="true"><%=temp.elementAt(19)%></display:column>
-					<display:column title="Balance"   sortable="true"><%=temp.elementAt(20)%></display:column>
+					<display:column title="Advance Deduction"   sortable="true"><%=temp.elementAt(20)%></display:column>
+					<display:column title="Conveyance"   sortable="true"><%=temp.elementAt(21)%></display:column>
 					<display:column title="Signature"   sortable="true"><%=temp.elementAt(18)%></display:column>
 					 
 					<display:setProperty name="export.excel.filename" value="Rept_Conveyance.xls"/>
@@ -216,7 +222,7 @@ try
 					 
 					 
 </display:table> 
-    
+ <br />	<center >	<a href='PaidConveyance.jsp'> CLOSE</a></center>   
   <%
 }
 catch(Exception e)

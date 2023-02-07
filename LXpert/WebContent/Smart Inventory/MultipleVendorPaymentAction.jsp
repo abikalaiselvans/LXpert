@@ -397,6 +397,15 @@ if(data.length>0)
                                       </script></td>
 						              </tr>
 							          <tr>
+							            <td valign="top" class="boldEleven">Transaction</td>
+							            <td><select name="transactiontype" class="formText135" id="transactiontype"  style="width:200">
+                              <option value="1" selected="selected">Receipts</option>
+                              <option value="2">TDS</option>
+                              <option value="3">Freight</option>
+                              <option value="4">CashDiscount</option>
+						      </select>&nbsp;</td>
+						              </tr>
+							          <tr>
 							            <td valign="top" class="boldEleven">Given Amount  <span
 									class="bolddeepred">* </span></td>
 							            <td><input name="chequeamount" size="27" type="text" class="formText135" id="chequeamount" maxlength="12" onKeyUp="extractNumber(this,2,true) " onKeyPress="return blockNonNumbers(this, event, true, true);"

@@ -32,10 +32,7 @@
 	<%
 try
 {
-	
- 	 
-		 
-		 
+	 	 
 		String sql="";
 		 
 		sql = sql + " SELECT FIND_A_EMPLOYEE_ID_NAME(CHR_EMPID),SUM(DOU_AMOUNT),SUM(DOU_CAMOUNT), ";

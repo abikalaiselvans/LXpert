@@ -4,10 +4,13 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Properties;
 
 import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -1705,9 +1708,20 @@ public class SwapSaleActionHandler extends AbstractActionHandler
 					String subject =request.getParameter("subject");
 					String email =request.getParameter("email");
 					String a[] =(email+",").split(",") ;
-					String content = InvoiceMail.mailContent(salesno, branchid); 
+					System.out.println("======");
+					String content = InvoiceHTMLMail.mailContent(salesno, branchid, session, request.getRealPath("/")); 
+					System.out.println("******************************************************************************");
+					System.out.println(content);
+					System.out.println("******************************************************************************");
+					String[] attachments = new String [2];
+					attachments[0] =Path+"images\\Header.png";
+					attachments[1] =  Path+"images\\logo.jpg";
+					
+					
 					if(!"".equals(email) || !"null".equals(email) )
-						invoiceSendtoMail(a, subject+" : "+salesno, content);
+						InvMail.sendEmailWithAttachments(a, subject+": "+salesno, content, attachments);
+					
+					 
 					con.close();   
 			        response.sendRedirect("Smart Inventory/SwapSale.jsp");
 				}
@@ -2092,19 +2106,23 @@ public class SwapSaleActionHandler extends AbstractActionHandler
 	public static void invoiceSendtoMail( String recipients[] ,String subject,String content)
     {
     	try
-    	{
+    	{   System.out.println("invoiceSendtoMail....");
     		boolean debug = false;
     		String hData[][] =  CommonFunctions.QueryExecute("SELECT CHR_HOST,CHR_USERID,CHR_PASSWORD,CHR_MAILID FROM  m_mailsetting WHERE INT_MAILID = 1");
 		    String host =hData[0][0]   ;
             String user =hData[0][1]   ;
             String password =hData[0][2]   ;
             String from =hData[0][3]   ;
-             
+            host = "smtp.gmail.com";
             Properties props = new Properties();
   	        props.setProperty("mail.transport.protocol", "smtp");
   	        props.setProperty("mail.host", ""+host);
 	        props.setProperty("mail.user", ""+user);
   	        props.setProperty("mail.password", ""+password);
+  	        props.setProperty("mail.smtp.port", "465");
+  	        props.setProperty("mail.smtp.ssl.enable", "true");
+  	        props.setProperty("mail.smtp.auth", "true");
+  	        
   	        Session session = Session.getDefaultInstance(props, null);
   	        session.setDebug(debug); 
   	        Message msg = new MimeMessage(session);
@@ -2124,6 +2142,8 @@ public class SwapSaleActionHandler extends AbstractActionHandler
     		 System.out.println(e.getMessage()); 
     	}
     }
+	
+	
 	
 	public static void swapDelete(HttpServletRequest request,HttpServletResponse response,String salnos )
 	{

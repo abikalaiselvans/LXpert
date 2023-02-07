@@ -41,7 +41,7 @@ $(function() {
 			showOn: "button",
 			buttonImage: "../JavaScript/jquery/images/calendar.gif",
 			buttonImageOnly: true,
-			minDate: "-10D", maxDate: "+0D"
+			//minDate: "-10D", maxDate: "+0D"
 		});
 	}); 
 	
@@ -74,6 +74,7 @@ function Validate()
 		 && checkNullSelect( "category","Select Account Head", "" ) 	
 	     &&  checkNull( "incomedate","Enter The Date" )
 		 &&  checkNull( "income","Enter The Amount" )
+		 && checkNullSelect( "paymentmode","Payment Mode", "" ) 
 		 &&  checkNull( "othersid","Enter The Employee id/name" )
 		 &&  checkNull( "desc","Enter The description" )
 		  )
@@ -240,6 +241,8 @@ background-color: #99cc99;
 							String emp="";
 							String authorised="";
 							String taxValue="";
+							String  paymentmode="";
+							
 							if("Add".equals(action))
 							{
 								id="";name=""; desc=" ";
@@ -248,19 +251,19 @@ background-color: #99cc99;
 								branch="";date="";type="";income="0";
 								link=" ";emp="";
 								s1=""; s2=" checked = 'checked' ";
-								authorised="";
+								authorised=""; paymentmode="";
 							}
 							 
 							else
 							{
 								id="";name=""; 
 								id=request.getParameter("rowid");
-								sql = "SELECT INT_EXPENSESID,INT_BRANCHID,INT_CATEGORYID,DATE_FORMAT(DAT_EXPENSE,'%d-%m-%Y'),CHR_DESC,DOU_AMOUNT ,CHR_TYPE,CHR_EMPID,CHR_AUTHORAISEDBY  FROM mgt_t_pettycash_expenses WHERE INT_EXPENSESID= "+id;
+								sql = "SELECT INT_EXPENSESID,INT_BRANCHID,INT_CATEGORYID,DATE_FORMAT(DAT_EXPENSE,'%d-%m-%Y'),CHR_DESC,DOU_AMOUNT ,CHR_TYPE,CHR_EMPID,CHR_AUTHORAISEDBY ,INT_PAYMENTMODE  FROM mgt_t_pettycash_expenses WHERE INT_EXPENSESID= "+id;
 								String data[][]=CommonFunctions.QueryExecute(sql);
 								id=data[0][0];branch=data[0][1];  type=data[0][2];  date=data[0][3];  desc=data[0][4];  income=data[0][5]; 
 								emp=data[0][7]; 
 								authorised=data[0][8]; 
-								 
+								  paymentmode=data[0][9]; 
 								if(data[0][6].equals("E") )
 									s1=" checked = 'checked' "; 
 								else
@@ -285,7 +288,7 @@ background-color: #99cc99;
 								
 												
 				 sql ="Select a.INT_BRANCHID,a.CHR_BRANCHNAME ,b.CHR_COMPANYNAME from  com_m_branch  a  ,com_m_company b where  a.INT_COMPANYID = b.INT_COMPANYID  AND b.INT_ACTIVE =1  ";
-				 sql = sql + " AND  a.INT_BRANCHID ="+session.getAttribute("BRANCHID");	
+				 //sql = sql + " AND  a.INT_BRANCHID ="+session.getAttribute("BRANCHID");	
 				 String branchdata[][] =  CommonFunctions.QueryExecute(sql);
 								for(int u=0; u<branchdata.length; u++)
 									out.print("<option value='"+branchdata[u][0]+"'>"+branchdata[u][2]+ "  @  " +branchdata[u][1] +"</option>");
@@ -318,6 +321,20 @@ background-color: #99cc99;
 										class="formText135" id="income" onKeyPress="return numeric_only(event,'income','15')" size="31" maxlength="8"/></td>
               </tr>
               <tr>
+                <td align="left" valign="top" class="boldEleven">Payment Mode  <span class="errormessage">*</span></td>
+                <td align="left" valign="top" class="boldEleven"><select name="paymentmode" class="formText135" id="paymentmode" style="width:200">
+                  <option value="">Select</option>
+                  <%
+					   sql = "SELECT INT_DEPOSITID, CHR_DEPOSITNAME FROM com_m_deposit_to WHERE CHR_STATUS !='N' ORDER BY CHR_DEPOSITNAME";
+					   String deposit[][] = CommonFunctions.QueryExecute(sql);
+					  for(int u=0; u<deposit.length;u++)
+					  		out.println("<option value='"+deposit[u][0]+"'>"+deposit[u][1]+"</option>");
+					  %>
+                </select>
+				<script language="javascript">setOptionValue('paymentmode','<%=paymentmode%>')</script> 
+				</td>
+              </tr>
+              <tr>
                 <td align="left" valign="top" class="boldEleven">Type <span class="errormessage">*</span></td>
                 <td align="left" valign="top" class="boldEleven"><table width="100" border="0" cellspacing="0" cellpadding="0">
                   <tr class="boldEleven">
@@ -334,9 +351,7 @@ background-color: #99cc99;
                 <input name="othersid" type="text" class="formText135" id="othersid" size="30" maxlength="30"  onBlur="fill();"   onkeyup="upperMe(this),lookupbefore(this.value);" value="<%=emp%>" >
                 <div class="suggestionsBox" id="suggestions" style="display: none;">
 					<div class="suggestionList" id="autoSuggestionsList" style="OVERFLOW:auto;width:100%;height:100px" ></div>
-				 </div>
-                
-                </td>
+				 </div>                </td>
               </tr>
               <tr>
                 <td align="left" valign="top" class="boldEleven">Authorised by</td>

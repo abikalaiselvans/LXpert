@@ -214,7 +214,7 @@ function SwapSalesMessages()
 		str=str+"<td width='75'   class='boldEleven'>"+Division+"</td>";
 		str=str+"<td width='75'   class='boldEleven'>"+salDate+"</td>";
 		str=str+"<td width='200'   class='boldEleven'>"+quoCust.replace("9865043008"," & ")+"</td>";
-		
+		console.log(Status)
 		
 		if(Status=="1")
 		{
@@ -239,6 +239,7 @@ function SwapSalesMessages()
 				//str=str+"&nbsp; / &nbsp;<a target='_blank' href='../SmartLoginAuth?filename=PDFInvoiceGenerator&actionS=INVPDFInvoiceGenerator&salesno="+salNo+"'><font class='boldgreen'>PDF</font></a>" ;
 				//str=str+"&nbsp; / &nbsp;<a href=\"javascript:Printquery('../SmartLoginAuth?filename=Rept_JInvoice&actionS=INVRept_JInvoice&rptfilename=Rept_JInvoice10&subRptfilename1=Rept_JInvoiceSub&reportType=pdf&BRANCHID=20&salno="+salNo+"&serialyes=false')\"><font class='boldgreen'>RTF</font></a>";
 			}	
+			
 			//&&  ("D" == Saletype) 
 			if( (Usertype == "F")  &&("N" == Cancel)  )
 			{
@@ -254,6 +255,9 @@ function SwapSalesMessages()
 			}
 			else
 				str= str+"";
+			
+				
+			
 			
 			if("Y" == Cancel)
 				str = str +" &nbsp;/&nbsp;<img src='../Image/report/cancel.gif'> ";
@@ -287,6 +291,12 @@ function SwapSalesMessages()
 			if("Y" == Cancel)
 				str = str +" &nbsp;/&nbsp;<img src='../Image/report/cancel.gif'> ";
 			 
+			
+			if( (Usertype == "F") )
+			{
+				str= str+"&nbsp; / &nbsp; <a href=\"javascript:onClick=adminDelete('../SmartLoginAuth?filename=SwapSale&actionS=INVSwapSaleAdminDelete&salesno="+salNo+"','"+salNo+"')\"><font class='boldgreen'>Delete</font></a>";
+			}	
+				
 			str=str+"</td>";
 		}
 		
@@ -368,6 +378,7 @@ function SwapSalesMessages()
 		str = str +"<td  class='boldEleven' >"+Taxtype+"</td>";
 		str = str +"<td  class='boldEleven' >"+((Discount == "Y")? "Yes":"No" )+"</td>";
 		str = str +"<td  class='boldEleven' ><a href=\"javascript:onClick=cloneInvoice('"+salNo+"')\"><font class='boldgreen'>Clone</font></a></td>";
+		
 		str=str+"</tr>";
      }
     

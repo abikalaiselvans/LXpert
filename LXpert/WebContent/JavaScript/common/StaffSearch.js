@@ -41,7 +41,6 @@ function loadSearchStaff(sval,con)
 }
 function SelectMessages() 
 {	 
-    
      
     var batchs = req.responseXML.getElementsByTagName("Rowss")[0]; 
     

@@ -26,6 +26,7 @@ body {
 	response.setHeader("Pragma","no-cache"); //HTTP 1.0 
 	response.setDateHeader ("Expires", 0); //prevents caching 
 	response.setHeader("Cache-Control","no-store"); //HTTP 1.1 
+	System.out.println("=============="+"SELECT CHR_ALERT_REQUIRED FROM m_user  WHERE CHR_USRNAME='"+session.getAttribute("USRID")+"'");
 	if("Y".equals(CommonFunctions.QueryExecute("SELECT CHR_ALERT_REQUIRED FROM m_user  WHERE CHR_USRNAME='"+session.getAttribute("USRID")+"'")[0][0]))
 	{
 		out.println("<center>");

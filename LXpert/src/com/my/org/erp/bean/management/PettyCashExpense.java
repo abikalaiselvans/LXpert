@@ -17,7 +17,7 @@ public final class PettyCashExpense
 	double income;
 	int source;
 	String othersid,whom,authorised;
- 
+	String paymentmode;
 	
 	public String getAuthorised() {
 		return authorised;
@@ -109,6 +109,12 @@ public final class PettyCashExpense
 	}
 	public void setIncome(double income) {
 		this.income = income;
+	}
+	public String getPaymentmode() {
+		return paymentmode;
+	}
+	public void setPaymentmode(String paymentmode) {
+		this.paymentmode = paymentmode;
 	}
 	 
   

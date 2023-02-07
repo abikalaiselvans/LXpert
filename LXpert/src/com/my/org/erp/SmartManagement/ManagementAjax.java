@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.my.org.erp.ServiceLogin.Authenticator;
 
 @SuppressWarnings("serial")
-@WebServlet("//management")
+@WebServlet("/management")
 public class ManagementAjax extends HttpServlet
 {
     public  void doGet(HttpServletRequest request, HttpServletResponse  response)   throws IOException, ServletException

@@ -73,9 +73,10 @@ staffsql = staffsql +" CHR_REJOIN,CHR_NOMINEE,CHR_SALARYSPLITUP,DATE_FORMAT(DT_C
 staffsql = staffsql +" CHR_CREATEDBY, DATE_FORMAT(DAT_RIVISION,'%d-%m-%Y'), INT_CTC,INT_GROSS_PERCENT,  ";
 staffsql = staffsql +" INT_VARIABLE_PERCENT,CHR_IFSC,INT_ATTENDANCECYCLE,CHR_SALARYTYPE,  ";
 staffsql = staffsql +" FUN_GET_LOCATION_NAME(INT_LOCATIONID),CHR_NOMINEE_RELATIONSHIP,CHR_SPOUSENAME ,  ";
-staffsql = staffsql +" DATE_FORMAT(DT_ACTUAL_DOB,'%d-%m-%Y'), CHR_MODIFICATION,CHR_APPROVED_DESC,CONCAT('Type-',CHR_PFCALCULATIONTYPE),CHR_AADHARNO,CHR_PF_UAN ";
+staffsql = staffsql +" DATE_FORMAT(DT_ACTUAL_DOB,'%d-%m-%Y'), CHR_MODIFICATION,CHR_APPROVED_DESC,CONCAT('Type-',CHR_PFCALCULATIONTYPE),CHR_AADHARNO,CHR_PF_UAN, CHR_REFEMPID,INT_CONVEYANCE_LIMIT ";
 staffsql = staffsql +" FROM com_m_staff WHERE CHR_EMPID='"+staffid+"'  ";
 //out.println(staffsql);
+System.out.println(staffsql);
 String staffData[][]= CommonFunctions.QueryExecute(staffsql);
  
 
@@ -125,6 +126,15 @@ String staffData[][]= CommonFunctions.QueryExecute(staffsql);
 		});
 	}); 
 	
+	$(function() {
+		$( "#doj" ).datepicker({
+			changeMonth: true,
+			changeYear: true, 
+			showOn: "button",
+			buttonImage: "../JavaScript/jquery/images/calendar.gif",
+			buttonImageOnly: true
+		});
+	}); 
 	
 	$(function() {
 		$( "#revisiondate" ).datepicker({
@@ -603,7 +613,7 @@ function esitypechange()
 			<tr>
 				 
 				<td width="73%"  >
-				<TABLE width=563 border=0 align=center cellPadding=0 cellSpacing=0
+				<TABLE width=700 border=0 align=center cellPadding=0 cellSpacing=0
 					bgcolor="#dce4f9" class=BackGround>
 					<TBODY>
 						<TR>
@@ -696,6 +706,12 @@ function esitypechange()
 															<div id="userIdMessage"></div>															</td>
 														</tr>
 														<tr>
+														  <td class="boldEleven">Reference EMP Id</td>
+														  <td class="boldEleven"><input name="refempid" type="text" class="formText135" id="refempid"   onBlur=" upperMe(this)" size="30"
+																maxlength="30"  onKeyUp="LoadUniqueCheck('refempid', 'refempiddiv', 'com_m_staff', 'CHR_REFEMPID', 'submit_btn')" value="<%=staffData[0][96]%>">
+																<div id="refempiddiv"></td>
+													  </tr>
+														<tr>
 															<td class="boldEleven">Staff Name<font class="errormessage" align="absmiddle"> * </font></td>
 															<td class="boldEleven"><input name="name" type="text"
 																class="formText135" id="name"   onBlur="upperMe(this)" onKeyUp="LoadUniqueCheck('name', 'namediv', 'com_m_staff', 'CHR_STAFFNAME', 'submit_btn')" value="<%=staffData[0][3]%> "
@@ -774,7 +790,7 @@ function esitypechange()
 														  <td class="boldEleven">Date Of Join <font class="errormessage"
 																align="absmiddle">*</font></td>
 														  <td class="boldEleven"><span class="errormessage">
-                                                          <input name="doj" id="doj" type="hidden" value="<%=staffData[0][11] %>">
+                                                          <input name="doj" id="doj"  value="<%=staffData[0][11] %>">
                                                           <%=staffData[0][11] %> </span></td>
 													  </tr>
 														<tr>
@@ -1150,6 +1166,7 @@ function checkAccounts(ctr)
 </script>
 <div id="acc"></div><font class='errormessage'><%=staffData[0][21]%>	</font>															</td>
 														</tr>
+														
 														<tr>
                                                           <td class="boldEleven">IFSC CODE </td>
 														  <td colspan="4">
@@ -1225,6 +1242,20 @@ background-color: #ffffff;
 					<div class="ifsccodeList1" id="ifsccodeList1" style="OVERFLOW:auto;width:100%;height:200px" ></div>
 </div>	
 <font class='errormessage'><%=staffData[0][84]%> </font></td>
+													  </tr>
+													  
+													  
+													  <tr>
+														  <td class="boldEleven">Conveyance Limit </td>
+														  <td colspan="4"> 
+														      <select name="conveyancelimit"  class="formText135" id="conveyancelimit" style="width:170">
+															  <%
+															  	for(int k=0; k<=20000; k=k+1000)
+																	out.println("<option value='"+k+"'>"+k+"</option>");
+															  %>
+												              </select>
+															  <script language="javascript"> setOptionValue("conveyancelimit","<%=staffData[0][97]%>") </script>
+														  </td>
 													  </tr>
 														<tr>
 															<td class="boldEleven">Leave Carry <%

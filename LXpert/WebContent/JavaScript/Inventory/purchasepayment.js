@@ -90,6 +90,9 @@ function PaymentMessages()
 	str=str+"<table width='100%'  class='boldEleven'  id='myTable'     cellpadding=2 cellspacing=1 bgcolor='#9900CC'>";
 	var dt="";
 	var ch="";
+	
+	var sumtotal=0;
+	var paidamount=0;
 	for(loop = 0; loop < batchs.childNodes.length; loop++) 
     {
 		var batch = batchs.childNodes[loop];
@@ -99,13 +102,14 @@ function PaymentMessages()
       	var Paidamount = batch.getElementsByTagName("Paidamount")[0].childNodes[0].nodeValue;
       	var Blanace = batch.getElementsByTagName("Blanace")[0].childNodes[0].nodeValue;
       	var Status = batch.getElementsByTagName("Status")[0].childNodes[0].nodeValue;
+      	var VPO = batch.getElementsByTagName("VPO")[0].childNodes[0].nodeValue;
 		if(loop%2==0)
 			str=str+"<tr class='MRow1'>";
 		else
 		    str=str+"<tr  class='MRow2'>";	
 		
-		str=str+"<td class='boldEleven'>"+(loop+1)+".</td>";
-		str=str+"<td class='boldEleven'>"
+		str=str+"<td width='135' class='boldEleven'>"+(loop+1)+".</td>";
+		str=str+"<td width='135' class='boldEleven'>"
 		if(parseFloat(Paidamount) > 0)
 		{
 			ch="<input name='pid' type='checkbox' value='"+Purchaseid +"' />"	;
@@ -116,23 +120,38 @@ function PaymentMessages()
 		{
 		str = str+Purchaseid ;
 		}	
-		
-		str=str+"<td class='boldEleven'>"+Vendorname ;
-		str=str+"<td class='boldEleven' align='right'>"+Totalamount ;
-		str=str+"<td class='boldEleven' align='right'>"+Paidamount ;
-		str=str+"<td class='boldEleven' align='right'>"+Blanace ;
-		str = str +"<td class='boldEleven' align='right'>";
-		
-		if(Status  =="P")
-			str = str +"<font color='Magenta'>Par.Pay</font>";
-		else if(Status  =="N")
-			str = str +"<font color='red'>Pending....</font>";
-		else if(Status  =="Y")
+		str=str+"</td>";
+		str=str+"<td width='135' class='boldEleven'>"+VPO +"</td>";
+		str=str+"<td width='120' class='boldEleven'>"+Vendorname +"</td>";
+		str=str+"<td width='110' class='boldEleven' align='right'>"+Totalamount +"</td>"
+		str=str+"<td width='85' class='boldEleven' align='right'>"+Paidamount +"</td>"
+		str=str+"<td width='123' class='boldEleven' align='right'>"+Blanace+"</td>"
+		str = str +"<td width='127' class='boldEleven' align='right'>";
+		if( parseFloat(Blanace ) <1){
 			str = str +"<font color='blue'>Completed</font>";
+		}
+		else {
+			if(Status  =="P")
+				str = str +"<font color='Magenta'>Par.Pay</font>";
+			else if(Status  =="N")
+				str = str +"<font color='red'>Pending....</font>";
+			//else if(Status  =="Y")
+				//str = str +"<font color='blue'>Completed</font>";
+		}
 		
+		str = str+"</td>"
+		
+		sumtotal=sumtotal+parseFloat(Totalamount );
+		if("-" != Paidamount )
+			paidamount=paidamount+parseFloat(Paidamount );
    }
     
-	 
+	  
+    str=str+"<tr height='25' class='MRow1'><td  colspan='4' align=right class='boldEleven'><b><font Color='red'>Total Amount</font></b></td>";
+    str=str+"<td align=right class='boldEleven'><b><font Color='red'>"+  sumtotal.toFixed(2)+"</font></b></td>";
+    str=str+"<td align=right class='boldEleven'><b><font Color='red'>"+  paidamount.toFixed(2)+"</font></b></td>  ";
+    str=str+"<td align=right class='boldEleven'><b><font Color='red'>"+  (sumtotal.toFixed(2)-paidamount.toFixed(2))+"</font></b></td><td>&nbsp;</td>"; 
+    
 	str=str+"</table>";
 	var tb=document.getElementById('PaymentTable');
 	tb.innerHTML=str  ; 

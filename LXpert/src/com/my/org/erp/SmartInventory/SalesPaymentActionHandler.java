@@ -471,6 +471,7 @@ public class SalesPaymentActionHandler extends AbstractActionHandler
 					catch (Exception e) 
 					{
 						System.out.println(e.getMessage());
+						e.printStackTrace();
 					}
 				}
 

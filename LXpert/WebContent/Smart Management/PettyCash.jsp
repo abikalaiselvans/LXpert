@@ -1,6 +1,9 @@
+<!DOCTYPE html>
+<html>
+<%@ page contentType="text/html; charset=iso-8859-1" language="java" import="java.sql.*" errorPage="../error/index.jsp"%>
 <%@ page import="java.sql.*,java.io.*,java.util.*,com.my.org.erp.bean.Attendance.*"%>
 <%@ page import="com.my.org.erp.common.*, com.my.org.erp.ServiceLogin.*"%>
-<%@ page import="java.io.*,java.util.*" isErrorPage="false" errorPage="../error/error.jsp"%>
+
 <%@ page import="java.io.*,java.util.*,com.my.org.erp.common.*"%>
 <%@ page import="com.my.org.erp.common.CommonFunctions"%>
 <%@ page import="org.apache.commons.lang.ArrayUtils"%>
@@ -8,7 +11,7 @@
 try
 {
 %>
-  <html>
+ 
 <head>
 
 <title> :: MANAGEMENT ::</title>

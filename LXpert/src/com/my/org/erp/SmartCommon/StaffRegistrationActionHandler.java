@@ -184,8 +184,16 @@ public class StaffRegistrationActionHandler extends AbstractActionHandler
 					System.out.println("Inserted.....");
 					acs.close();
 					 
- 	
-					//Insert Salary Structure...
+					//UPDATE com_m_staff SET CHR_REFEMPID = CHR_EMPID;
+					asql = "UPDATE com_m_staff SET CHR_REFEMPID = ? WHERE CHR_EMPID =?";
+					apstm = con.prepareStatement(asql);
+					apstm.setString(1,regid );
+					apstm.setString(2,regid );
+					System.out.println("" + apstm);
+					apstm.execute();
+					
+					
+  					//Insert Salary Structure...
 					if ("A".equals(d.getSalarysplitupby()))
 					{
 						SalaryFunctions.salaryBand(userId,regid,d.getGross(), d.getStype());
@@ -269,7 +277,7 @@ public class StaffRegistrationActionHandler extends AbstractActionHandler
 			        asql = asql + " DAT_RIVISION=?, ";
 			        asql = asql + " CHR_IFSC=?,INT_ATTENDANCECYCLE=?,CHR_SALARYTYPE=?, "; 
 			        asql = asql + " CHR_MOTHERNAME=?, CHR_SPOUSENAME=?,CHR_MODIFICATION = 'N', ";
-			        asql = asql + " DT_DOB=?, DT_ACTUAL_DOB=? ";
+			        asql = asql + " DT_DOB=?, DT_ACTUAL_DOB=?, CHR_REFEMPID=?, DT_DOJCOLLEGE=?, INT_CONVEYANCE_LIMIT=? ";
 			        asql = asql + " WHERE CHR_EMPID=? "; 
 			        apstm = con.prepareStatement(asql);//DT_DOB DT_ACTUAL_DOB dob,adob
 					apstm.setString(1, d.getName());
@@ -335,7 +343,10 @@ public class StaffRegistrationActionHandler extends AbstractActionHandler
 					apstm.setString(61, d.getSpousename());
 					apstm.setString(62, d.getDob());
 					apstm.setString(63, d.getAdob());
-					apstm.setString(64, d.getId());
+					apstm.setString(64, d.getRefempid());
+					apstm.setString(65, d.getDoj());
+					apstm.setInt(66, d.getConveyancelimit());
+					apstm.setString(67, d.getId());
 					System.out.println(""+apstm);
 					apstm.execute();
 					apstm.close();

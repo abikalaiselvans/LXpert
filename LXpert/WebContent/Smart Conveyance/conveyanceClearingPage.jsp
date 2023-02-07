@@ -75,8 +75,7 @@ try
                       <td width="67%" class="boldEleven">
 					  <%=com.my.org.erp.common.CommonFunctions.QueryExecute("SELECT  (DAT_CLEARINGDATE is null),DATE_FORMAT(DAT_ACCDATE,'%d-%m-%Y') FROM conveyance_t_conveyance WHERE CHR_ACCSTATUS='Y' GROUP BY DAT_ACCDATE  ORDER BY DAT_ACCDATE  DESC LIMIT 0,1")[0][1]%>
 					  
-					  <input name="paiddate" type="hidden" value="<%=com.my.org.erp.common.CommonFunctions.QueryExecute("SELECT  (DAT_CLEARINGDATE is null),DATE_FORMAT(DAT_ACCDATE,'%d-%m-%Y') FROM conveyance_t_conveyance WHERE CHR_ACCSTATUS='Y' GROUP BY DAT_ACCDATE  ORDER BY DAT_ACCDATE  DESC LIMIT 0,1")[0][1]%>">
-					  </td>
+					  <input name="paiddate" type="hidden" value="<%=com.my.org.erp.common.CommonFunctions.QueryExecute("SELECT  (DAT_CLEARINGDATE is null),DATE_FORMAT(DAT_ACCDATE,'%d-%m-%Y') FROM conveyance_t_conveyance WHERE CHR_ACCSTATUS='Y' GROUP BY DAT_ACCDATE  ORDER BY DAT_ACCDATE  DESC LIMIT 0,1")[0][1]%>">					  </td>
                     </tr>
                     <tr>
                       <td class="boldEleven">Clearing Date </td>
@@ -98,10 +97,20 @@ try
   cal1.year_scroll=true;
   cal1.time_comp=false;
   setCurrentDate('clearingdate');
-//--></script>
-
-
-					  </td>
+//--></script>					  </td>
+                    </tr>
+                    <tr>
+                      <td class="boldEleven">Credit via <span
+									class="bolddeepred">* </span></td>
+                      <td class="tabledata"><select name="creditto" class="formText135" id="creditto" style="width:200">
+                          <option value="">Select</option>
+                          <%
+					  
+					   String deposit[][] = CommonFunctions.QueryExecute("SELECT INT_DEPOSITID, CHR_DEPOSITNAME FROM com_m_deposit_to WHERE CHR_STATUS !='N' ORDER BY CHR_DEPOSITNAME");
+					  for(int u=0; u<deposit.length;u++)
+					  		out.println("<option value='"+deposit[u][0]+"'>"+deposit[u][1]+"</option>");
+					  %>
+                      </select></td>
                     </tr>
                     <tr>
                       <td class="boldEleven">Bank Name </td>
@@ -176,6 +185,7 @@ function validate()
 		 
 		 if(  
 			checkNull("clearingdate","Enter Clearing date") 
+			&& checkNullSelect("creditto","Select credited to",'')  
 			&&checkNullSelect("bank","Select Bank",'0') 
 			&&checkNull("descriptions","Enter Descriptions...")  )
 			

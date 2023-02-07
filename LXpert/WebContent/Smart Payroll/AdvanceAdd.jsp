@@ -31,7 +31,7 @@
 		$( "#opendate" ).datepicker({
 			changeMonth: true,
 			changeYear: true,
-			minDate: -20, maxDate: "+2D" ,
+			minDate: -300, maxDate: "+2D" ,
 			showOn: "button",
 			buttonImage: "../JavaScript/jquery/images/calendar.gif",
 			buttonImageOnly: true
