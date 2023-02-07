@@ -36,11 +36,11 @@ public class PurchasePaymentActionHandler extends AbstractActionHandler {
 				String amount = request.getParameter("amount");
 				String previousamt =request.getParameter("paid");
 				String paid = request.getParameter("given");
-				 
+				String transactiontype = request.getParameter("transactiontype");
 				String bank = request.getParameter("Bank");
 				System.out.println("bank  "+bank);
 				String Challanno= request.getParameter("Challanno");
-				 
+				//String transactiontype= request.getParameter("transactiontype");
 				int bal=(int)(Double.parseDouble(amount)-(Double.parseDouble(paid)+Double.parseDouble(previousamt)));
 				
 				
@@ -49,13 +49,13 @@ public class PurchasePaymentActionHandler extends AbstractActionHandler {
 				asql = asql +" INT_PAYMENTTERMID,	INT_BANKID,CHR_DDNUMBER,DAT_DDDATE,DAT_PAYMENTDATE,";
 				asql = asql +" CHR_PAYMENTDESC,DOU_PURCHASEAMOUNT,";
 				asql = asql +" DOU_PAIDAMOUNT,DOU_BALANCEAMOUNT,";
-				asql = asql +" CHR_USRNAME,DT_UPDATEDATE,	CHR_UPDATESTATUS )";
+				asql = asql +" CHR_USRNAME,DT_UPDATEDATE,	CHR_UPDATESTATUS,INT_TRANSACTIONTYPE )";
 				asql = asql +" VALUES (";
 				asql = asql +" ?,?,?,";
 				asql = asql +" ?,?,?,?,?,";
 				asql = asql +" ?,?,";
 				asql = asql +" ?,?,";
-				asql = asql +" ?,DATE(NOW()),'Y' )";
+				asql = asql +" ?,DATE(NOW()),'Y',?)";
 				apstm = con.prepareStatement(asql);
 				apstm.setString(1,branchId );
 				apstm.setString(2,purchaseid );
@@ -73,6 +73,7 @@ public class PurchasePaymentActionHandler extends AbstractActionHandler {
 				apstm.setString(11,paid);
 				apstm.setString(12,""+bal );
 				apstm.setString(13,auserid);
+				apstm.setString(14,transactiontype);
 				System.out.println(""+apstm);
 				apstm.execute();
 				apstm.close();
@@ -96,7 +97,8 @@ public class PurchasePaymentActionHandler extends AbstractActionHandler {
 				 
 				asql = "UPDATE "+tableName+" SET ";
 				asql = asql + " DOU_PAIDAMOUNT = " +pamt +" , ";
-				if(pamt ==Double.parseDouble(amount))
+				
+				if( (pamt == Double.parseDouble(amount)) ||  (Double.parseDouble(amount)-pamt < 1) )
 					asql = asql + " CHR_PAYMENTSTATUS = 'Y' ";
 				else 
 					asql = asql + " CHR_PAYMENTSTATUS ='P' ";

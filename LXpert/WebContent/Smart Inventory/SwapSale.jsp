@@ -77,6 +77,21 @@
 		}
  	}
 	
+	
+	function checkboxes()
+	  {
+	   var inputElems = document.getElementsByTagName("input"),
+		count = 0;
+	
+		for (var i=0; i<inputElems.length; i++) {       
+		   if (inputElems[i].type == "checkbox" && inputElems[i].checked == true){
+			  count++;
+		   }
+		}
+		 
+	 }
+
+
 
 function Delete()
 {	
@@ -98,7 +113,7 @@ function Delete()
 		 
 		var id=0;
 		var sale=""; 
-		
+		 
 		for (i=0;i<coffee1.length;i++)
 		{
 			if (coffee1[i].checked)
@@ -112,20 +127,17 @@ function Delete()
 		{
 			if (document.forms[0].salno.checked) 
 			{ 
-				 
 				count=1;
 				sale=document.getElementById('salno').value;
 			}
 		}
 		if(count==1)
 		{			
-				
-				
 				var r=confirm("ARE YOU SURE YOU WANT TO DELETE THE INVOICE  ..."+coffee1[id].value);
 				if (r==true)
 				{
 					var reason=prompt("Reason for Delete :: ","For e.g - Value has to be change."); 
-					var email=prompt("Kindly give the email id for sending informations for deleted invoice ","test@test.net"); 
+					var email=prompt("Kindly give the email id for sending informations for deleted invoice ","abikalaiselvan@gmail.com"); 
 					if (reason!=null && reason!="")
 					{
 						var d ="../SmartLoginAuth?saleno="+coffee1[id].value+"&reason="+reason+"&email="+email;
@@ -181,11 +193,12 @@ function invoiceSendMail(query,invoicenumber)
 		if (r==true)
 	  	{
 	  		var subject=prompt("Enter  Subject","Invoice"); 
-			var reason=prompt("Enter  Email id","test@test.net"); 
+			var reason=prompt("Enter  Email id","abikalaiselvan@gmail.com"); 
 	  		if (subject!=null && subject!="" && reason!=null && reason!="")
   			{
-	  			var d =query+"&subject"+subject+"&email="+reason;
+	  			var d =query+"&subject="+subject+"&email="+reason;
 	  			document.frm.action=""+d; 
+				alert(d);
 				document.frm.submit(); 
 			}	
 	  	}

@@ -98,7 +98,7 @@ try
 				sql = sql+ " ORDER BY a.DAT_PAYMENTDATE ";
 			}
 		}
-		 	
+		out.println(sql);	
 		String data[][] =CommonFunctions.QueryExecute(sql);
 		Vector mn = new Vector();
 	 	Vector child= null;

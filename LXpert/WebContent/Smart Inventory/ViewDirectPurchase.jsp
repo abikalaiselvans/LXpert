@@ -138,7 +138,7 @@ try{
 									</td>
 								</tr>
 								<tr>
-									<td valign="top" class="boldEleven"><strong>Customer
+									<td valign="top" class="boldEleven"><strong>Vendor Name &amp;
 									Address </strong></td>
 									<td valign="top" class="boldEleven">
 									<%

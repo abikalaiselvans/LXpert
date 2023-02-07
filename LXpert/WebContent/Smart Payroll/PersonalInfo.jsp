@@ -23,14 +23,7 @@
 		String strpass =jdbc.getProperty("Passw");
 		Class.forName(driver);
 		con = DriverManager.getConnection(url,struser,strpass);
-	}
-	catch(Exception e)
-	{
-		//System.out.println(e);
-	}
-		
-	try
-	{
+	 
 	   	st=con.createStatement();
 		rs = st.executeQuery("select  * from m_depart");
 	}

@@ -52,6 +52,14 @@ try
 		document.frm.action="SalesPaymentAction.jsp";		
  	}
 
+	
+	function  multi()
+	{ 
+		document.frm.action="MultiPayments.jsp";
+ 	}
+
+ 
+ 
 	function Edit()
  	{		
 		obj = findObj("salesid"); 
@@ -199,7 +207,8 @@ try
                           <option value=3>Partial</option>
                         </select></td>
 						<td  >Month </td>
-						<td><select name="month" id="month" onBlur="SalesPayment('0')"  style="width:150">
+						<td><select name="month" id="month" onBlur="SalesPayment('0')"  style="width:150" >
+							<option value=0>All</option>
 						  <%@ include file="../JavaScript/Inventory/month.jsp" %>
 						  </select>
                         
@@ -397,6 +406,11 @@ try
 			else	
 				out.println("<input type='hidden'  name='Edit' id='Edit' value='Edit'>");
 			out.println("</td>");
+			
+			out.println("<td ' valign='top'>");
+			out.println("<input class='ButtonHead' type='submit' onClick='return multi()' name='action1' id='action1' value='Multipayment'>");
+			out.println("</td>");	
+			
 			
 			out.println("<td ' valign='top'>");
 			if("Y".equals(CommonFunctions.QueryExecute("SELECT CHR_DELETE_INV FROM m_user_privilege WHERE CHR_USRNAME ='"+session.getAttribute("USRID").toString()+"'")[0][0]))

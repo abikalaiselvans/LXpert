@@ -7,7 +7,7 @@ try
 { 
 	String sql="";
 	String salesno = request.getParameter("salno");
-	
+	double tdsamount= 0;
 	if(  CommonFunction.RecordExist("SELECT   count(*) FROM inv_t_paymentcommitment   WHERE    CHR_SALESNO ='"+salesno+"'  AND  CHR_STATUS='N'"))
 	{
 		%>
@@ -20,6 +20,8 @@ try
 	}
 	String chkserial = ""+request.getParameter("serialyes");
 	String chkserialno = ""+request.getParameter("serialno");
+	String Discount = ""+request.getParameter("serialno");
+	
 	
 	sql = " SELECT  ";
 sql = sql +" INT_COMPANYID,INT_BRANCHID,INT_SALESID,CHR_SALESNO,DAT_SALESDATE,INT_PAYMENTTERMID,  ";
@@ -35,7 +37,7 @@ sql = sql +" CHR_COURIER_EMPID,CHR_COURIER_EMPID_MOBILE,INT_COURIERID,DAT_COURIE
 sql = sql +" CHR_STARTING_PLACE,CHR_ENDING_PLACE,INT_COURIER_KILOMETER,CHR_COURIER_DESC,  ";
 sql = sql +" DOU_COURIERAMOUNT,CHR_RECEIVERNAME,CHR_RECEIVER_MOBILE,DAT_DISPATCHEDDATE,  ";
 sql = sql +" CHR_CLOSEDBY,CHR_RECEIVER_DESC,CHR_CANCEL,INT_PROJECTID,FUN_GET_SUBTOTAL(CHR_SALESNO) , CHR_USRNAME,  ";
-sql = sql +" DT_UPDATEDATE,CHR_UPDATESTATUS,CHR_GST_TYPE ,UPPER(CHR_SHIPPING), CHR_DES, CHR_DCREFENCE  ";
+sql = sql +" DT_UPDATEDATE,CHR_UPDATESTATUS,CHR_GST_TYPE ,UPPER(CHR_SHIPPING), CHR_DES, CHR_DCREFENCE, CHR_TCS,DOU_TCS_PERCENTAGE,DOU_TCS_AMOUNT,DOU_ROUNDED ";
 sql = sql +" FROM inv_t_directsales WHERE CHR_SALESNO='"+salesno+"'";
 //out.println(sql);
 String perdata[][]=CommonFunctions.QueryExecute(sql );
@@ -201,8 +203,11 @@ if(!"-".equals(cpydata[0][6]))
 										//header=header+" Mobile : " +cpydata[0][19] +" / "+cpydata[0][20]+",<br> ";
 									if(!"-".equals(cpydata[0][8]))
 										header=header+" Email : " +cpydata[0][8]+" <br>";
+										 
 									//if(!"-".equals(cpydata[0][18]))
 									//	header=header+" Web : " +cpydata[0][18]+" ";
+									if(!"-".equals(cpydata[0][21]))
+										header=header+" GST : " +cpydata[0][21]+" <br>";
 									header=header+"</span>";	
 									 out.println(header);
 					   
@@ -243,6 +248,8 @@ if(!"-".equals(cpydata[0][6]))
 							out.println(vendor[0][6]+",<br>");
 						if(!"-".equals(vendor[0][7]))	
 							out.println(vendor[0][7]+".<br>");	
+						if(!"-".equals(vendor[0][11]))	
+							out.println(" PAN : "+vendor[0][11]+".<br>");	
 						if(!"-".equals(vendor[0][12]))	
 							out.println(" GST : "+vendor[0][12]);		
 							
@@ -299,8 +306,8 @@ if(!"-".equals(cpydata[0][6]))
 	  </tr>
 			 
 		<tr>
-			  <td height="24" valign="top"  ><span class="boldElevenPrint">Remarks</span><br><%=perdata[0][68]%></td>
-			  <td height="24" valign="top"  ><span class="boldElevenPrint">DC Reference</span><br> <%=perdata[0][69]%></td>
+			  <td width="154" height="24" valign="top"  ><span class="boldElevenPrint">Contact Name</span><br><%=perdata[0][24]%></td>
+			  <td width="200" height="24" valign="top"  ><span class="boldElevenPrint">Contact Person</span><br> <%=perdata[0][25]%></td>
 			  <td valign="top"  ><span class="boldElevenPrint">Despatch Through</span> <br> <%=perdata[0][21]%></td>
 	          <td valign="top"  ><span class="boldElevenPrint">Destination</span><br> <%=perdata[0][22]%></td>
 	  		</tr>	 
@@ -327,8 +334,10 @@ if(!"-".equals(cpydata[0][6]))
 						out.println("<th  width='20' class='boldElevenPrint'><strong >UOM</strong></th>");
 						out.println("<th  width='50' class='boldElevenPrint'><strong >Warranty</strong></th>");
 						out.println("<th  width='50' class='boldElevenPrint'><strong >Unit Price</strong></th>");
-						out.println("<th class='boldElevenPrint'><strong >Discount(%)</strong></th>");
-						out.println("<th class='boldElevenPrint'><strong >Unit Discount</strong></th>");
+						if(Discount.equals("Y")) {
+							out.println("<th class='boldElevenPrint'><strong >Discount(%)</strong></th>");
+							out.println("<th class='boldElevenPrint'><strong >Unit Discount</strong></th>");
+						}
 						out.println("<th  width='50' class='boldElevenPrint'><strong >Tax (%)</strong></th>");
 						out.println("<th class='boldElevenPrint'><strong >Tax Amount</strong></th>");
 						out.println("<th  width='50' class='boldElevenPrint'><strong >Total<br>(INR)</strong></th>");
@@ -342,11 +351,13 @@ if(!"-".equals(cpydata[0][6]))
 							out.println("<td valign='top'   class='boldEleven'  align='center' >"+datas[v][17]+"</td>");
 							out.println("<td valign='top'   class='boldEleven'  align='center'>"+datas[v][18] +"</td>");
 							out.println("<td valign='top'   class='boldEleven'  align='right'>"+datas[v][4]+"</td>");
-							out.println("<td valign='top'   class='boldEleven'  align='right'>"+datas[v][5] +"</td>");
-							out.println("<td valign='top'   class='boldEleven'  align='right'>"+datas[v][6]+"</td>");
+							if(Discount.equals("Y")) {
+								out.println("<td valign='top'   class='boldEleven'  align='right'>"+datas[v][5] +"</td>");
+								out.println("<td valign='top'   class='boldEleven'  align='right'>"+datas[v][6]+"</td>");
+							}
 							out.println("<td valign='top'   class='boldEleven'  align='right'>"+datas[v][10]+" % </td>"); 
 							out.println("<td valign='top'   class='boldEleven'  align='right'>"+datas[v][11]+"</td>");
-							out.println("<td valign='top'   class='boldEleven'  align='right' >"+datas[v][16] +"</td>");
+							out.println("<td valign='top'   class='boldEleven'  align='right' >"+datas[v][7] +"</td>");
 							out.println("</tr>");
 							 
 						}	
@@ -360,31 +371,51 @@ if(!"-".equals(cpydata[0][6]))
 						String taxSplit[][] =  CommonFunctions.QueryExecute(sql);
 						if(taxSplit.length>0) {
 							out.println("<tr class='boldEleven' align='right'>");	
-							out.println("<td colspan='11'>Subtotal</td>");
+							out.println("<td colspan='9'>Subtotal</td>");
 							out.println("<td>"+taxSplit[0][0]+"</td>");
 							out.println("</tr>");
 							if("D".equals(perdata[0][66])) {
 								out.println("<tr class='boldEleven' align='right'>");	
-								out.println("<td colspan='11'>IGST</td>");
+								out.println("<td colspan='9'>IGST</td>");
 								out.println("<td>"+taxSplit[0][2]+"</td>");
 								out.println("</tr>");
 							} else {							
 								out.println("<tr class='boldEleven' align='right'>");	
-								out.println("<td colspan='11'>CGST</td>");
+								out.println("<td colspan='9'>CGST</td>");
 								out.println("<td>"+taxSplit[0][3]+"</td>");
 								out.println("</tr>");
 								out.println("<tr class='boldEleven' align='right'>");	
-								out.println("<td colspan='11'>SGST</td>");
+								out.println("<td colspan='9'>SGST</td>");
 								out.println("<td>"+taxSplit[0][4]+"</td>");
 								out.println("</tr>");
 							
 							}
+							
+							//TCS
+							if("Y".equals(perdata[0][70])) {
+								out.println("<tr class='boldEleven' align='right'>");	
+								out.println("<td colspan='9'>TCS @ "+perdata[0][71]+"%</td>");
+								out.println("<td>"+perdata[0][72]+"</td>");
+								out.println("</tr>");
+							}
+							
+							
+							
+							//TDS
+							tdsamount= Double.parseDouble(perdata[0][12]);
+							if(tdsamount > 0){
+								out.println("<tr class='boldEleven' align='right'>");	
+								out.println("<td colspan='9'>TDS @ "+perdata[0][11]+"%</td>");
+								out.println("<td>"+perdata[0][12]+"</td>");
+								out.println("</tr>");
+							}
+							//Round Off
 							out.println("<tr class='boldEleven' align='right'>");	
-							out.println("<td colspan='11'>Round Off</td>");
-							out.println("<td>0.0</td>");
+							out.println("<td colspan='9'><b>Round Off</b></td>");
+							out.println("<td>"+perdata[0][73]+"</td>");
 							out.println("</tr>");
 							out.println("<tr class='boldEleven' align='right'>");	
-							out.println("<td colspan='11'><b>Net Total&nbsp;<img src='../Image/report/Rupee.jpeg' width='10' height='10'>&nbsp;&nbsp;</b></td>");
+							out.println("<td colspan='9'><b>Net Total&nbsp;<img src='../Image/report/Rupee.jpeg' width='10' height='10'>&nbsp;&nbsp;</b></td>");
 							out.println("<td><b>"+perdata[0][13]+"</b></td>");
 							out.println("</tr>");
 						}
@@ -433,7 +464,7 @@ if(!"-".equals(cpydata[0][6]))
 			if(serialnumberData.length>0) {
 				out.println("<span class='boldElevenprint'>"+datas[ip][13]+" : &nbsp;&nbsp;</span> ");
 				for(int sp=0; sp<serialnumberData.length;sp++)
-					sserial = sserial + serialnumberData[sp][3]+",&nbsp;" ;
+					sserial = sserial + serialnumberData[sp][3]+",&nbsp;  " ;
 				sserial = sserial.trim();
 				sserial = sserial.substring(0,sserial.length()-1);
 				sserial = sserial.trim();
@@ -630,25 +661,39 @@ else
 		    </tr>
 			
 			<tr>
-			  <td width="154" height="24" valign="top" class="boldEleven"  ><span class="boldElevenPrint">GST</span></td>
-			  <td width="200" valign="top" class="boldEleven"  ><%=cpydata[0][21]%></td>
-			  <td height="24" colspan="2" valign="top" class="boldEleven" align='center'  ><span class="boldElevenPrint">Company's Bank Details </span></td>
-		    </tr>
-			<tr>
-			  <td height="20" valign="top" class="boldEleven"  ><span class="boldElevenPrint">PAN</span></td>
-			  <td valign="top" class="boldEleven"  ><%=cpydata[0][14]%></td>
-			  <td height="20" valign="top" class="boldEleven"  ><span class="boldElevenPrint">Bank Name &amp; Branch </span></td>
-			  <td height="20" valign="top" class="boldEleven"  >SOUTH INDIAN BANK, Mountroad, Chennai</td>
-		    </tr>
-			<tr>
-			  <td colspan="2" rowspan="3" valign="top" class="boldEleven"  ><b>Kindly Note </b>:<br> 1. Goods Once Sold cannot be taken back.<br>
+			  <td colspan="2" rowspan="5" valign="top" class="boldEleven"  >
+			 <%
+			  if(tdsamount > 0){
+			  %>
+			  <b>TDS DECLARATION </b>:<br> 
+			  In terms of notification no.21/2012 dt.13 june 2012, We hereby declare that transaction with remarks "ref, tds declaration" is software
+acquired in a subsequent transfer and is transferred without any  modification and is already subjected to tax deducation at source under
+section 194j and/or under section 195 (whohever is applicable) on payment for the previous transfer of such software, you are not required
+to deduct tax at source on this account. our permanent account is" AAKCM7953M <br> 
+				<%
+				}
+				%>
+			  <b>Kindly Note </b>:<br> 
+			    1. Goods Once Sold cannot be taken back.<br>
 2. Mishandling or Physical Damage will not be covered under warranty.</td>
+			  <td height="24" colspan="2" valign="top" class="boldEleven" align='center'  ><span class="boldElevenPrint">Company's Bank Details
+			  <%
+			  sql = "SELECT CHR_BANK_NAME,CHR_ACCOUNT_NO,CHR_IFSCCODE, CHR_FOOTER_CONTENT    FROM m_inventorysetting WHERE INT_ROWID = 1 ";
+			  String BankDetails[][]= CommonFunctions.QueryExecute(sql);
+			  %>
+			   </span></td>
+		    </tr>
+			<tr>
+			  <td height="20" valign="top" class="boldEleven"  ><span class="boldElevenPrint">Bank Name &amp; Branch </span></td>
+			  <td height="20" valign="top" class="boldEleven"  ><%=BankDetails[0][0]%></td>
+		    </tr>
+			<tr>
 			  <td height="20" valign="top" class="boldEleven"  ><span class="boldElevenPrint">A/c No</span></td>
-			  <td height="20" valign="top" class="boldEleven"  >0043083000002769</td>
+			  <td height="20" valign="top" class="boldEleven"  ><%=BankDetails[0][1]%></td>
 		    </tr>
 			<tr>
 			  <td height="20" valign="top" class="boldEleven"  ><span class="boldElevenPrint">IFSC code </span></td>
-			  <td height="20" valign="top" class="boldEleven"  >SIBL0000043</td>
+			  <td height="20" valign="top" class="boldEleven"  ><%=BankDetails[0][2]%></td>
 		    </tr>
 			<tr>
 			  <td height="79" colspan="2" valign="top" class="boldEleven"  >
@@ -659,9 +704,7 @@ else
 		    </tr>
 			
 			<tr>
-			  <td height="20" colspan="4" valign="top"  ><div align="center" class="boldEleven"><b>Regd office</b> : 64, VSV koil street, Mylapore, Chennai-600004<br>
-		Phone Number : 044-43927600; Website : www.finecons.com ; <b>GSTIN : 33AAACF6323J1ZV</b><br>
-		<b>Branches : Bangaluru - Pondicherry - Coimbatore - Madurai</b>
+			  <td height="20" colspan="4" valign="top"  ><div align="center" class="boldEleven"><%=BankDetails[0][3]%>
 		
                     <%
 					   

@@ -221,7 +221,7 @@ public class SalesPaymentMultipleInvoiceActionHandler extends AbstractActionHand
 				}// end if
 				
 				con.close();
-				response.sendRedirect("Smart Inventory/SingleEntryMultipleInvoice.jsp");
+				response.sendRedirect("Smart Inventory/InventoryMains.jsp");
  				
 			} 
 			

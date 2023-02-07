@@ -1583,6 +1583,7 @@ Upload finished.
 	
 	
 </body>
-</html><%
+</html>
+<%
     }
 %>

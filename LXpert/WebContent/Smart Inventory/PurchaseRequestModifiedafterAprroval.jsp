@@ -1,6 +1,5 @@
 <%@ page import="java.io.*,java.util.*"%>
 <%@ page import="com.my.org.erp.common.CommonFunctions"%>
-<%@ page import="sun.net.smtp.SmtpClient"%>
 
 <%
 String vendorids[][] =  CommonFunctions.QueryExecute("Select INT_VENDORID,UPPER(CHR_VENDORNAME) from  inv_m_vendorsinformation ");

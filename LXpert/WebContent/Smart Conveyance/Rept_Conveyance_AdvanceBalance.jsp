@@ -32,10 +32,7 @@
 	<%
 try
 {
-	
- 	 
-		 
-		 
+	 	 
 		String sql="";
 		 
 		sql = sql + " SELECT FIND_A_EMPLOYEE_ID_NAME(CHR_EMPID),SUM(DOU_AMOUNT),SUM(DOU_CAMOUNT), ";
@@ -73,7 +70,7 @@ try
 					<display:column title=" S.NO" sortable="true"><%=temp.elementAt(0)%></display:column>
 					<display:column title=" EMPLOYEE ID/NAME" sortable="true"><%=temp.elementAt(1)%></display:column>
 					<display:column title=" ADVANCE " sortable="true" style="text-align:right"><%=temp.elementAt(2)%></display:column>
-					<display:column title=" CONVEYANCE AMOUNT"  style="text-align:right"sortable="true"><%=temp.elementAt(3)%></display:column>
+					<display:column title=" CONVEYANCE AMOUNT"  style="text-align:right" sortable="true"><%=temp.elementAt(3)%></display:column>
 					<display:column title=" BALANCE" style="text-align:right" sortable="true"><%=temp.elementAt(4)%></display:column>
  <display:column title=" TRANSACTION" style="text-align:right" sortable="true"><%=temp.elementAt(5)%></display:column>
 					 

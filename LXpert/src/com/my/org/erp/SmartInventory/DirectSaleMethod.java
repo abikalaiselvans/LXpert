@@ -87,7 +87,14 @@ public class DirectSaleMethod extends HttpServlet
 			String invbranchstateid = session.getAttribute("INVBRANCHSTATEID").toString();
 			//String invoicenumber="IN/"+InventoryInvoiceFunctions.accountYear()+InventoryInvoiceFunctions.directSalesinvoiceNumber(""+session.getAttribute("INVSTATE"))+"/"+InventoryInvoiceFunctions.invoiceLocation(officeid)+"/"+InventoryInvoiceFunctions.invoiceDivision(divisionid);
 			
-			String invoicenumber=InventoryInvoiceFunctions.directSalesNumberGet(""+session.getAttribute("INVSTATE"),officeid,divisionid);
+			String salesinvoicecreatedby = CommonFunctions.QueryExecute("SELECT CHR_SALES_INVOICE_CREATED  FROM m_inventorysetting  WHERE INT_ROWID=1")[0][0];
+			String invoicenumber=InventoryInvoiceFunctions.directSalesNumberGet(branchid,""+session.getAttribute("INVSTATE"),officeid,divisionid);
+			System.out.println(invoicenumber);
+			if(!salesinvoicecreatedby.equals("A")){
+				invoicenumber = d.getManualsalesinvoicenumber();
+			}
+			System.out.println(invoicenumber);
+			
 			String sql ="";
 			String payment ="N";
 			String dt =DateUtil.getCurrentDateTime() ;
@@ -102,13 +109,14 @@ public class DirectSaleMethod extends HttpServlet
 			field = field+"	DOU_BYBACKAMOUNT,CHR_INSTALLATION,CHR_INVOICEBLOCK,  ";
 			field = field+"	INT_PAYMENT_COMMITMENT_DAYS,CHR_TAXTYPE,CHR_REF1,CHR_REF2,";
 			field = field+"	INT_REF_PERCENTAGE1,INT_REF_PERCENTAGE2,INT_REF_PERCENTAGE3,INT_PROJECTID,CHR_GST_TYPE,";
-			field = field+"	CHR_ADD_TO_ME_NAME,DOU_FRIEGHT_CHARGE,DOU_ROUNDED,CHR_DCREFENCE,CHR_DISCOUNTBILL,INT_SHIPPING_CUSTOMERID) ";
+			field = field+"	CHR_ADD_TO_ME_NAME,DOU_FRIEGHT_CHARGE,DOU_ROUNDED,CHR_DCREFENCE,CHR_DISCOUNTBILL,INT_SHIPPING_CUSTOMERID, ";
+			field = field+"	CHR_TCS,DOU_TCS_PERCENTAGE,DOU_TCS_AMOUNT,CHR_ROUNDEDCHECK) ";
 			sql = " INSERT INTO inv_t_directsales "+field+" VALUES (";
 			sql = sql +"?,?,?,?,?,?,?,?,?,?,";
 			sql = sql +"?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? , ";
 			sql = sql +"?,?,?,?,?,";
-			sql = sql +"?,?,?,?,?,?,?,?,?,?) ";
-		
+			sql = sql +"?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
+			
 			apstm=con.prepareStatement(sql);
 			apstm.setInt(1, Integer.parseInt(branchid));
 			apstm.setString(2, invoicenumber);
@@ -162,6 +170,10 @@ public class DirectSaleMethod extends HttpServlet
 			apstm.setString(47,""+d.getDcref());
 			apstm.setString(48,""+d.getDiscountbill());
 			apstm.setString(49,""+d.getShippingCustomerId());
+			apstm.setString(50,""+d.getTcs());
+			apstm.setString(51,""+d.getTcspercentage());
+			apstm.setString(52,""+d.getTcsamount());
+			apstm.setString(53,""+d.getRoundoffcheck());
 			System.out.println("Sales Entry Added :"+apstm);
 			
 			apstm.execute();

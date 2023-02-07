@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=iso-8859-1" language="java"import="java.sql.*" errorPage="../error/index.jsp"%>
+<%@ page contentType="text/html; charset=iso-8859-1" language="java" import="java.sql.*" errorPage="../error/index.jsp"%>
 <%@ page import="com.my.org.erp.SmartInventory.Model"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -96,7 +96,7 @@ try
 									<td class="boldEleven">Branch</td>
 									<td class="boldEleven"><select name="branch" id="branch"
 										class="formText135" style="width:200px">
-										<option value="-1">All</option>
+										<option value="0">All</option>
 									</select></td>
 								</tr>
 								<tr>

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <%@ page import="java.io.*,java.util.*" isErrorPage="false" errorPage="../error/error.jsp"%>
 <%@ page import="com.my.org.erp.common.CommonFunctions"%>
 <%@ page import="org.apache.commons.lang.ArrayUtils"%> 
@@ -42,7 +43,8 @@ try
 <script language="JavaScript">
     function  Add()
 	{ 
-		document.frm.action="PaymentAdd.jsp";
+		var vendorid=document.getElementById('vendorid').value;
+		document.frm.action="PaymentAdd.jsp?vendorid="+vendorid;
  	}
 
 	function Edit()
@@ -197,6 +199,7 @@ try
 					  <td  >Month</td>
 					  <td><span  >
 					    <select name="month" id="month" onChange="LoadPayment('0')" >
+							<option value=0>All</option>
                           <%@ include file="../JavaScript/Inventory/month.jsp" %>
                         </select>
 					  </span></td>
@@ -220,24 +223,19 @@ try
 				</table>
 				</td>
 			</tr>
-			<tr  >
-				<td height="31"  >
+			<tr>
+				<td>
 				<div align="center">
 				<table width="100%" border="0" cellpadding="1" cellspacing="1" class="whiteMedium">
-					<tr  >
-					  <td   width="135">S.No</td>
-						<td   width="135">
-						<div align="center">Purchase Order Id</div>						</td>
-						<td   width="120">
-						<div align="center">Vendor Name</div>						</td>
-						<td   width="110">
-						<div align="center">Total Amount</div>						</td>
-						<td   width="85">
-						<div align="center">Paid Amount</div>						</td>
-						<td   width="123">
-						<div align="center">Balance Amount</div>						</td>
-						<td   width="127">
-						<div align="center">Status</div>						</td>
+					<tr>
+					  	<td   width="135">S.No</td>
+						<td   width="135"><div align="center">Ref Purchase Order Id</div></td>
+						<td   width="135"><div align="center">Purchase Order Id</div></td>
+						<td   width="120"><div align="center">Vendor Name</div></td>
+						<td   width="110"><div align="center">Total Amount</div></td>
+						<td   width="85"><div align="center">Paid Amount</div></td>
+						<td   width="123"><div align="center">Balance Amount</div></td>
+						<td   width="127"><div align="center">Status</div></td>
 					</tr>
 				</table>
 				</div>
@@ -246,7 +244,7 @@ try
 			<tr class="MRow1">
 				<td height="127" valign="top" class="footermenu">
 				 
-						<div id="PaymentTable" style="OVERFLOW:auto;width:100%;height:300px"  > </div>
+						<div id="PaymentTable" style="OVERFLOW:auto;width:100%;height:300px;"  > </div>
 						<br>
 						<div align="center" id="totRec"></div>
 						<br><br>
@@ -383,7 +381,8 @@ try
 				out.println("<input class='ButtonHead' type='submit' onClick='return   Delete()' name='Submit' id='Submit' value='Delete'>");
 			else	
 				out.println("<input type='hidden'  name='Delete' id='Delete' value='Delete'>");
-			out.println("</td>");	
+			out.println("</td>");
+			
 			
 			out.println("<td ' valign='top'>");
 			out.println("<input type='button' class='ButtonHead' name='Button' value='Close' onClick=\"redirect( 'InventoryMains.jsp')\" />");

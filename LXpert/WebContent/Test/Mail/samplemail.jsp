@@ -33,10 +33,10 @@ try
 	String host =hData[0][0]   ;
 	String password =hData[0][2]   ;
 	String mailFrom =hData[0][3]   ;
-	String port = "25";  
+	String port = "465";  
 	String subject =  "****** WELCOME TO THE  FAMILY *****" ;  
 	String bodyMessage = " ";  
-	String to = "test@test.net";
+	String to = "abikalaiselvan@gmail.com";
 	
 	String[] attachments = new String [1];
 	attachments[0] =request.getRealPath("/")+"images/mailbackground.jpg";

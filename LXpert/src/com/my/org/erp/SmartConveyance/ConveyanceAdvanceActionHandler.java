@@ -48,18 +48,21 @@ public class ConveyanceAdvanceActionHandler extends AbstractActionHandler
 				String advAmount = "" + request.getParameter("advamount");
 				String desc = "" + request.getParameter("desc");
 				String authorised = "" + request.getParameter("authorised");
+				String creditto = "" + request.getParameter("creditto");
+				
 				asql =  "INSERT INTO conveyance_m_advance (CHR_EMPID,DAT_ENTRYDATE,DOU_AMOUNT,";
-				asql = asql +" CHR_DESC, CHR_AUTHORITY,CHR_ENTRYBY, CHR_USRNAME, DT_UPDATEDATE, CHR_UPDATESTATUS) ";
+				asql = asql +" CHR_DESC, INT_DEPOSITID, CHR_AUTHORITY,CHR_ENTRYBY, CHR_USRNAME, DT_UPDATEDATE, CHR_UPDATESTATUS) ";
 				asql = asql +" VALUES ( ";
-				asql = asql + "?,?,?,?,?,?,?,NOW(),'Y')";
+				asql = asql + "?,?,?,?,?,?,?,?,NOW(),'Y')";
 				apstm = con.prepareStatement(asql);
 				apstm.setString(1,staffid);
 				apstm.setString(2,openDate);
 				apstm.setString(3,advAmount);
 				apstm.setString(4,desc);
-				apstm.setString(5,empid);
-				apstm.setString(6,authorised);
-				apstm.setString(7,auserid);
+				apstm.setString(5,creditto);
+				apstm.setString(6,empid);
+				apstm.setString(7,authorised);
+				apstm.setString(8,auserid);
 				System.out.println(""+apstm);
 				apstm.execute(); 
 				con.close();    

@@ -1,7 +1,6 @@
 <%@ page import="java.io.*,java.util.*"%>
 <%@ page import="com.my.org.erp.common.CommonFunctions"%>
 <%@ page import="com.my.org.erp.Math.*"%>
-<%@ page import="sun.net.smtp.SmtpClient"%>
 <%@ page import="java.sql.*,java.util.*,java.io.*"%>
 <%@ page import="com.my.org.erp.common.CommonFunctions"%>
 <%@ page import="com.my.org.erp.SmartInventory.InventoryInvoiceFunctions"%>

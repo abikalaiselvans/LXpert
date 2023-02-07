@@ -154,7 +154,8 @@ a:active {
 </table>
 <%}
 	}
-	catch(Exception e){//System.out.println(e);}
+	catch(Exception e){//System.out.println(e);
+	}
  
  %>
 <TABLE width="1000" border=0 align="left" cellPadding=0 cellSpacing=1>
@@ -189,6 +190,5 @@ a:active {
 <br>
 <br>
 <br>
-<%@ include file="../footer.jsp"%>
 </body>
 </html>

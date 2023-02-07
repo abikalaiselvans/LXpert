@@ -91,7 +91,7 @@ function LoadTaxMessages()
 	 str=str+"<td  class='boldEleven' align='center'><b>Flag</b></td>";
 	 str=str+"<td  class='boldEleven' align='center'><b>IGST [ % ]</b></td>";
 	 str=str+"<td  class='boldEleven' align='center'><b>SGST [ % ]</b></td>";
-	 str=str+"<td  class='boldEleven' align='center'><b>IGST [ % ]</b></td>";
+	 str=str+"<td  class='boldEleven' align='center'><b>CGST [ % ]</b></td>";
 	 
 	 str=str+"</tr>";
 	 for(loop = 0; loop < batchs.childNodes.length; loop++) 

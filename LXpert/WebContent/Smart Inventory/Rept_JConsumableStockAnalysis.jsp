@@ -1,6 +1,5 @@
 <%@ page import="java.io.*,java.util.*" errorPage="../error/index.jsp"%>
 
-<%@ page import="sun.net.smtp.SmtpClient"%>
 <html>
 <head><title>:: INVENTORY ::</title><link rel="icon" type="image/ico" href="../images/ERP.ico"></link>
 <link rel="shortcut icon" href="../images/ERP.ico"></link>

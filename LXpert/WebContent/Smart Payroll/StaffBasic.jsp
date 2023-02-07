@@ -2,7 +2,6 @@
 <%@ page import="com.my.org.erp.common.*, com.my.org.erp.ServiceLogin.*"%>
 <%@ page import="java.io.*,java.util.*" isErrorPage="false" errorPage="../error/error.jsp"%>
 <%@ page import="java.io.*,java.util.*,com.my.org.erp.common.*"%>
-<%@ page import="sun.net.smtp.SmtpClient"%>
 <%@ page import="com.my.org.erp.common.CommonFunctions"%>
 <%@ page import="org.apache.commons.lang.ArrayUtils"%>
   <html>

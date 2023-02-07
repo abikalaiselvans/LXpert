@@ -43,7 +43,8 @@ public class Staff
 	String employeetype;
 	String mothername,spousename;
 	String pfcalculationtype;
-	 
+	String refempid;
+	int conveyancelimit;
 	
 	public String getEmployeetype() {
 		return employeetype;
@@ -764,8 +765,75 @@ public class Staff
 	public void setUannumber(String uannumber) {
 		this.uannumber = uannumber;
 	}
-	 
+	public String getRefempid() {
+		return refempid;
+	}
+	public void setRefempid(String refempid) {
+		this.refempid = refempid;
+	}
+	public int getConveyancelimit() {
+		return conveyancelimit;
+	}
+	public void setConveyancelimit(int conveyancelimit) {
+		this.conveyancelimit = conveyancelimit;
+	}
+	@Override
+	public String toString() {
+		return "Staff [id=" + id + ", name=" + name + ", fname=" + fname
+				+ ", gender=" + gender + ", dob=" + dob + ", adob=" + adob
+				+ ", bg=" + bg + ", doj=" + doj + ", grade=" + grade
+				+ ", card=" + card + ", stype=" + stype + ", pf=" + pf
+				+ ", esi=" + esi + ", revisiondate=" + revisiondate
+				+ ", marry=" + marry + ", wedding=" + wedding + ", bank="
+				+ bank + ", number=" + number + ", padd1=" + padd1 + ", padd2="
+				+ padd2 + ", cadd1=" + cadd1 + ", cadd2=" + cadd2
+				+ ", emailid=" + emailid + ", mobile=" + mobile + ", optpf="
+				+ optpf + ", dispensary=" + dispensary + ", optesi=" + optesi
+				+ ", carry=" + carry + ", management=" + management
+				+ ", repto=" + repto + ", reporinghead=" + reporinghead
+				+ ", hold=" + hold + ", conveyance=" + conveyance
+				+ ", salarycalculation=" + salarycalculation + ", payslip="
+				+ payslip + ", fplogin=" + fplogin + ", userid=" + userid
+				+ ", pfesidate=" + pfesidate + ", resigndate=" + resigndate
+				+ ", pannumber=" + pannumber + ", passportnumber="
+				+ passportnumber + ", drivingnumber=" + drivingnumber
+				+ ", previousdetails=" + previousdetails + ", peremailid="
+				+ peremailid + ", middlename=" + middlename
+				+ ", companypfnumber=" + companypfnumber + ", addressstatus="
+				+ addressstatus + ", addressproof=" + addressproof
+				+ ", pfclaimstatus=" + pfclaimstatus + ", pfclaimdate="
+				+ pfclaimdate + ", pfclaimdescription=" + pfclaimdescription
+				+ ", interview=" + interview + ", salarysplitupby="
+				+ salarysplitupby + ", creationdateandtime="
+				+ creationdateandtime + ", createdby=" + createdby
+				+ ", ifsccode=" + ifsccode + ", salarytype=" + salarytype
+				+ ", nominee=" + nominee + ", username=" + username
+				+ ", updatedate=" + updatedate + ", status=" + status
+				+ ", previousempid=" + previousempid + ", rejoin=" + rejoin
+				+ ", pfnomineerelationship=" + pfnomineerelationship
+				+ ", aadharnumber=" + aadharnumber + ", uannumber=" + uannumber
+				+ ", company=" + company + ", branch=" + branch + ", balance="
+				+ balance + ", pin=" + pin + ", txtpfno=" + txtpfno
+				+ ", txtesno=" + txtesno + ", depart=" + depart + ", desig="
+				+ desig + ", off=" + off + ", pcity=" + pcity + ", pdistrict="
+				+ pdistrict + ", pstate=" + pstate + ", pcountry=" + pcountry
+				+ ", ppincode=" + ppincode + ", pphone=" + pphone + ", ccity="
+				+ ccity + ", cdistrict=" + cdistrict + ", cstate=" + cstate
+				+ ", ccountry=" + ccountry + ", cpincode=" + cpincode
+				+ ", cphone=" + cphone + ", qualification=" + qualification
+				+ ", category=" + category + ", attendancecycle="
+				+ attendancecycle + ", location=" + location + ", applicantid="
+				+ applicantid + ", employeetype=" + employeetype
+				+ ", mothername=" + mothername + ", spousename=" + spousename
+				+ ", pfcalculationtype=" + pfcalculationtype + ", refempid="
+				+ refempid + ", conveyancelimit=" + conveyancelimit
+				+ ", basic=" + basic + ", gross=" + gross + ", ctc=" + ctc
+				+ ", txtpfvalue=" + txtpfvalue + ", txtesivalue=" + txtesivalue
+				+ "]";
+	}
 	
+	  
+	 
 	
 	
 	

@@ -43,11 +43,18 @@ function LoadingTables(ctr1)
  
 function loadPettyCash(startLetter)
 {
+	try
+	{
 	var url = "../management?actionS=loadPettyCash&startLetter="+escape(startLetter);  
 	initRequest(url);
    	req.onreadystatechange = loadPettyCashRequest;
     req.open("GET", url, true);
-    req.send(null);    
+    req.send(null); 
+	}
+	catch(t)
+	{
+		alert(t);
+	}
 }	
  
 

@@ -37,21 +37,18 @@ function LoadConveyanceAdvance(startLetter)
 {
 	try
 	{
-	 	var Office =document.getElementById('Office').value;
+		var Office =document.getElementById('Office').value;
 	 	var day =document.getElementById('day').value;
 	 	var month =document.getElementById('month').value;
 	 	var year =document.getElementById('year').value;
-	 	
 		var url = "../Conveyance?actionS=ConveyanceAdvance&startLetter="+escape(startLetter)+"&office="+Office+"&day="+day+"&month="+month+"&year="+year;
-	 	var tob=document.getElementById('divscroll');
-		tob.innerHTML="<br><br><center> <img src='../images/loading_gif.gif' width='508' height='381'></center>" ;
-		initRequest(url);
 		req.onreadystatechange=LoadConveyanceAdvanceRequest;
 	    req.open("GET", url, true);
 	    req.send(null);
 	}
 	catch(err)
 	{
+		console.log(err);
 		alert(err);
 	}
 }

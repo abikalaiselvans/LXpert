@@ -1,11 +1,9 @@
   <%@ page import="java.io.*,java.util.*,java.text.*"%>
-<%@ page import="sun.net.smtp.SmtpClient"%>
 <%@ page import="java.sql.*,java.io.*,java.util.*,com.my.org.erp.ServiceLogin.*"%>
 <%@ page import="com.my.org.erp.common.CommonFunctions"%>
 <%@ taglib uri="/WEB-INF/displaytag.tld" prefix="display" %>
 <%@ page import="java.util.*"%>
 <%@ page import="java.io.*,java.util.*"%>
-<%@ page import="sun.net.smtp.SmtpClient"%>
 
 <html>
 <head>

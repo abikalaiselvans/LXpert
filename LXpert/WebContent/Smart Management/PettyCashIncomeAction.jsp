@@ -41,7 +41,7 @@ $(function() {
 			showOn: "button",
 			buttonImage: "../JavaScript/jquery/images/calendar.gif",
 			buttonImageOnly: true,
-			minDate: "-10D", maxDate: "+0D"
+			//minDate: "-10D", maxDate: "+0D"
 		});
 	}); 
 	
@@ -63,6 +63,7 @@ function Validate()
 		 && checkNullSelect( "category","Select Account Head", "" ) 	
 	     &&  checkNull( "incomedate","Enter The Date" )
 		 &&  checkNull( "income","Enter The Amount" )
+		 && checkNullSelect( "paymentmode","Payment Mode", "" ) 
 		 && checkNullSelect( "source","Select source", "" ) 	
 		 
 		 &&  checkNull( "desc","Enter The description" )
@@ -124,7 +125,7 @@ function Validate()
 							String id="",name="",desc="",actionS="",value="";
 							String sql="";
 							String link="";
-							String branch,date,type,income,source; 
+							String branch,date,type,income,source, paymentmode; 
 							
 							String taxValue="";
 							if("Add".equals(action))
@@ -135,16 +136,18 @@ function Validate()
 								 branch="";date="";type="";income="0";
 								link=" ";
 								source="";
+								paymentmode="";
 							}
 							 
 							else
 							{
 								id="";name=""; 
 								id=request.getParameter("rowid");source="";
-								sql = "SELECT INT_INCOMEID,INT_BRANCHID,INT_CATEGORYID,DATE_FORMAT(DAT_INCOME,'%d-%m-%Y'),CHR_DESC,DOU_AMOUNT,INT_SOURCEID  FROM mgt_t_pettycash_income WHERE INT_INCOMEID= "+id;
+								sql = "SELECT INT_INCOMEID,INT_BRANCHID,INT_CATEGORYID,DATE_FORMAT(DAT_INCOME,'%d-%m-%Y'),CHR_DESC,DOU_AMOUNT,INT_SOURCEID,INT_PAYMENTMODE  FROM mgt_t_pettycash_income WHERE INT_INCOMEID= "+id;
 								String data[][]=CommonFunctions.QueryExecute(sql);
 								id=data[0][0];branch=data[0][1];  type=data[0][2];  date=data[0][3];  desc=data[0][4];  income=data[0][5]; 
 								 source=data[0][6]; 
+								 paymentmode=data[0][7]; 
 								actionS="MGTPettyCashIncomeEdit";
 								value="Update";
 								link=" onBlur=\"upperMe(this)\"";
@@ -174,14 +177,28 @@ function Validate()
                 <td width="43%" class="boldEleven">Date<span class="boldred"></span> </td>
                 <td width="57%" class="boldEleven"> 
                 <input tabindex="2" name="incomedate" type="text" class="formText135" id="incomedate" size="15" readonly   value='<%=date%>' />
-                <script language="javascript">setCurrentDate('incomedate')</script>
-                </td>
+                <script language="javascript">setCurrentDate('incomedate')</script>                </td>
               </tr>
                
               <tr>
                 <td align="left" valign="top" class="boldEleven">Amount</td>
                 <td align="left" valign="top" class="boldEleven"><input name="income" type="text" value="<%=income%>"
 										class="formText135" id="income" onKeyPress="return numeric_only(event,'income','15')" size="31" maxlength="8"/></td>
+              </tr>
+              <tr>
+                <td align="left" valign="top" class="boldEleven">Payment Mode <span class="errormessage">*</span></td>
+                <td align="left" valign="top" class="boldEleven"><select name="paymentmode" class="formText135" id="paymentmode" style="width:200">
+                  <option value="">Select</option>
+                  <%
+					   sql = "SELECT INT_DEPOSITID, CHR_DEPOSITNAME FROM com_m_deposit_to WHERE CHR_STATUS !='N' ORDER BY CHR_DEPOSITNAME";
+					   String deposit[][] = CommonFunctions.QueryExecute(sql);
+					  for(int u=0; u<deposit.length;u++)
+					  		out.println("<option value='"+deposit[u][0]+"'>"+deposit[u][1]+"</option>");
+					  %>
+                </select>
+				<script language="javascript">setOptionValue('paymentmode','<%=paymentmode%>')</script> 
+				 
+				</td>
               </tr>
               <tr>
                 <td align="left" valign="top" class="boldEleven">Source</td>
@@ -192,7 +209,7 @@ function Validate()
                 <%
 								
 												
-				 sql ="Select INT_SOURCEID,CHR_SOURCENAME  from  mgt_m_pettysource  ORDER BY CHR_SOURCENAME";	
+				 sql ="Select INT_CATEGORYID,UPPER(CHR_NAME)  from  mgt_m_pettycash  ORDER BY CHR_NAME";	
 				 String sdata[][] =  CommonFunctions.QueryExecute(sql);
 								for(int u=0; u<sdata.length; u++)
 									out.print("<option value='"+sdata[u][0]+"'>"+ sdata[u][1] +"</option>");
@@ -217,8 +234,7 @@ function Validate()
                  
                 <%
 				}
-				%>    
-                </td>
+				%>                </td>
               </tr>
               <tr>
                 <td class="boldEleven">&nbsp;</td>

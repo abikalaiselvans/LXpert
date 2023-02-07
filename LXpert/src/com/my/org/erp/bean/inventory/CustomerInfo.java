@@ -22,6 +22,7 @@ public  final class CustomerInfo
 	String billing,billingaddress;
 	String taxexamption,taxexamptionno;
 	String gst;
+	String accounttype;
 	public String getAlias() {
 		return alias;
 	}
@@ -256,6 +257,12 @@ public  final class CustomerInfo
 	}
 	public void setGst(String gst) {
 		this.gst = gst;
+	}
+	public String getAccounttype() {
+		return accounttype;
+	}
+	public void setAccounttype(String accounttype) {
+		this.accounttype = accounttype;
 	}
 	
 	

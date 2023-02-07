@@ -423,6 +423,19 @@ for(int u=0; u<bdata.length; u++)
 									  maxlength="20"></td>
                     </tr>
                     <tr>
+                      <td height="17" class="boldEleven">Account Type </td>
+                      <td colspan="3" align="left">
+					  <select name="accounttype"  id="accounttype">
+					  	<option value="Acquition" selected="selected">Acquition</option>
+						<option value="Farming">Farming</option>
+						<option value="Home">Home</option>
+						<option value="OTR">OTR</option>
+						<option value="SOHO">SOHO</option>
+						<option value="Others">Others</option>
+					  </select>
+					  </td>
+                    </tr>
+                    <tr>
                       <td height="17" class="boldEleven">Customer Type <span
 									class="bolddeepred">* </span></td>
                       <td colspan="3" align="left"><select name="customertype" id="customertype"
@@ -447,11 +460,11 @@ for(int u=0; u<bdata.length; u++)
 		if("F".equals(usertype))
 		{
 		
-		out.println("<input name='climit'  maxlength='7' value='50000' type='text' size='40' class='formText135' id='climit' onKeyPress=\"return numeric_only(event,'climit','10')\" >");
+		out.println("<input name='climit'  maxlength='7' value='1000000000' type='text' size='40' class='formText135' id='climit' onKeyPress=\"return numeric_only(event,'climit','10')\" >");
 		}
 		else
 		{
-		out.println("<input name='climit'  maxlength='7'		type='text' id='climit'  value='50000'>");
+		out.println("<input name='climit'  maxlength='7'		type='text' id='climit'  value='1000000000'>");
 		}
 			
 							  %>                      </td>

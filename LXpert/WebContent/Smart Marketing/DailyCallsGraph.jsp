@@ -21,8 +21,8 @@
 try
 {
  
- 			String  = request.getParameter();
-			String  = request.getParameter();
+ 			//String  = request.getParameter();
+			//String  = request.getParameter();
 			
  
           final DefaultPieDataset data = new DefaultPieDataset();

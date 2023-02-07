@@ -3,6 +3,8 @@ package com.my.org.erp.SmartInventory;
 import java.io.File;
 import java.io.IOException;
  
+
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -3569,7 +3571,8 @@ public class InventoryMethod extends HttpServlet
 			String sql = "";
 			
 			sql = " SELECT a.CHR_SALESNO,a.CHR_EMPID,d.CHR_STAFFNAME,DATE_FORMAT(a.DAT_SALESDATE,'%d-%b-%Y'),a.DOU_CONTRIBUTION,UPPER(FIND_A_CUSTOMER_NAME( b.INT_CUSTOMERID )) , ";
-			sql = sql + " DOU_PAMOUNT,DOU_SAMOUNT, ROUND((a.DOU_CONTRIBUTION/DOU_PAMOUNT*100),2),a.INT_PERCENTAGE FROM inv_t_contribution a,inv_t_directsales b,inv_m_customerinfo c , com_m_staff d ";
+			sql = sql + " a.DOU_PAMOUNT,a.DOU_SAMOUNT, ROUND((a.DOU_CONTRIBUTION/DOU_PAMOUNT*100),2),a.INT_PERCENTAGE,ROUND( (a.DOU_SAMOUNT * a.INT_PERCENTAGE/100),2)   FROM inv_t_contribution a,inv_t_directsales b,inv_m_customerinfo c , com_m_staff d ";
+			 
 			sql = sql + " WHERE a.CHR_SALESNO=b.CHR_SALESNO ";
 			sql = sql + " AND b.INT_CUSTOMERID = c.INT_CUSTOMERID ";
 			sql = sql + " AND a.CHR_EMPID =d.CHR_EMPID ";
@@ -3610,9 +3613,10 @@ public class InventoryMethod extends HttpServlet
 					sb.append("<CAmount>" + readData[u][4] + "</CAmount>");
 					sb.append("<Customer>"+ readData[u][5].replaceAll("&", " AND ").trim()+ "</Customer>");
 					sb.append("<PAmount>" + readData[u][6] + "</PAmount>");
-					sb.append("<SAmount>" + readData[u][7] + "</SAmount>");
+					sb.append("<ActualSAmount>" + readData[u][7] + "</ActualSAmount>");
 					sb.append("<CPercentage>" + readData[u][8] + "</CPercentage>");
 					sb.append("<SalePercentage>" + readData[u][9]+ "</SalePercentage>");
+					sb.append("<SAmount>" + readData[u][10] + "</SAmount>");
 					sb.append("</Row>");
 				}
 				response.setContentType("text/xml");
@@ -4826,8 +4830,9 @@ public class InventoryMethod extends HttpServlet
 
 				if (!"0".equals(day))
 					sql = sql + " AND DAY(a.DAT_SALESDATE) =" + day;
+				if (month>0)
+					sql = sql + " AND MONTH(a.DAT_SALESDATE) = " + month;
 				
-				sql = sql + " AND MONTH(a.DAT_SALESDATE) = " + month;
 				sql = sql + " AND YEAR(a.DAT_SALESDATE) = " + year;
 				if("1".equals(type))
 				{	
@@ -4843,7 +4848,7 @@ public class InventoryMethod extends HttpServlet
 			}
 
 			String readData[][] = CommonFunctions.QueryExecute(sql);
-			System.out.println(sql);
+			System.out.println("Sales Payment.jsp SQL: "+sql);
 			StringBuffer sb = new StringBuffer();
 
 			if (readData.length > 0) {
@@ -4892,6 +4897,63 @@ public class InventoryMethod extends HttpServlet
 		}
 	}
 
+	
+	public static void loadSearchSalesPaymentno(HttpServletRequest request,		HttpServletResponse response) throws IOException, ServletException 
+	{
+		try 
+		{
+			HttpSession session = request.getSession();
+			String payType = request.getParameter("payType");
+			String search =""+request.getParameter("search");
+			String sql = "";
+			if (payType.equals("Invoice")) {
+				 
+			} else if (payType.equals("CashPay")) {
+			 
+			} 
+			else if (payType.equals("Direct")) 
+			{
+
+				sql = " SELECT CHR_SALESNO FROM inv_t_directsales ";
+				sql = sql + " WHERE CHR_PAYMENTSTATUS<>'Y' AND CHR_CANCEL='N' AND FIND_A_PAYMENTCOMMITMENT(CHR_SALESNO,'C') > 0 ";
+				
+			}
+			if(!"".equals(search)&& !"null".equals(search) )
+     			sql = sql +" AND  CHR_SALESNO LIKE '%"+search+"%'  ";
+			sql = sql + " ORDER BY CHR_SALESNO ";
+			System.out.println("loadSearchSalesPaymentno=====> "+sql);
+			String readData[][] =  CommonFunctions.QueryExecute(sql);
+     		StringBuffer sb = new StringBuffer(); 
+			if( readData.length > 0 )
+	 		{	
+	 			for(int u=0; u<readData.length;u++)
+	 			{	
+	 				sb.append("<Row>");
+                    sb.append("<Id>" + readData[u][0]+ "</Id>");
+                    sb.append("<Name>" + readData[u][0]+ "</Name>");  
+                    sb.append("</Row>");	                    
+	 			}
+	 			
+	 			response.setContentType("text/xml");
+	            response.setHeader("Cache-Control", "no-cache");
+		        response.getWriter().write("<Rowss>" + sb.toString() + "</Rowss>");
+			} 
+	 		else 
+	 			response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+			
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			request.setAttribute("error", e.getMessage());
+			RequestDispatcher dispatchers = request
+					.getRequestDispatcher("/error/index.jsp");
+			dispatchers.forward(request, response);
+		}
+	}
+
+	
+	
+	
 	// End - Author :: Kalaiselvan----------------------Sales
 	// Payment-----------------------
 
@@ -5701,7 +5763,7 @@ public class InventoryMethod extends HttpServlet
 			{
 				sql = " SELECT a.CHR_PURCHASEORDERNO  , "
 						+ " b.CHR_VENDORNAME,a.DOU_TOTALAMOUNT , "
-						+ " a.DOU_PAIDAMOUNT,(a.DOU_TOTALAMOUNT-a.DOU_PAIDAMOUNT), a.CHR_PAYMENTSTATUS  "
+						+ " a.DOU_PAIDAMOUNT,(a.DOU_TOTALAMOUNT-a.DOU_PAIDAMOUNT), a.CHR_PAYMENTSTATUS, CONCAT('-')  "
 						+ "  FROM  inv_t_vendorpurchaseorder  a ,inv_m_vendorsinformation b";
 				sql = sql + " WHERE  a.INT_VENDORID = b.INT_VENDORID AND a.CHR_PURCHASEORDERNO <> 'null' ";
 				if (!"0".equals(divis))
@@ -5732,16 +5794,37 @@ public class InventoryMethod extends HttpServlet
 			} 
 			else if ("Direct".equals(payment)) 
 			{
-				sql = " SELECT a.CHR_PURCHASEORDERNO  ,b.CHR_VENDORNAME ,a.DOU_TOTALAMOUNT ,  a.DOU_PAIDAMOUNT, ";
-				sql = sql + "  (a.DOU_TOTALAMOUNT-a.DOU_PAIDAMOUNT),a.CHR_PAYMENTSTATUS ";
-				sql = sql + "  FROM inv_t_directpurchase  a, inv_m_vendorsinformation  b ";
+				
+				/*SELECT a.CHR_PURCHASEORDERNO  ,b.CHR_VENDORNAME ,a.DOU_TOTALAMOUNT ,  SUM(C.DOU_PAIDAMOUNT),   
+				(a.DOU_TOTALAMOUNT-SUM(C.DOU_PAIDAMOUNT)),a.CHR_PAYMENTSTATUS, a.CHR_VENDORPO   
+				FROM inv_t_directpurchase  a, inv_m_vendorsinformation  b , inv_t_vendorpurchasepayment c WHERE a.INT_VENDORID=b.INT_VENDORID   
+				 AND  MONTH(a.DAT_ORDERDATE) = 08   AND  YEAR(a.DAT_ORDERDATE) = 2022 
+				 GROUP BY a.CHR_PURCHASEORDERNO  ORDER BY b.CHR_VENDORNAME, a.CHR_PURCHASEORDERNO 
+
+				SELECT a.CHR_PURCHASEORDERNO  ,b.CHR_VENDORNAME ,a.DOU_TOTALAMOUNT ,  a.DOU_PAIDAMOUNT,   
+				(a.DOU_TOTALAMOUNT-a.DOU_PAIDAMOUNT),a.CHR_PAYMENTSTATUS   
+				FROM inv_t_directpurchase  a, inv_m_vendorsinformation  b  WHERE a.INT_VENDORID=b.INT_VENDORID 
+				   AND  MONTH(a.DAT_ORDERDATE) = 08   AND  YEAR(a.DAT_ORDERDATE) = 2022 ORDER BY b.CHR_VENDORNAME  
+				   
+				   
+				   SELECT a.CHR_PURCHASEORDERNO  ,b.CHR_VENDORNAME ,a.DOU_TOTALAMOUNT ,  FUN_INV_GET_VENDORPAYMENT(a.CHR_PURCHASEORDERNO),   
+(a.DOU_TOTALAMOUNT-FUN_INV_GET_VENDORPAYMENT(a.CHR_PURCHASEORDERNO)),a.CHR_PAYMENTSTATUS, a.CHR_VENDORPO   
+FROM inv_t_directpurchase  a, inv_m_vendorsinformation  b 
+WHERE a.INT_VENDORID=b.INT_VENDORID   
+ AND  MONTH(a.DAT_ORDERDATE) = 08   AND  YEAR(a.DAT_ORDERDATE) = 2022 
+ORDER BY b.CHR_VENDORNAME, a.CHR_PURCHASEORDERNO 
+				*/   
+				   
+				sql = " SELECT a.CHR_PURCHASEORDERNO  ,b.CHR_VENDORNAME ,a.DOU_TOTALAMOUNT ,   FUN_INV_GET_VENDORPAYMENT(a.CHR_PURCHASEORDERNO), ";
+				sql = sql + "  (a.DOU_TOTALAMOUNT-FUN_INV_GET_VENDORPAYMENT(a.CHR_PURCHASEORDERNO)),a.CHR_PAYMENTSTATUS, a.CHR_VENDORPO ";
+				sql = sql + "  FROM inv_t_directpurchase  a, inv_m_vendorsinformation  b   ";
 				sql = sql + " WHERE a.INT_VENDORID=b.INT_VENDORID ";
 				if (!"0".equals(divis))
 					sql = sql + "  AND  a.INT_DIVIID=" + divis + "  ";
 				if (!"0".equals(vendorid))
 					sql = sql + "  AND  a.INT_VENDORID=" + vendorid + "  ";
 				if ("1".equals(Status))
-					sql = sql + "   AND  a.CHR_PAYMENTSTATUS='N'   ";
+					sql = sql + "   AND  a.CHR_PAYMENTSTATUS !='Y'   ";
 				else if ("2".equals(Status))
 					sql = sql + "   AND  a.CHR_PAYMENTSTATUS='Y'   ";
 				if (!"0".equals(month))
@@ -5758,7 +5841,7 @@ public class InventoryMethod extends HttpServlet
 				{
 					sql = sql+ " AND ( (a.CHR_PURCHASEORDERNO LIKE '%"+searchid+"%') OR ( b.CHR_VENDORNAME LIKE '" + searchid.toUpperCase() + "%') )";
 				}
-				sql = sql + " ORDER BY b.CHR_VENDORNAME  ";
+				sql = sql + "  ORDER BY b.CHR_VENDORNAME, a.CHR_PURCHASEORDERNO ";
 
 			}
 
@@ -5768,17 +5851,13 @@ public class InventoryMethod extends HttpServlet
 			if (readData.length > 0) {
 				for (int u = 0; u < readData.length; u++) {
 					sb.append("<Payment>");
-					sb.append("<Purchaseid>"
-							+ readData[u][0].replace("&", " AND ")
-							+ "</Purchaseid>");
-					sb.append("<Vendorname>"
-							+ readData[u][1].replace("&", " AND ")
-							+ "</Vendorname>");
-					sb.append("<Totalamount>" + readData[u][2]
-							+ "</Totalamount>");
+					sb.append("<Purchaseid>" + readData[u][0].replace("&", " AND ") + "</Purchaseid>");
+					sb.append("<Vendorname>" + readData[u][1].replace("&", " AND ") + "</Vendorname>");
+					sb.append("<Totalamount>" + readData[u][2] + "</Totalamount>");
 					sb.append("<Paidamount>" + readData[u][3] + "</Paidamount>");
 					sb.append("<Blanace>" + readData[u][4] + "</Blanace>");
 					sb.append("<Status>" + readData[u][5] + "</Status>");
+					sb.append("<VPO>" + readData[u][6] + "</VPO>");
 					sb.append("</Payment>");
 				}
 
@@ -5799,6 +5878,63 @@ public class InventoryMethod extends HttpServlet
 		}
 	}
 
+	
+	
+	public static void loadSearchVendorPO(HttpServletRequest request,	HttpServletResponse response) throws IOException, ServletException 
+	{
+		try 
+		{
+			String payment = request.getParameter("payment");
+			String search =""+request.getParameter("search");
+			String sql = "";
+			
+			//AND month(DAT_ORDERDATE)='"+month+"' and year(DAT_ORDERDATE)='"+year+"'
+			if ("Purchase".equals(payment)) 
+			{
+				sql="SELECT CHR_PURCHASEORDERNO,CHR_VENDORPO FROM   inv_t_vendorpurchaseorder  WHERE CHR_PAYMENTSTATUS <>'Y'";
+			} 
+			else if ("Direct".equals(payment)) 
+			{
+				sql="SELECT CHR_PURCHASEORDERNO,CHR_VENDORPO FROM  inv_t_directpurchase WHERE CHR_PAYMENTSTATUS <> 'Y' ";
+			}
+			if(!"".equals(search)&& !"null".equals(search) )
+     			sql = sql +" AND (  (CHR_PURCHASEORDERNO LIKE '"+search+"%')  OR (CHR_VENDORPO LIKE '%"+search+"%')     ) ";
+			sql = sql +"  ORDER BY CHR_PURCHASEORDERNO ";
+			
+			System.out.println("loadSearchVendorPO=====> "+sql);
+			String readData[][] =  CommonFunctions.QueryExecute(sql);
+     		StringBuffer sb = new StringBuffer(); 
+			if( readData.length > 0 )
+	 		{	
+	 			for(int u=0; u<readData.length;u++)
+	 			{	
+	 				sb.append("<Row>");
+                    sb.append("<Id>" + readData[u][0]+ "</Id>");
+                    sb.append("<Name>" + readData[u][1]+ "</Name>");  
+                    sb.append("</Row>");	                    
+	 			}
+	 			
+	 			response.setContentType("text/xml");
+	            response.setHeader("Cache-Control", "no-cache");
+		        response.getWriter().write("<Rowss>" + sb.toString() + "</Rowss>");
+			} 
+	 		else 
+	 			response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+			
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			request.setAttribute("error", e.getMessage());
+			RequestDispatcher dispatchers = request
+					.getRequestDispatcher("/error/index.jsp");
+			dispatchers.forward(request, response);
+		}
+	}
+
+	
+	
+	
+	
  
 	public static void loadReceivedId(HttpServletRequest request,HttpServletResponse response) throws IOException, ServletException 
 	{
@@ -7649,12 +7785,15 @@ public class InventoryMethod extends HttpServlet
 		{
 			String id = request.getParameter("id");
 			String sql = "";
-			sql = "  SELECT CONCAT(f.CHR_NAME,',',e.CHR_CITYNAME,',',d.CHR_DISTRICT,',',   ";
-			sql = sql + " c.CHR_STATENAME,',', CONCAT('PIN :',a.INT_PINCODE),',',   ";
-			sql = sql + " IF(LENGTH(a.CHR_MOBILE)>4 ,CONCAT('MOBILE :',a.CHR_MOBILE,','),''),";
-			sql = sql + " IF(LENGTH(a.CHR_PHONE)>4 ,CONCAT('Phone :',a.CHR_AREACODE,'-',a.CHR_PHONE,','),''),";
-			sql = sql + "  IF(LENGTH(a.CHR_EMAIL )>4 ,CONCAT('E-Mail : :',a.CHR_EMAIL),'') ), a.INT_STATEID    ";
-			sql = sql + " FROM  inv_m_customerinfo a, com_m_country b,com_m_state c,com_m_district d,   ";
+			
+			sql = "  SELECT CONCAT(f.CHR_NAME,'~', a.CHR_ADDRESS1, '~',a.CHR_ADDRESS2, '~', a.CHR_ADDRESS3, '~', e.CHR_CITYNAME,'~',d.CHR_DISTRICT,'~',   ";
+			sql = sql + " c.CHR_STATENAME,'~', CONCAT(a.INT_PINCODE),'~' )   ";
+			
+			//sql = sql + " IF(LENGTH(a.CHR_MOBILE)>4 ,CONCAT('MOBILE :',a.CHR_MOBILE,','),''),";
+			//sql = sql + " IF(LENGTH(a.CHR_PHONE)>4 ,CONCAT('Phone :',a.CHR_AREACODE,'-',a.CHR_PHONE,','),''),";
+			//sql = sql + "  IF(LENGTH(a.CHR_EMAIL )>4 ,CONCAT('E-Mail : :',a.CHR_EMAIL),'') )   ";
+			
+			sql = sql + " , a.INT_STATEID   FROM  inv_m_customerinfo a, com_m_country b,com_m_state c,com_m_district d,   ";
 			sql = sql + " com_m_city e  ,inv_m_customergroup f      ";
 			sql = sql + " WHERE a.INT_CUSTOMERGROUPID = f.INT_CUSTOMERGROUPID   ";
 			sql = sql + " AND a.INT_COUNTRYID = b.INT_COUNTRYID       ";

@@ -67,7 +67,7 @@ import com.my.org.erp.ServiceLogin.AbstractActionHandler;
 import com.my.org.erp.ServiceLogin.DateUtil;
 import com.my.org.erp.common.CommonFunctions;
 
-@WebServlet("/Conveyance")
+
 public class ConveyanceActionHandler extends AbstractActionHandler 
 {
 	public void handle(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
@@ -651,13 +651,14 @@ public class ConveyanceActionHandler extends AbstractActionHandler
 			{
 				String paiddate  = request.getParameter("paiddate");
 				String clearingdate  = request.getParameter("clearingdate");
+				String creditto  = request.getParameter("creditto");
 				String bank  = request.getParameter("bank");
 				String descriptions  = request.getParameter("descriptions");
 				sql="UPDATE conveyance_t_conveyance SET DAT_CLEARINGDATE =?,CHR_CLEARING_DESC =? , INT_BANKID=? WHERE DAT_ACCDATE=?  AND DAT_CLEARINGDATE IS NULL ";;
 				apstm = con.prepareStatement(sql);
 				apstm.setString(1, com.my.org.erp.ServiceLogin.DateUtil.FormateDateSQL(clearingdate));
 				apstm.setString(2, descriptions);
-				apstm.setString(3, bank);
+				apstm.setString(3, creditto);
 				apstm.setString(4, com.my.org.erp.ServiceLogin.DateUtil.FormateDateSQL(paiddate));
 				apstm.execute();
 				apstm.close(); 

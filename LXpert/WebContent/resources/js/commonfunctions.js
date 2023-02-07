@@ -130,3 +130,13 @@ function numeric_only(e, ctr, len)// firfox
 	} else
 		return false;
 }
+
+
+function confirmMessage(message) {
+	var userselection = confirm(message);
+	if (userselection == true) {
+		return true;
+	} else {
+		return false;
+	}
+}

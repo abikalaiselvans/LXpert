@@ -74,10 +74,11 @@ function ContributionMessages()
 	str=str+" <td class='boldEleven'><b>Customer</b></td> ";
 	str=str+" <td class='boldEleven'><b>Sale Date</b></td> ";
 	str=str+" <td class='boldEleven'><b>Staff ID/Staff Name</b></td> ";
-	str=str+" <td class='boldEleven'><b>SalePercentage(%) </b></td> ";
-	
 	str=str+" <td class='boldEleven'><b>Purchase Amount</b></td> ";
+	str=str+" <td class='boldEleven'><b>Actual Sales Amount</b></td> ";
 	str=str+" <td class='boldEleven'><b>Sales Amount</b></td> ";
+	
+	str=str+" <td class='boldEleven'><b>SalePercentage(%) </b></td> ";
 	str=str+" <td class='boldEleven'><b>Contribution Amount</b></td> ";
 	str=str+" <td class='boldEleven'><b>Contribution(%) </b></td> ";
 	str=str+" </tr> ";
@@ -93,6 +94,7 @@ function ContributionMessages()
         var Amount = batch.getElementsByTagName("CAmount")[0].childNodes[0].nodeValue ;
         var Customer = batch.getElementsByTagName("Customer")[0].childNodes[0].nodeValue ;
         var PAmount = batch.getElementsByTagName("PAmount")[0].childNodes[0].nodeValue ;
+        var ActualSAmount = batch.getElementsByTagName("ActualSAmount")[0].childNodes[0].nodeValue ;
         var SAmount = batch.getElementsByTagName("SAmount")[0].childNodes[0].nodeValue ;
         var Percentage = batch.getElementsByTagName("CPercentage")[0].childNodes[0].nodeValue ;
         var SalePercentage = batch.getElementsByTagName("SalePercentage")[0].childNodes[0].nodeValue ;
@@ -113,12 +115,11 @@ function ContributionMessages()
         str=str+"<td class='boldEleven'>"+Customer+"</td>";
         str=str+"<td class='boldEleven'>"+Date+"</td>";
         str=str+"<td class='boldEleven'>"+Empid+" / " +Empname+"</td>";
-        str=str+"<td class='boldEleven' align='right'>"+SalePercentage+"</td>";
-        
-        
         
 		str=str+"<td class='boldEleven' align='right'>"+PAmount+"</td>";
+		str=str+"<td class='boldEleven' align='right'>"+ActualSAmount+"</td>";
 		str=str+"<td class='boldEleven' align='right'>"+SAmount+"</td>";
+		str=str+"<td class='boldEleven' align='right'>"+SalePercentage+"</td>";
 		str=str+"<td class='boldEleven' align='right'>"+Amount+"</td>";
 		str=str+"<td class='boldEleven' align='right'>"+Percentage+"</td>";
 		

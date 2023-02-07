@@ -75,10 +75,10 @@ try
 				//sql = sql + " (SELECT FIND_A_CUSTOMER_NAME(d.INT_CUSTOMERID) FROM inv_m_customerinfo d WHERE d.INT_CUSTOMERID=c.INT_CUSTOMERID), ";
 				//sql = sql + " (SELECT e.CHR_DIVICODE FROM inv_m_division e WHERE e.INT_DIVIID=c.INT_DIVIID), ";
 				sql = sql + " date_format(a.DAT_SALESDATE,'%e-%M-%Y'), ";
-				sql = sql + " c.CHR_DES,c.DOU_AMOUNT,DOU_TOTALAMOUNT, ";
-				sql = sql + " (a.DOU_CONTRIBUTION-a.DOU_DEDUCTION) ,a.DOU_DEDUCTION,a.CHR_DEDUCTION_DESC ";
-				sql = sql + " FROM  inv_t_contribution a ,inv_t_directsales c ";
-				sql = sql + " WHERE a.CHR_SALESNO = c.CHR_SALESNO  AND c.CHR_CANCEL = 'N' ";
+				sql = sql + " c.CHR_DES, SUM(((d.INT_QUANTITY*d.DOU_UNITPRICE)) - (d.DOU_UNITDISCOUNT)) beforetax ,FUN_INV_DIRECT_SALE_TAX_AMOUNT( a.CHR_SALESNO, 'taxamount')   taxamount, ";
+				sql = sql + " c.DOU_TOTALAMOUNT netamount,  (a.DOU_CONTRIBUTION-a.DOU_DEDUCTION) ,a.DOU_DEDUCTION,a.CHR_DEDUCTION_DESC ";
+				sql = sql + " FROM  inv_t_contribution a ,inv_t_directsales c, inv_t_swapsalesitem d ";
+				sql = sql + " WHERE a.CHR_SALESNO = c.CHR_SALESNO AND c.CHR_SALESNO = d.CHR_SALESNO AND c.CHR_CANCEL = 'N' ";
 				if(!"0".equals(division))
 					sql = sql + " AND c.INT_DIVIID="+division;
 				if(!"0".equals(salesref))
@@ -100,7 +100,7 @@ try
 				String data[][] = CommonFunctions.QueryExecute(sql);
 				if(data.length>0)
 				{
-					double sum=0,sum1=0,sum2=0;
+					double sum=0,sum1=0,sum2=0,sum3=0,sum4=0;
 					for(int u=0;u<data.length;u++)
 					{
 						
@@ -117,9 +117,13 @@ try
 						child.addElement(data[u][9]);
 						child.addElement(data[u][10]);
 						child.addElement(data[u][11]);
+						child.addElement(data[u][12]);
+						
 						sum = sum+Double.parseDouble(data[u][7]);
 						sum1 = sum1+Double.parseDouble(data[u][8]);
 						sum2 = sum2+Double.parseDouble(data[u][9]);
+						sum3 = sum3+Double.parseDouble(data[u][10]);
+						sum4 = sum4+Double.parseDouble(data[u][11]);
 						mn.add(child);
 						
 					}
@@ -131,13 +135,13 @@ try
 						child.addElement("");
 						child.addElement("");
 						child.addElement("");
-						child.addElement("");
-						child.addElement("");
-						child.addElement("");
-						child.addElement("");
 						child.addElement(BigDecimal.valueOf(Math.round(sum)).toPlainString());
 						child.addElement(BigDecimal.valueOf(Math.round(sum1)).toPlainString());
 						child.addElement(BigDecimal.valueOf(Math.round(sum2)).toPlainString());
+						child.addElement(BigDecimal.valueOf(Math.round(sum3)).toPlainString());
+						child.addElement(BigDecimal.valueOf(Math.round(sum4)).toPlainString());
+						child.addElement("");
+						child.addElement("");
 						mn.add(child);
 				}
 			}
@@ -241,11 +245,12 @@ try
 					<display:column title="Division "  style="text-align:right" sortable="true"><%=temp.elementAt(4)%></display:column>
 					<display:column title="Sales Date "  style="text-align:right" sortable="true"><%=temp.elementAt(5)%></display:column>
 					<display:column title="Description"  style="text-align:right" sortable="true"><%=temp.elementAt(6)%></display:column>
-					<display:column title="Amount"  style="text-align:right" sortable="true"><%=temp.elementAt(7)%></display:column>
-					<display:column title="Amount + Tax "  style="text-align:right" sortable="true"><%=temp.elementAt(8)%></display:column>
-					<display:column title="Contribution "  style="text-align:right" sortable="true"><%=temp.elementAt(9)%></display:column>
-					<display:column title="Deduction "  style="text-align:right" sortable="true"><%=temp.elementAt(10)%></display:column>
-					<display:column title="description "  style="text-align:right" sortable="true"><%=temp.elementAt(11)%></display:column>
+					<display:column title="Before Tax Amount"  style="text-align:right" sortable="true"><%=temp.elementAt(7)%></display:column>
+					<display:column title="Tax Amount "  style="text-align:right" sortable="true"><%=temp.elementAt(8)%></display:column>
+					<display:column title="Net Amount "  style="text-align:right" sortable="true"><%=temp.elementAt(9)%></display:column>
+					<display:column title="Contribution "  style="text-align:right" sortable="true"><%=temp.elementAt(10)%></display:column>
+					<display:column title="Deduction "  style="text-align:right" sortable="true"><%=temp.elementAt(11)%></display:column>
+					<display:column title="description "  style="text-align:right" sortable="true"><%=temp.elementAt(12)%></display:column>
 
 					<display:setProperty name="export.excel.filename" value="Rep_Contribution.xls"/>
 					<display:setProperty name="export.pdf.filename" value="Rep_Contribution.pdf"/>

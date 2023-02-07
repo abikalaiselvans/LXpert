@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
+
 import com.my.org.erp.ServiceLogin.DateUtil;
 import com.my.org.erp.common.CommonFunctions;
 import com.my.org.erp.file.FileFunctions;
@@ -21,18 +22,34 @@ public class ConveyanceMethod extends HttpServlet
     	 {    		 	
     		 	String date=request.getParameter("claimdate");
     		 	String empid = request.getParameter("empid");
-    		 	String sql = "SELECT count(*) FROM conveyance_t_conveyance WHERE CHR_EMPID='"+empid+"' AND DAT_CONDATE='"+DateUtil.FormateDateSQL(date)+"'";
+    		 	String sql = "SELECT count(*),  ROUND(FUN_GET_CONVEYANCE_LIMIT_CHECK('"+empid+"', '"+DateUtil.FormateDateSQL(date)+"'),0) , MONTHNAME('"+DateUtil.FormateDateSQL(date)+"'), YEAR('"+DateUtil.FormateDateSQL(date)+"')  FROM conveyance_t_conveyance WHERE CHR_EMPID='"+empid+"' AND DAT_CONDATE='"+DateUtil.FormateDateSQL(date)+"'";
+    		 	System.out.println(sql);
+    		 	String readData[][]=  CommonFunctions.QueryExecute(sql);
+    		 	String conveyanceentryamount= readData[0][1];
     		 	StringBuffer sb = new StringBuffer();
     		 	sb.append("<Id>");
     		 	if(com.my.org.erp.common.CommonFunction.RecordExist(sql))
     		 		sb.append("<Flag>TRUE</Flag>");
     		 	else
     		 		sb.append("<Flag>FALSE</Flag>");
-    	     	sb.append("</Id>");
+    		 	sb.append("<CMonth>"+readData[0][2]+"</CMonth>");
+    		 	sb.append("<CYear>"+readData[0][3]+"</CYear>");
+    		 	sb.append("<ConveyanceEntryAmount>"+conveyanceentryamount+"</ConveyanceEntryAmount>");
+    		 	String conveyancelimit = CommonFunctions.QueryExecute("SELECT INT_CONVEYANCE_LIMIT  FROM com_m_staff WHERE CHR_EMPID='"+empid+"'")[0][0]; 
+    		 	sb.append("<ConveyanceLimitAmount>"+conveyancelimit+"</ConveyanceLimitAmount>");
+    		 	int ceamount =Integer.parseInt(conveyanceentryamount);
+    		 	int clamount=Integer.parseInt(conveyancelimit);
+    		 	System.out.println(ceamount);	
+    		 	System.out.println(clamount);	
+    		 	if(ceamount>clamount)
+    		 		sb.append("<LimitFlag>TRUE</LimitFlag>");
+    		 	else
+    		 		sb.append("<LimitFlag>FALSE</LimitFlag>");
+    		 	sb.append("</Id>");
     	     	response.setContentType("text/xml");
     	     	response.setHeader("Cache-Control", "no-cache");
     	     	response.getWriter().write("<Ids>" + sb.toString() + "</Ids>");
-    	     		
+    	     	System.out.println(sb);	
     	     	
     	 	} 
     	 	catch (Exception e) 
@@ -213,8 +230,6 @@ public class ConveyanceMethod extends HttpServlet
 	   		 
 	   		String month=request.getParameter("month");
 	   		String year=request.getParameter("year");
-	   		
-	   		
 	   		
     	 	String OfficeData[][] = CommonFunctions.QueryExecute(" SELECT b.INT_OFFICEID,b.CHR_OFFICENAME FROM  com_m_office  b " +
 		 			"WHERE b.INT_OFFICEID IN("+CommonFunctions.QueryExecute("SELECT a.CHR_OFFICELIST FROM m_user a " +

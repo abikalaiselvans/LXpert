@@ -1,4 +1,4 @@
-<%@ include file="../JavaScript/dynamicStylesheet.jsp" %><table width="100%" border="0" cellspacing="0" cellpadding="0"  id="header"  class="headerImgBackground" > 
+<%@ include file="../../JavaScript/dynamicStylesheet.jsp" %><table width="100%" border="0" cellspacing="0" cellpadding="0"  id="header"  class="headerImgBackground" > 
   <tr  class="headerImgBackground" >
     <td  class="headerImgBackground"  align="right"> <img src="../images/top_banner.png"  height="62" /> </td>
   </tr>

@@ -184,7 +184,8 @@ $('#acceptdate').datetimepicker({
                                  
 <%
 boolean aflag = false;
-if(CommonFunctions.RecordExist(con,"SELECT COUNT(*) FROM inv_t_asset WHERE CHR_EMPID ='"+Data[0][4]+"'  AND CHR_STATUS='N'"))
+//CommonFunctions.RecordExist(con,"SELECT COUNT(*) FROM inv_t_asset WHERE CHR_EMPID ='"+Data[0][4]+"'  AND CHR_STATUS='N'")
+if(aflag)
 {
 	out.println("Please close the Employee "+Data[0][0]+"  Asset");
 	aflag = true;

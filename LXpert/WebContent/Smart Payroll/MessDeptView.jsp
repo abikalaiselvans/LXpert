@@ -133,7 +133,7 @@ a:active {
         	
         }
         st.close();
-        rs.close();
+       // rs.close();
          
         %>
 		</table>

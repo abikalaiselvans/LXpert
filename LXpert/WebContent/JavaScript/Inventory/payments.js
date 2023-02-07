@@ -146,12 +146,17 @@ function SalesMessages()
 		
 		strStat="";
 		stat=Status ;
-		if(stat=="N")
-			 strStat="<font class='boldred'>Pending</font>"
-		 else if(stat=="P")
-			 strStat="<font class='boldgreen'>Partially Paid</font>"
-		 else if(stat=="Y")
-			 strStat="<font class='boldgreen'>Completed</font>"
+		if( parseFloat(Balance ) <1){
+			strStat="<font color='blue'>Completed</font>";
+		}
+		else {
+			if(stat=="N")
+				 strStat="<font class='boldred'>Pending</font>"
+			 else if(stat=="P")
+				 strStat="<font class='boldgreen'>Partially Paid</font>"
+			// else if(stat=="Y")
+			//	 strStat="<font class='boldgreen'>Completed</font>"
+		}
 		
 		str = str +"<td width='150' class='boldEleven' align='right'>"+strStat+"</td>";
 		window.status=(loop+1);
@@ -161,7 +166,7 @@ function SalesMessages()
      str=str+"<tr height='25' class='MRow1'><td  colspan='3' align=right class='boldEleven'><b><font Color='red'>Total Amount</font></b></td>";
      str=str+"<td align=right class='boldEleven'><b><font Color='red'>"+  sumtotal.toFixed(2)+"</font></b></td>";
      str=str+"<td align=right class='boldEleven'><b><font Color='red'>"+  paidamount.toFixed(2)+"</font></b></td>  ";
-     str=str+"<td align=right class='boldEleven'><b><font Color='red'>"+  (sumtotal.toFixed(2)-paidamount.toFixed(2))+"</font></b></td><td>&nbsp;</td>"; 
+     str=str+"<td align=right class='boldEleven'><b><font Color='red'>"+  (sumtotal.toFixed(2)-paidamount.toFixed(2))+"</font></b></td><td>&nbsp;</td><td>&nbsp;</td>"; 
     
      str=str+"</table>";
      

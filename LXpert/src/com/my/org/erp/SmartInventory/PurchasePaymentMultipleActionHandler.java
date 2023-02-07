@@ -38,6 +38,7 @@ public class PurchasePaymentMultipleActionHandler extends AbstractActionHandler
 				double poamount=0;
 				double pobalance=0;
 				String totalrecords = request.getParameter("totalrecords");
+				String transactiontype= request.getParameter("transactiontype");
 				int count  = Integer.parseInt(totalrecords);
 				System.out.println(count);
 				if(count >0)
@@ -59,13 +60,13 @@ public class PurchasePaymentMultipleActionHandler extends AbstractActionHandler
 							asql = asql +" INT_PAYMENTTERMID,	INT_BANKID,CHR_DDNUMBER,DAT_DDDATE,DAT_PAYMENTDATE,";
 							asql = asql +" CHR_PAYMENTDESC,DOU_PURCHASEAMOUNT,";
 							asql = asql +" DOU_PAIDAMOUNT,DOU_BALANCEAMOUNT,";
-							asql = asql +" CHR_USRNAME,DT_UPDATEDATE,	CHR_UPDATESTATUS )";
+							asql = asql +" CHR_USRNAME,DT_UPDATEDATE,	CHR_UPDATESTATUS ,INT_TRANSACTIONTYPE)";
 							asql = asql +" VALUES (";
 							asql = asql +" ?,?,?,";
 							asql = asql +" ?,?,?,?,?,";
 							asql = asql +" ?,?,";
 							asql = asql +" ?,?,";
-							asql = asql +" ?,DATE(NOW()),'Y' )";
+							asql = asql +" ?,DATE(NOW()),'Y',? )";
 							apstm = con.prepareStatement(asql);
 							apstm.setString(1,branchId );
 							apstm.setString(2,ponumber );
@@ -80,6 +81,7 @@ public class PurchasePaymentMultipleActionHandler extends AbstractActionHandler
 							apstm.setString(11,Paid);
 							apstm.setString(12,""+bal );
 							apstm.setString(13,auserid);
+							apstm.setString(14,transactiontype);
 							System.out.println(""+apstm);
 							apstm.execute();
 							apstm.close();

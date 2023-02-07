@@ -39,10 +39,10 @@ try
 {
 	
 	 
-	String company request.getParameter("company");
+	String company = request.getParameter("company");
 	String branch=request.getParameter("branch");
 	String Office=request.getParameter("Office");
-	String Category request.getParameter("Category");
+	String Category = request.getParameter("Category");
 	String dept=request.getParameter("dept");
 	String month=request.getParameter("month");
 	
@@ -51,7 +51,7 @@ try
 	 String sql="";
  
 		  
-	Sql = " SELECT CHR_EMPID,CHR_STAFFNAME,DT_DOJCOLLEGE ,((datediff(now(),DT_DOJCOLLEGE))/365) ";
+	sql = " SELECT CHR_EMPID,CHR_STAFFNAME,DT_DOJCOLLEGE ,((datediff(now(),DT_DOJCOLLEGE))/365) ";
 	sql = sql +" FROM com_m_staff WHERE CHR_TYPE!='T' AND CHR_HOLD !='Y'  ";
 	if("-1".equals(company))
 		sql = sql +" AND INT_COMPANYID ="+company;

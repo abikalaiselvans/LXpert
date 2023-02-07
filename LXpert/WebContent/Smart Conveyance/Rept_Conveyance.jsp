@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=iso-8859-1" language="java"import="java.sql.*" errorPage="../error/index.jsp"%>
+<%@ page contentType="text/html; charset=iso-8859-1" language="java" import="java.sql.*" errorPage="../error/index.jsp"%>
 <%@ page import="com.my.org.erp.SmartInventory.Model"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>

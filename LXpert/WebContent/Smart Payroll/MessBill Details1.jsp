@@ -10,8 +10,8 @@
 	onSubmit="return validate()">
 <body  onpaste="return false;" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 <%@ include file="index.jsp"%>
-<% if(con.open())   %>
-<%@ include file="Connection.jsp"%>
+<%-- <% if(con.open())   %>
+<%@ include file="Connection.jsp"%> --%>
 <table width="1002" border=0>
 	<tr>
 		<td width="304" height="167"></td>
@@ -26,7 +26,7 @@
 				<td width="25" colspan="2" valign="middle"><select name="dept">
 					<option value="select">Select</option>
 					<%			    
-				 String str="select CHR_DEPARTNAME from m_depart";
+				  str="select CHR_DEPARTNAME from m_depart";
 				 rs=st.executeQuery(str);
 				 while(rs.next())
 				 {

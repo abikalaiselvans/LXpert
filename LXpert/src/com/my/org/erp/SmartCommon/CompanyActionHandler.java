@@ -2,13 +2,17 @@ package com.my.org.erp.SmartCommon;
 import java.io.IOException;
  
 import java.util.Map;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
  
+
 import org.apache.commons.beanutils.BeanUtils;
+
 import com.my.org.erp.ServiceLogin.AbstractActionHandler;
+import com.my.org.erp.common.CommonFunctions;
 public class CompanyActionHandler extends AbstractActionHandler
 {
 	private void companyDelete(HttpServletRequest request,HttpServletResponse response)throws ServletException, IOException
@@ -89,6 +93,22 @@ public class CompanyActionHandler extends AbstractActionHandler
 			apstm.setString(24,auserid);
 			System.out.println(""+apstm);
 			apstm.execute();
+			
+			String companyid = CommonFunctions.QueryExecute("SELECT MAX(INT_COMPANYID) from com_m_company")[0][0];
+			System.out.println("companyid------>"+companyid);
+			String querytable ="CREATE TABLE com_m_staffid_"+companyid+" ( INT_ID int(6) unsigned zerofill NOT NULL DEFAULT '"+companyid+"00000' COMMENT 'UNIQUE',";
+			querytable = querytable +" PRIMARY KEY (INT_ID) )";
+			apstm = con.prepareStatement(querytable);	  
+			System.out.println(""+querytable);
+			apstm.execute();
+			
+			asql = "INSERT INTO com_m_staffid_"+companyid+" ";
+			asql = asql +" ( INT_ID ) VALUES (?)";
+			apstm = con.prepareStatement(asql);
+			apstm.setString(1,companyid+"00000");
+			System.out.println(""+apstm);
+			apstm.execute();
+			
 			con.close();    
 		   
 		}

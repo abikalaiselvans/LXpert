@@ -63,8 +63,10 @@
 		pstm.setString(2,staffname);
 		pstm.execute();
 		}
-		catch(Exception e){//System.out.println(e);}
+		catch(Exception e){
+System.out.println(e);}
 	}
+		
 	
 	public void releaseJDBCResource() 
 	{

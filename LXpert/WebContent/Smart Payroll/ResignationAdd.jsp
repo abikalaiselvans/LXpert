@@ -68,7 +68,7 @@ body {
 		  <input
 								type="hidden" name="actionS" value="PAYResignationAcceptanceEdit">
           <input name="filename" type="hidden" id="filename" value="Resignation">
-          <input name="id" type="hidden" id="id" value="<%= id%>">
+          <input name="id" type="hidden" id="id" value="<%//= id%>">
 		  </span>
 		  <table width="429" border="0" align="center" cellpadding="0"
 			cellspacing="0" bgcolor="#dce4f9" class="BackGround">

@@ -73,7 +73,7 @@ function valid()
 
 								<
 								<input type="text" name="ModelCode" id="ModelCode" size="40"
-									value="<%=modelCode %>" onchange="upperMe(this)"
+									value="" onchange="upperMe(this)"
 									onblur="TxtTrim(this), UniqueId('inv_m_model','CHR_MODELCODE','ModelCode')"
 									onkeypress="alphaNumeric('ModelCode','25')"
 									onkeyup="UniqueId('inv_m_model','CHR_MODELCODE','ModelCode')" />

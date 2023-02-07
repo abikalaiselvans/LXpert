@@ -1,6 +1,5 @@
 <%@ page import="com.my.org.erp.common.CommonFunctions"%>
 <%@ page import="java.io.*,java.util.*"%>
-<%@ page import="sun.net.smtp.SmtpClient"%>
 
 <html>
 <head>

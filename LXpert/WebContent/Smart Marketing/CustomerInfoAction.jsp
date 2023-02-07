@@ -180,7 +180,7 @@ background-color: #ffffff;
 </style>
 
 </head>
-<body onselectstart="return false" onpaste="return false;" onCopy="return false"  >
+<body  > <!--onselectstart="return false" onpaste="return false;" onCopy="return false" -->
 <%@ include file="index.jsp"%>
 
 <form  AUTOCOMPLETE = "off"   action="../SmartLoginAuth" method="post" name="frm" id="frm" onSubmit="return Validate()" auotocomplete='true'>

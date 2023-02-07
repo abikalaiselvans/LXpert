@@ -1,5 +1,4 @@
 <%@ page import="java.io.*,java.util.*"%>
-<%@ page import="sun.net.smtp.SmtpClient"%>
 <%@ page import="com.my.org.erp.common.CommonFunctions"%>
 <%@ page import="org.apache.commons.lang.ArrayUtils"%> <html>
 <%

@@ -218,7 +218,7 @@ function ChequeBounds(purId,payData,amount)
 					  String bank="";
 					  String purId="";
 					  
-					  String boundsid = CommonFunctions.QueryExecute("SELECT INT_PAYMENTTERMID  FROM inv_m_paymentterms WHERE CHR_PAYMENTNAME ='CHEQUE'")[0][0];
+					  String boundsid = CommonFunctions.QueryExecute("SELECT INT_PAYMENTTERMID  FROM inv_m_paymentterms WHERE CHR_PAYMENTNAME like '%CHEQUE%'")[0][0];
 					  
 					  for(int u=0; u<payData.length; u++)
 					  {

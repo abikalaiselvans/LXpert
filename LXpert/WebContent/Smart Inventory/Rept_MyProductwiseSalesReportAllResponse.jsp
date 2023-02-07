@@ -163,9 +163,9 @@
 					<display:column title="QUANTITY" sortable="true"><%=temp.elementAt(8)%></display:column>
 					<display:column title="SALE DATE" sortable="true"><%=temp.elementAt(9)%></display:column>
 					<display:column title="UNIT PRICE" style="text-align:right" sortable="true"><%=temp.elementAt(10)%></display:column>
-					<display:column title="AMOUNT"  style="text-align:right"sortable="true"><%=temp.elementAt(11)%></display:column>
-					<display:column title="TOTAL"  style="text-align:right"sortable="true"><%=temp.elementAt(12)%></display:column>
-					<display:column title="TAX"  style="text-align:right"sortable="true"><%=temp.elementAt(13)%></display:column>
+					<display:column title="AMOUNT"  style="text-align:right" sortable="true"><%=temp.elementAt(11)%></display:column>
+					<display:column title="TOTAL"  style="text-align:right" sortable="true"><%=temp.elementAt(12)%></display:column>
+					<display:column title="TAX"  style="text-align:right" sortable="true"><%=temp.elementAt(13)%></display:column>
 					<display:column title="NET TOTAL" style="text-align:right" sortable="true"><%=temp.elementAt(14)%></display:column>
 					<display:column title="M.E NAME" sortable="true"><%=temp.elementAt(15)%></display:column>
 					  

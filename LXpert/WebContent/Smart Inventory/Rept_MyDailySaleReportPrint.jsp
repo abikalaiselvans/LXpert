@@ -47,7 +47,11 @@
 		String custid=request.getParameter("customer");
 		String type=request.getParameter("type");
 		String Branch=request.getParameter("Branch");
-		 
+		 String empid [] = CommonFunctions.getReportingEmployeeIds(""+session.getAttribute("EMPID"));
+			String empids ="'"+session.getAttribute("EMPID")+"', ";
+			if(empid.length>0)
+				for(int i=0;i<empid.length;i++)
+					empids = empids +" '"+empid[i]+"' , ";
 			
 		String refid="";
 		String div ="";
@@ -80,8 +84,10 @@
 				sql = sql + " AND a.INT_DIVIID="+division ;
 			if(!"0".equals(custid))
 				sql = sql + "  AND a.INT_CUSTOMERID="+custid ;
-			//if(!"0".equals(ref))
-			//	sql = sql + "  AND a.CHR_REF ='"+ref+"' ";
+			if(!"F".equals(""+session.getAttribute("USRTYPE")) )
+				sql = sql + "  AND a.CHR_REF IN("+empids+"'0') ";
+				
+			 
 			if(!"0".equals(Branch))
 				sql = sql + "  AND a.INT_BRANCHID="+Branch ;
 			sql = sql + "  AND a.INT_SALESSTATUS=1 AND a.INT_CUSTOMERID = b.INT_CUSTOMERID  ";
@@ -168,6 +174,8 @@
 				sql = sql + " AND a.INT_DIVIID="+division ;
 			if(!"0".equals(custid))
 				sql = sql + "  AND a.INT_CUSTOMERID="+custid ;
+			if(!"F".equals(""+session.getAttribute("USRTYPE")) )
+				sql = sql + "  AND a.CHR_REF IN("+empids+"'0') ";
 			//if(!"0".equals(ref))
 			//	sql = sql + "  AND a.CHR_REF ='"+ref+"' ";
 			if(!"0".equals(Branch))
@@ -255,8 +263,10 @@
 				sql = sql + " AND a.INT_DIVIID="+division ;
 			if(!"0".equals(custid))
 				sql = sql + "  AND a.INT_CUSTOMERID="+custid ;
-			if(!"0".equals(ref))
-				sql = sql + "  AND a.CHR_REF ='"+ref+"' ";
+			if(!"F".equals(""+session.getAttribute("USRTYPE")) )
+				sql = sql + "  AND a.CHR_REF IN("+empids+"'0') ";
+			/*if(!"0".equals(ref))
+				sql = sql + "  AND a.CHR_REF ='"+ref+"' ";*/
 			if(!"0".equals(Branch))
 				sql = sql + "  AND a.INT_BRANCHID="+Branch ;
 			sql = sql + "  AND a.INT_CUSTOMERID = b.INT_CUSTOMERID  ";

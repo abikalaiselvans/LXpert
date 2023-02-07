@@ -42,6 +42,7 @@ public class BranchActionHandler extends AbstractActionHandler
 			session.setAttribute("companyList",companylist);
 		}
 		catch(Exception e){
+			
 			 request.setAttribute("error", e.getMessage() );
             RequestDispatcher dispatchers = request.getRequestDispatcher("/error/index.jsp");
     		dispatchers.forward(request, response); 

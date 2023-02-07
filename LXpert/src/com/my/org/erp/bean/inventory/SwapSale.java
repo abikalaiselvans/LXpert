@@ -9,6 +9,9 @@ public  final class SwapSale
 	String division;
 	String noofpaymentcommitment;
 	String byback="N",bybackdescription;
+	String tcs="N";
+	double tcsamount=0;
+	double tcspercentage=0;
 	String installation;
 	String blockinvoice="N";
 	String gststateid;
@@ -23,6 +26,8 @@ public  final class SwapSale
 	double frieghtcharge;
 	String discountbill="N";
 	int shippingCustomerId;
+	String manualsalesinvoicenumber;
+	String roundoffcheck="N";
 	
 	public double getFrieghtcharge() {
 		return frieghtcharge;
@@ -411,6 +416,47 @@ public  final class SwapSale
 		this.roundedoption = roundedoption;
 	}
 
+	public String getManualsalesinvoicenumber() {
+		return manualsalesinvoicenumber;
+	}
+
+	public void setManualsalesinvoicenumber(String manualsalesinvoicenumber) {
+		this.manualsalesinvoicenumber = manualsalesinvoicenumber;
+	}
+
+	public String getTcs() {
+		return tcs;
+	}
+
+	public void setTcs(String tcs) {
+		this.tcs = tcs;
+	}
+
+	public double getTcsamount() {
+		return tcsamount;
+	}
+
+	public void setTcsamount(double tcsamount) {
+		this.tcsamount = tcsamount;
+	}
+
+	public double getTcspercentage() {
+		return tcspercentage;
+	}
+
+	public void setTcspercentage(double tcspercentage) {
+		this.tcspercentage = tcspercentage;
+	}
+
+	public String getRoundoffcheck() {
+		return roundoffcheck;
+	}
+
+	public void setRoundoffcheck(String roundoffcheck) {
+		this.roundoffcheck = roundoffcheck;
+	}
+
+	 
 	
 
 }

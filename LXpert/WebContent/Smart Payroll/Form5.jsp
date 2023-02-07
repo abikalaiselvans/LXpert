@@ -152,9 +152,7 @@ try
 <table border="0" align="center" cellpadding="0" cellspacing="3">
 								<tr>
 									 
-									<td width="56"><input class="buttonbold14" type="Button"
-										name="Submit"  value="Close"   accesskey="c" 
-										onClick="redirect('PF-FORM5.jsp')"></td>
+									<td width="56"><input class="buttonbold14" type="button" name="Submit"  value="Close"   accesskey="c"  onClick="redirect('PF-FORM5.jsp')"></td>
 								</tr>
 </table>
 							

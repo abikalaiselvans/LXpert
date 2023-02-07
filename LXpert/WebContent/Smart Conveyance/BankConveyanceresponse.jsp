@@ -58,22 +58,23 @@ try
 	sql = sql +"  if(FIND_A_BANKGROUP_NAME(b.CHR_BANK) ='STANDARD CHARTERED BANK','SCBLINBBXXX','IFC-CODE'  ),   ";
 	sql = sql +"  b.CHR_EMAILID,b.CHR_STAFFNAME,  ";
 	sql = sql +"  concat('Conveyance for the month of ',UPPER(MONTHNAME('"+paiddate+"')) ,' ',YEAR('"+paiddate+"'))   ";
-	sql = sql +"  FROM conveyance_t_conveyance a, com_m_staff b , com_m_office d ,com_m_depart e, com_m_employeecategory f   ";
+	sql = sql +"  FROM conveyance_t_conveyance a, com_m_staff b , com_m_office d ,com_m_depart e, com_m_employeecategory f , com_m_deposit_to g  ";
 	sql = sql +"  WHERE a.CHR_EMPID=b.CHR_EMPID    ";
 	sql = sql +"  AND a.CHR_STATUS='Y' AND a.CHR_ACCSTATUS='Y' AND b.INT_OFFICEID =d.INT_OFFICEID   ";
 	sql = sql +"  AND b.INT_DEPARTID= e.INT_DEPARTID AND b.CHR_CATEGORY = f.INT_EMPLOYEECATEGORYID   ";
+	sql = sql +"  AND  a.INT_BANKID = g.INT_DEPOSITID "; //  CHR_DEPOSITNAME
 	sql = sql + "  AND a.DAT_ACCDATE='"+paiddate+"' ";
 	sql = sql + "  AND b.INT_COMPANYID= "+companyid;		
 	if(!"0".equals(officeid))
 		sql = sql + " AND b.INT_OFFICEID = " +officeid;
 	if(!"0".equals(branch))
-		sql = sql + "  AND b.INT_BRANCHID = " +branch;
+		sql = sql + "  AND b.INT_BRANCHID = " +branch;Rept_Tally_conveyance.jsp
 	if(!"0".equals(dept))
 		sql = sql + "  AND b.INT_DEPARTID = " +dept;
 	if(!"0".equals(Category))
 		sql = sql + "  AND b.CHR_CATEGORY = " +Category;
 	sql = sql + "  GROUP BY a.CHR_EMPID	 ORDER BY FIND_A_BANKGROUP_NAME(b.CHR_BANK),b.CHR_STAFFNAME";
-	//out.println(sql); 
+	out.println(sql); 
 		
 		
  

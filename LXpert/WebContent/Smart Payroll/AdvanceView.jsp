@@ -10,11 +10,12 @@
 	int year;
 %>
 <%
-    Advance=request.getParameter("Advance");
-    OptDepartment=request.getParameter("OptDepartment"); 
-    OptDesignation=request.getParameter("OptDesignation");
-    month=request.getParameter("month");
-    year=Integer.parseInt(request.getParameter("year"));
+String  Advance=request.getParameter("Advance");
+String OptDepartment=request.getParameter("OptDepartment"); 
+String OptDesignation=request.getParameter("OptDesignation");
+String month=request.getParameter("month");
+int year=Integer.parseInt(request.getParameter("year"));
+String sql="";
  %>
 <html>
 <body  onpaste='return false;'>
@@ -86,7 +87,7 @@
 		<td align="center" valign="top""><span class="style54 style52">
 		<% out.println(rs.getString("CHR_MartialSTATUS")); %> </span></td>
 		<% 
-		try{
+		 
 		StringTokenizer dts=new StringTokenizer(rs.getString("DT_WEDDATE"));
 		StringTokenizer dt=new StringTokenizer(dts.nextToken(),"-");
 		String y=dt.nextToken();
@@ -96,33 +97,31 @@
 		<td align="center" valign="middle"><span class="style54 style52">
 		<% out.println(d+"-"+m+"-"+y); %> </span></td>
 		<%
-		}
-		catch(Exception e)
-		{
-		}
+		
 	%>
 		<% 
-		try{
-		StringTokenizer dts=new StringTokenizer(rs.getString("DT_DOB"));
-		StringTokenizer dt=new StringTokenizer(dts.nextToken(),"-");
-		String y=dt.nextToken();
-		String m=dt.nextToken();
-		String d=dt.nextToken();
+		 
+		  dts=new StringTokenizer(rs.getString("DT_DOB"));
+		  dt=new StringTokenizer(dts.nextToken(),"-");
+		  y=dt.nextToken();
+		  m=dt.nextToken();
+		  d=dt.nextToken();
 	 %>
 		<td align="center" valign="middle"><span class="style54 style52">
 		<% out.println(d+"-"+m+"-"+y); %> </span></td>
 		<%
-		}
-		catch(Exception e)
-		{
-		}
+		 
 	%>
 		<td align="center" valign="middle"><span class="style54 style52">
 		<% out.println(rs.getString("CHR_BG")); %> </span></td>
 	</tr>
 	<%
-		}
+		 
 		rs.close();
+        }
+	catch(Exception e)
+	{
+	}
 	     %>
 </table>
 </td>

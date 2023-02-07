@@ -101,9 +101,9 @@ body {
 					        		ArrayList categoryList=(ArrayList) session.getAttribute("categoryList");
 					        		for(int i=0;i<categoryList.size();i++)
 					        		{
-					        	com.my.org.erp.SmartInventory.Category cat=(com.my.org.erp.SmartInventory.Category)categoryList.get(i);
-					        	out.println("<option value='"+cat.getCategoryId()+"'>");			
-					        	out.println(cat.getCategoryName()+"</option>");	        	
+					        	//com.my.org.erp.SmartInventory.Category cat=(com.my.org.erp.SmartInventory.Category)categoryList.get(i);
+					        	//out.println("<option value='"+cat.getCategoryId()+"'>");			
+					        	//out.println(cat.getCategoryName()+"</option>");	        	
 					        		}
 					        		session.removeAttribute("categoryList");
 					%>

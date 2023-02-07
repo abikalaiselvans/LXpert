@@ -1,4 +1,4 @@
- <%@ page import="java.sql.*,java.io.*,java.util.*,com.my.org.erp.ServiceLogin.*"%>
+<%@ page import="java.sql.*,java.io.*,java.util.*,com.my.org.erp.ServiceLogin.*"%>
 <%@ page import="com.my.org.erp.common.CommonFunctions"%>
 <%@ taglib uri="/WEB-INF/displaytag.tld" prefix="display" %>
 <%@ page import="java.util.*"%>
@@ -60,6 +60,7 @@ try
 				sql = sql + " AND a.DAT_SALESDATE >= '" +DateUtil.FormateDateSQL(fromdate)+"' ";
 				sql = sql + " AND a.DAT_SALESDATE <= '" +DateUtil.FormateDateSQL(todate)+"' ";	
 				sql = sql + " ORDER BY a.INT_SALESID   "; 
+				System.out.println(sql);
 				String mdata[][] = CommonFunctions.QueryExecute(sql);
 				if(mdata.length>0)
 				{
@@ -156,11 +157,11 @@ try
 						sql = sql + "  AND a.CHR_SALESNO = '"+mdata[j][0] +"' ";
 						sql = sql + "    ORDER BY a.CHR_SALESNO    ";
 						sql = sql + "   ) ";
-						   
+						System.out.println(sql);
 						String data[][] = CommonFunctions.QueryExecute(sql);
 						if(data.length>0)
 						{
-							
+							System.out.println(data.length);
 							for(int u=0;u<data.length;u++)
 							{
 								row = row+1;
@@ -168,7 +169,9 @@ try
 								child.addElement(row);
 								child.addElement(data[u][0]);
 								child.addElement(data[u][1]);
-								child.addElement("SALES-"+data[u][0].split("/")[2]);
+								
+								//child.addElement("SALES-"+data[u][0].split("/")[2]); MSL0297/22-23
+								child.addElement("SALES-"+data[u][0]);
 								child.addElement(data[u][2]);
 								child.addElement(data[u][3]);
 								child.addElement(data[u][4]);
@@ -187,7 +190,8 @@ try
 				}	
 				
 		}
-		
+		System.out.println(mn);
+
 		
 		//Service Billing
 		if(("3".equals(type)) )
@@ -318,7 +322,8 @@ try
 								child.addElement(row);
 								child.addElement(data[u][0]);
 								child.addElement(data[u][1]);
-								child.addElement("SERVICE-"+data[u][0].split("/")[2]);
+								//child.addElement("SERVICE-"+data[u][0].split("/")[2]);
+								child.addElement("SERVICE-"+data[u][0]);
 								child.addElement(data[u][2]);
 								child.addElement(data[u][3]);
 								child.addElement(data[u][4]);
@@ -339,6 +344,7 @@ try
 		}
 		
 		request.setAttribute("table",mn);
+		System.out.println(mn);
 %>
 
 <display:table   id="_table" name="table"   export="true" pagesize="25">
@@ -372,6 +378,8 @@ try
 }
 catch(Exception e)
 {
+	out.println("Error :"+e.getMessage());
+	System.out.println("Error :"+e.getMessage());
 }
 %>		 
 </body>

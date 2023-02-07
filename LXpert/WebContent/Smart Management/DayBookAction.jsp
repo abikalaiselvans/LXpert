@@ -65,6 +65,7 @@ function Validate()
 	if(  checkNullSelect( "category","Select category ", "" ) 
 		 && checkNull( "fromdate","Enter The Date" )
 		 && checkNull( "amount","Enter The amount" ) 
+		 && checkNullSelect( "paymentmode","Payment Mode", "" ) 
 	     &&  checkNull( "desc","Enter The description" )
 		  )
 		return true;
@@ -127,14 +128,14 @@ function Validate()
 							String fromdate="";
 							String amount ="";
 							String type="";
-							String s1 = "",s2=""; 
+							String s1 = "",s2="",paymentmode=""; 
 							if("Add".equals(action))
 							{
 								id="";name=""; desc="";
 								actionS="MGTDayBookActionAdd";
 								value="Add";type="";
 								s1  = " checked = 'checked' ";
-								category ="0"; 
+								category ="0"; paymentmode="";
 							}
 							 
 							else
@@ -143,7 +144,7 @@ function Validate()
 								s1 = "";
 								s2=""; 
 								id=request.getParameter("rowid");
-								sql = "SELECT INT_ROWID,INT_CATEGORYID,DATE_FORMAT(DT_DATE,'%d-%m-%Y'),CHR_TYPE, IF(CHR_TYPE='C',INT_CREDITAMOUNT,INT_DEBITAMOUNT ), CHR_DESC  FROM mgt_t_daybook WHERE INT_ROWID = "+id;
+								sql = "SELECT INT_ROWID,INT_CATEGORYID,DATE_FORMAT(DT_DATE,'%d-%m-%Y'),CHR_TYPE, IF(CHR_TYPE='C',INT_CREDITAMOUNT,INT_DEBITAMOUNT ), CHR_DESC,INT_PAYMENTMODE  FROM mgt_t_daybook WHERE INT_ROWID = "+id;
 								String data[][]=CommonFunctions.QueryExecute(sql);
 								id=data[0][0];
 								category=data[0][1];  
@@ -160,7 +161,7 @@ function Validate()
 								}
 								desc=data[0][5]; 
 								amount=data[0][4]; 
-								
+								paymentmode=data[0][6]; 
 								actionS="MGTDayBookActionEdit";
 								value="Update";
 								link=" onBlur=\"upperMe(this)\"";
@@ -199,8 +200,7 @@ function Validate()
                   <script language="javascript">setCurrentDate('fromdate')</script>
                  <%
 				}
-				 %> 
-                  </td>
+				 %>                  </td>
                 </tr> 
                 <tr>
                 <td align="left" valign="top" class="boldEleven">Type</td>
@@ -219,6 +219,20 @@ function Validate()
 										class="formText135" id="amount" onKeyPress="return numeric_only(event,'amount','15')" size="31" maxlength="8"/></td>
                 </tr>
              
+              <tr>
+                <td align="left" valign="top" class="boldEleven">Payment Mode <span class="errormessage">*</span></td>
+                <td align="left" valign="top" class="boldEleven"><select name="paymentmode" class="formText135" id="paymentmode" style="width:200">
+                    <option value="">Select</option>
+                    <%
+					   sql = "SELECT INT_DEPOSITID, CHR_DEPOSITNAME FROM com_m_deposit_to WHERE CHR_STATUS !='N' ORDER BY CHR_DEPOSITNAME";
+					   String deposit[][] = CommonFunctions.QueryExecute(sql);
+					  for(int u=0; u<deposit.length;u++)
+					  		out.println("<option value='"+deposit[u][0]+"'>"+deposit[u][1]+"</option>");
+					  %>
+                </select>
+				<script language="javascript">setOptionValue('paymentmode','<%=paymentmode%>')</script> 
+				</td>
+              </tr>
               <tr>
                 <td align="left" valign="top" class="boldEleven">Description</td>
                 <td align="left" valign="top" class="boldEleven"><textarea name="desc" cols="35" rows="5" class="formText135" id="desc" onKeyPress="textArea('desc','450')" ><%=desc%></textarea></td>

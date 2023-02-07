@@ -4,12 +4,14 @@ import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.my.org.erp.ServiceLogin.Authenticator;
 
-@SuppressWarnings("serial")
+@WebServlet("/Conveyance")
 public class ConveyanceAjax extends HttpServlet
 {
     public  void doGet(HttpServletRequest request, HttpServletResponse  response) throws IOException, ServletException 
@@ -17,6 +19,7 @@ public class ConveyanceAjax extends HttpServlet
 		try
 		{
 			String action=request.getParameter("actionS");
+			System.out.println(action);
 			if(Authenticator.isAuthenticated(request))
 			{ 
 				if(  "Conveyance" .equals(action) )

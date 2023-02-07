@@ -39,7 +39,7 @@ public class PettyCashActionHandler extends AbstractActionHandler {
 				asql = asql +" (CHR_NAME,CHR_DESC,CHR_USRNAME,DT_UPDATEDATE,CHR_UPDATESTATUS)";
 				asql = asql +" VALUES (?,?,?,DATE(NOW()),'Y') ";
 				apstm = con.prepareStatement(asql);
-				apstm.setString(1,""+c.getName());
+				apstm.setString(1,""+c.getName().replaceAll("&", " and "));
 				apstm.setString(2,c.getDesc());
 				apstm.setString(3,""+auserid);
 				System.out.println(apstm);
@@ -57,7 +57,7 @@ public class PettyCashActionHandler extends AbstractActionHandler {
 				asql = " UPDATE  mgt_m_pettycash  SET CHR_NAME=?,CHR_DESC=?   ";
 				asql = asql +" WHERE INT_CATEGORYID =? ";
 				apstm = con.prepareStatement(asql);
-				apstm.setString(1, ""+c.getName());
+				apstm.setString(1, ""+c.getName().replaceAll("&", " and "));
 				apstm.setString(2, c.getDesc());
 				apstm.setString(3, ""+c.getRowid());
 				System.out.println(apstm);

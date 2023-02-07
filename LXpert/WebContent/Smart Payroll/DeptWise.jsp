@@ -23,22 +23,10 @@
 		String strpass =jdbc.getProperty("Passw");
 		Class.forName(driver);
 		con = DriverManager.getConnection(url,struser,strpass);
-	}
-	catch(Exception e)
-	{
-		//System.out.println(e);
-	}
-		
-	try
-	{
+	 
 	   	st=con.createStatement();
 		rs = st.executeQuery("select  * from m_depart");
-	}
-	
-	catch(Exception npe)
-	{
-		//System.out.println(npe);
-	}
+	 
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
@@ -142,7 +130,15 @@ a:active {
 		<td width="312">&nbsp;</td>
 	</tr>
 </table>
-         
+   <%
+    
+   }
+	
+	catch(Exception npe)
+	{
+		//System.out.println(npe);
+	}    
+%>
 <br>
 <br>
 <br>

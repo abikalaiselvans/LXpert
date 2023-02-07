@@ -301,7 +301,7 @@ function Validate()
 								<td height="17" class="boldEleven">Cheque/ D.D /Credit Card
 								/NEFT / RTGS Number<span class="bolddeepred">* </span></td>
 								<td colspan="2" align="left"><input name="Challanno"
-									type="text" class="formText135"   onBlur="upperMe(this)"    id="Challanno" size="31" maxlength="20"></td>
+									type="text" class="formText135"   onBlur="upperMe(this)"    id="Challanno" size="31" maxlength="50"></td>
 							</tr>
 							<tr id="chk3">
 							  <td height="17" class="boldEleven">Cheque/ D.D  / Date</td>
@@ -361,10 +361,10 @@ function Validate()
 							  <td height="17" class="boldEleven">Transaction </td>
 							  <td colspan="2" align="left">
                               <select name="transactiontype" class="formText135" id="transactiontype"  style="width:200">
-                              <option value="1">Receipts</option>
+                              <option value="1" selected="selected">Receipts</option>
                               <option value="2">TDS</option>
                               <option value="3">Freight</option>
-                              transaction
+                              <option value="4">CashDiscount</option>
 						      </select></td>
 						  </tr>
 							<tr>

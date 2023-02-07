@@ -1,5 +1,4 @@
 <%@ page import="java.io.*,java.util.*"%>
-<%@ page import="sun.net.smtp.SmtpClient"%>
 <body >
  
 		<table cellspacing="0" cellpadding="0" width="424"
