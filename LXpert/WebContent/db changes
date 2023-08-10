@@ -1,9 +1,216 @@
 
 
+https://mhthemes.com/wp-themes/yellowpages-directory-wp-theme-2/
+https://demo.templatic.com/yellowpages/
+
+
+
+
+DROP  FUNCTION `FUN_INV_GET_COMMITMENTDATE_AGE`;
+CREATE  FUNCTION `FUN_INV_GET_COMMITMENTDATE_AGE`(salenumber varchar(100) ) RETURNS varchar(100)
+BEGIN
+     
+     
+     DECLARE age varchar(100) DEFAULT '0';      
+     
+      SELECT DATEDIFF(NOW(), max(h.DT_COMMITMENTDATE ) ) INTO age FROM inv_t_paymentcommitment h WHERE h.CHR_SALESNO =salenumber;
+       
+      
+     RETURN age;
+END;
+
+
+CREATE  FUNCTION `FUN_INV_GET_STAFFNAMEBYUSERNAME`(username varchar(50)) RETURNS varchar(50)
+BEGIN
+      
+     DECLARE staffname  varchar(50) DEFAULT null;
+      SELECT f.CHR_STAFFNAME  INTO staffname FROM com_m_staff  f WHERE f.CHR_USERID= username;
+     RETURN staffname;
+END;
+
+CREATE  FUNCTION `FUN_INV_GET_PAYMENTCOMMITMENTCOUNT`(salesnumber varchar(50)) RETURNS integer
+BEGIN
+      
+     DECLARE commitment  integer DEFAULT 0;
+      
+    SELECT   count(*) into commitment FROM inv_t_paymentcommitment d WHERE   d.CHR_STATUS='N' AND  d.CHR_SALESNO=salesnumber GROUP BY  d.CHR_SALESNO;
+   
+     RETURN commitment;
+END;
+
+   
+	 
+	 
+	 
+(SELECT  a.CHR_VENDORPO InvNumber, DATE_FORMAT(a.DAT_ORDERDATE,'%d-%b-%Y') InvDate, e.CHR_VENDORNAME NameoftheVendor,   e.CHR_GSTNO  VendorGSTNo,
+j.CHR_MODELCODE Brand ,  f.CHR_GROUPNAME ProductGroup, c.CHR_DES PCODEDESCRIPTION ,  
+FUN_INV_GET_WARRANTY_IN_YEAR(b.INT_WARRANTY) Warranty,  c.CHR_HSNCODE HSNorSAC , h.CHR_SERIALNO SlNos,
+b.INT_QUANTITY Qty, b.DOU_UNITPRICE UnitCost, ROUND((b.INT_QUANTITY  * b.DOU_UNITPRICE),2) BeforeTax,  b.DOU_TAX_AMOUNT TaxAmt, a.DOU_AMOUNT NetValue, 
+ ROUND(a.DOU_PAIDAMOUNT,2)  FinalValue , k.CHR_TAXNAME GST, g.CHR_STAFFNAME AccountManager 
+from inv_t_directpurchase a,inv_t_directpurchaseitem b,inv_m_item c,  inv_m_division d,inv_m_vendorsinformation e,inv_m_itemgroup f, com_m_staff g ,
+ inv_t_vendorgoodsreceived h,  inv_m_vendorsgroup i, inv_m_model j, inv_m_tax k
+WHERE a.CHR_PURCHASEORDERNO = b.CHR_PURCHASEORDERNO  AND b.CHR_TYPE ='P'  
+AND  b.CHR_ITEMID =c.CHR_ITEMID 
+AND a.INT_DIVIID= d.INT_DIVIID 
+AND a.INT_VENDORID = e.INT_VENDORID 
+AND c.INT_ITEMGROUPID = f.INT_ITEMGROUPID  
+AND a.CHR_REF=g.CHR_EMPID 
+AND e.INT_GROUPID = i.INT_GROUPID
+AND j.INT_MODELID = c.INT_MODELCODE
+AND b.INT_TAXID = k.INT_TAXID
+AND a.CHR_PURCHASEORDERNO  = h.CHR_PURCHASEORDERNO
+AND b.CHR_PURCHASEORDERNO  = h.CHR_PURCHASEORDERNO
+GROUP BY  h.CHR_SERIALNO
+ORDER BY b.CHR_ITEMID
+)
+UNION
+
+ (SELECT a.CHR_VENDORPO VendorInvoice, DATE_FORMAT(a.DAT_ORDERDATE,'%d-%b-%Y') PODate, e.CHR_VENDORNAME NameoftheVendor,   e.CHR_GSTNO  VendorGSTNo,
+ j.CHR_MODELCODE Brand ,   b1.CHR_NAME ProductGroup, c.CHR_PRODUCTDESC PCODEDESCRIPTION  , 
+FUN_INV_GET_WARRANTY_IN_YEAR(b.INT_WARRANTY) Warranty,  c.CHR_HSNCODE HSNorSAC , h.CHR_SERIALNO SlNos,
+b.INT_QUANTITY Qty, b.DOU_UNITPRICE UnitCost, ROUND((b.INT_QUANTITY  * b.DOU_UNITPRICE),2) BeforeTax,  b.DOU_TAX_AMOUNT TaxAmt, a.DOU_AMOUNT NetValue, 
+ ROUND(a.DOU_PAIDAMOUNT,2)  FinalValue , k.CHR_TAXNAME GST,g.CHR_STAFFNAME AccountManager 
+from inv_t_directpurchase a,inv_t_directpurchaseitem b,inv_m_produtlist c,  inv_m_productgroup b1, inv_m_division d,inv_m_vendorsinformation e,inv_m_productgroup f, com_m_staff g ,
+ inv_t_vendorgoodsreceived h,  inv_m_vendorsgroup i, inv_m_model j, inv_m_tax k
+WHERE a.CHR_PURCHASEORDERNO = b.CHR_PURCHASEORDERNO  AND b.CHR_TYPE ='P'  
+AND b.CHR_ITEMID =c.CHR_PRODUCTID 
+AND a.INT_DIVIID= d.INT_DIVIID 
+AND a.INT_VENDORID = e.INT_VENDORID 
+AND c.INT_PRODUCTGROUPID = f.INT_PRODUCTGROUPID 
+AND c.INT_PRODUCTGROUPID = b1.INT_PRODUCTGROUPID 
+AND a.CHR_REF=g.CHR_EMPID 
+AND c.CHR_PTYPE != 'S'
+AND e.INT_GROUPID = i.INT_GROUPID
+AND j.INT_MODELID = c.CHR_MODEL
+AND b.INT_TAXID = k.INT_TAXID
+AND a.CHR_PURCHASEORDERNO  = h.CHR_PURCHASEORDERNO
+AND b.CHR_PURCHASEORDERNO  = h.CHR_PURCHASEORDERNO
+GROUP BY  h.CHR_SERIALNO
+ORDER BY b.CHR_ITEMID
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(SELECT  a.CHR_SALESNO InvNumber, DATE_FORMAT(a.DAT_SALESDATE,'%d-%b-%Y') InvDate, FIND_A_CUSTOMER_NAME(a.INT_CUSTOMERID) NameoftheCustomer,  e.CHR_GSTNO  CustomerGSTNo,
+ j.CHR_MODELCODE Brand ,  b1.CHR_GROUPNAME ProductGroup, c.CHR_DES PCODEDESCRIPTION , 
+ FUN_INV_GET_WARRANTY_IN_YEAR(b.INT_WARRANTY) Warranty, c.CHR_HSNCODE HSNorSAC,  h.CHR_SERIALNO SlNos, 
+B.INT_QUANTITY Qty,  b.DOU_UNITPRICE UnitCost, ROUND((b.INT_QUANTITY  * b.DOU_UNITPRICE),2) BeforeTax,   b.DOU_TAX_AMOUNT TaxAmt, a.DOU_AMOUNT NetValue, a.DOU_TCS_AMOUNT TCS, 
+ ROUND(a.DOU_TOTALAMOUNT,2)  FinalValue , k.CHR_TAXNAME GST, g.CHR_STAFFNAME AccountManager 
+from inv_t_directsales a,inv_t_swapsalesitem b,inv_m_item c, inv_m_itemgroup b1, inv_m_division d,inv_m_customerinfo e,inv_m_itemgroup f, com_m_staff g ,
+ inv_t_vendorgoodsreceived h,  inv_m_customertype i, inv_m_model j, inv_m_tax k
+WHERE a.CHR_SALESNO = b.CHR_SALESNO  AND b.CHR_TYPE ='P'  
+AND b.CHR_ITEMID =c.CHR_ITEMID 
+AND a.INT_DIVIID= d.INT_DIVIID 
+AND a.INT_CUSTOMERID = e.INT_CUSTOMERID 
+AND c.INT_ITEMGROUPID = f.INT_ITEMGROUPID 
+AND a.CHR_REF=g.CHR_EMPID 
+AND c.INT_ITEMGROUPID = b1.INT_ITEMGROUPID 
+AND e.INT_CUSTOMERTYPEID = i.INT_CUSTOMERTYPEID
+AND j.INT_MODELID = c.INT_MODELCODE
+AND b.INT_TAXID = k.INT_TAXID
+AND a.CHR_SALESNO  = h.CHR_SALESNO
+AND b.CHR_SALESNO  = h.CHR_SALESNO
+GROUP BY  h.CHR_SERIALNO
+ORDER BY b.CHR_ITEMID )   
+
+UNION
+
+(SELECT  a.CHR_SALESNO InvNumber, DATE_FORMAT(a.DAT_SALESDATE,'%d-%b-%Y') InvDate, FIND_A_CUSTOMER_NAME(a.INT_CUSTOMERID) NameoftheCustomer,   e.CHR_GSTNO  CustomerGSTNo,
+j.CHR_MODELCODE Brand ,  b1.CHR_NAME ProductGroup, c.CHR_PRODUCTDESC PCODEDESCRIPTION ,  
+FUN_INV_GET_WARRANTY_IN_YEAR(b.INT_WARRANTY) Warranty,  c.CHR_HSNCODE HSNorSAC , h.CHR_SERIALNO SlNos,
+b.INT_QUANTITY Qty, b.DOU_UNITPRICE UnitCost, ROUND((b.INT_QUANTITY  * b.DOU_UNITPRICE),2) BeforeTax,b.DOU_TAX_AMOUNT TaxAmt, a.DOU_AMOUNT NetValue, a.DOU_TCS_AMOUNT TCS, 
+ ROUND(a.DOU_TOTALAMOUNT,2)  FinalValue ,  k.CHR_TAXNAME GST, g.CHR_STAFFNAME AccountManager 
+from inv_t_directsales a,inv_t_swapsalesitem b,inv_m_produtlist c,  inv_m_productgroup b1, inv_m_division d,inv_m_customerinfo e,inv_m_productgroup f, com_m_staff g ,
+ inv_t_vendorgoodsreceived h,  inv_m_customertype i, inv_m_model j, inv_m_tax k
+WHERE a.CHR_SALESNO = b.CHR_SALESNO  AND b.CHR_TYPE ='P'  
+AND b.CHR_ITEMID =c.CHR_PRODUCTID 
+AND a.INT_DIVIID= d.INT_DIVIID 
+AND a.INT_CUSTOMERID = e.INT_CUSTOMERID 
+AND c.INT_PRODUCTGROUPID = f.INT_PRODUCTGROUPID 
+AND c.INT_PRODUCTGROUPID = b1.INT_PRODUCTGROUPID 
+AND a.CHR_REF=g.CHR_EMPID 
+AND c.CHR_PTYPE != 'S'
+AND e.INT_CUSTOMERTYPEID = i.INT_CUSTOMERTYPEID
+AND j.INT_MODELID = c.CHR_MODEL
+AND b.INT_TAXID = k.INT_TAXID
+AND a.CHR_SALESNO  = h.CHR_SALESNO
+AND b.CHR_SALESNO  = h.CHR_SALESNO
+GROUP BY  h.CHR_SERIALNO
+ORDER BY b.CHR_ITEMID
+)
+
+
+
+
+(SELECT  a.CHR_SALESNO InvNumber, DATE_FORMAT(a.DAT_SALESDATE,'%d-%b-%Y') InvDate, FIND_A_CUSTOMER_NAME(a.INT_CUSTOMERID) NameoftheCustomer,  e.CHR_GSTNO  CustomerGSTNo,
+j.CHR_MODELCODE Brand , CONCAT('ITEM') Category, 
+c. CHR_ITEMNAME Product , b.INT_WARRANTY Warranty, c.CHR_HSNCODE HSNorSAC,  h.CHR_SERIALNO SlNos, 
+B.INT_QUANTITY Qty,  b.DOU_UNITPRICE UnitCost, CONCAT('') BeforeTax,  b.DOU_TAX_AMOUNT TaxAmt, a.DOU_AMOUNT NetValue, a.DOU_TCS_AMOUNT TCS, 
+ ROUND(a.DOU_TOTALAMOUNT,2)  FinalValue ,CONCAT('') GST, g.CHR_STAFFNAME AccountManager 
+from inv_t_directsales a,inv_t_swapsalesitem b,inv_m_item c,inv_m_division d,inv_m_customerinfo e,inv_m_itemgroup f, com_m_staff g ,
+ inv_t_vendorgoodsreceived h,  inv_m_customertype i, inv_m_model j
+WHERE a.CHR_SALESNO = b.CHR_SALESNO  AND b.CHR_TYPE ='P'  
+AND b.CHR_ITEMID =c.CHR_ITEMID 
+AND a.INT_DIVIID= d.INT_DIVIID 
+AND a.INT_CUSTOMERID = e.INT_CUSTOMERID 
+AND c.INT_ITEMGROUPID = f.INT_ITEMGROUPID 
+AND a.CHR_REF=g.CHR_EMPID 
+AND e.INT_CUSTOMERTYPEID = i.INT_CUSTOMERTYPEID
+AND j.INT_MODELID = c.INT_MODELCODE
+AND a.CHR_SALESNO  = h.CHR_SALESNO
+AND b.CHR_SALESNO  = h.CHR_SALESNO
+GROUP BY  h.CHR_SERIALNO
+ORDER BY b.CHR_ITEMID )
+
+UNION
+
+(SELECT  a.CHR_SALESNO InvNumber, DATE_FORMAT(a.DAT_SALESDATE,'%d-%b-%Y') InvDate, FIND_A_CUSTOMER_NAME(a.INT_CUSTOMERID) NameoftheCustomer,   e.CHR_GSTNO  CustomerGSTNo,
+j.CHR_MODELCODE Brand , if(c.CHR_PTYPE ='F','Full Product',if(c.CHR_PTYPE='S' ,'Consumables','Swap Product')) Category,
+c. CHR_PRODUCTCODE Product , b.INT_WARRANTY Warranty,  c.CHR_HSNCODE HSNorSAC , h.CHR_SERIALNO SlNos,
+b.INT_QUANTITY Qty, b.DOU_UNITPRICE UnitCost, CONCAT('') BeforeTax, b.DOU_TAX_AMOUNT TaxAmt, a.DOU_AMOUNT NetValue, a.DOU_TCS_AMOUNT TCS, 
+ ROUND(a.DOU_TOTALAMOUNT,2)  FinalValue ,CONCAT('') GST, g.CHR_STAFFNAME AccountManager 
+from inv_t_directsales a,inv_t_swapsalesitem b,inv_m_produtlist c,inv_m_division d,inv_m_customerinfo e,inv_m_productgroup f, com_m_staff g ,
+ inv_t_vendorgoodsreceived h,  inv_m_customertype i, inv_m_model j
+WHERE a.CHR_SALESNO = b.CHR_SALESNO  AND b.CHR_TYPE ='P'  
+AND b.CHR_ITEMID =c.CHR_PRODUCTID 
+AND a.INT_DIVIID= d.INT_DIVIID 
+AND a.INT_CUSTOMERID = e.INT_CUSTOMERID 
+AND c.INT_PRODUCTGROUPID = f.INT_PRODUCTGROUPID 
+AND a.CHR_REF=g.CHR_EMPID 
+AND c.CHR_PTYPE != 'S'
+AND e.INT_CUSTOMERTYPEID = i.INT_CUSTOMERTYPEID
+AND j.INT_MODELID = c.CHR_MODEL
+AND a.CHR_SALESNO  = h.CHR_SALESNO
+AND b.CHR_SALESNO  = h.CHR_SALESNO
+GROUP BY  h.CHR_SERIALNO
+ORDER BY b.CHR_ITEMID
+)
+
+
+
+
+
+
 conveyance_m_advance
 Field added INT_DEPOSITID
 
-
+INT_CONVEYANCE_LIMIT
 
 
 

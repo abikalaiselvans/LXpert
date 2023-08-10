@@ -339,6 +339,15 @@ public static String parseDateFormat(String date, String srcFormat,String destFo
         String year = indate.substring(6);
         return (new StringBuilder()).append(year).append("-").append(month).append("-").append(date).toString();
     }
+    
+    public static String FormateDateSQLFromOne(String indate)
+    {
+    	indate=indate.trim();
+    	String date = "01";
+        String month = indate.substring(3, 5);
+        String year = indate.substring(6);
+        return (new StringBuilder()).append(year).append("-").append(month).append("-").append(date).toString();
+    }
 
     public static String FormateDateandTimeSQL(String indate)
     {

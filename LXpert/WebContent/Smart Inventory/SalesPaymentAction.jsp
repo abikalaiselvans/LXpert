@@ -67,7 +67,7 @@ function Validate()
 			&& checkNull("ref","Select Payment collected by")
 			&& checkNullSelect("creditto","Select credited to",'') 
 			
-			&& ((b-b1) >= 0)
+			&& (( (b+100)-b1) >= 0)
 		)
 		{		
 			sval=document.getElementById('paymentMethod').value;	
@@ -128,7 +128,7 @@ function Validate()
 		var gval=gctr.value;
 		bval=parseInt(bval);
 		gval=parseInt(gval);
-		if(gval<=bval){
+		if(gval<=(bval+100)){
 			document.getElementById('Valid').innerHTML="<font class='boldgreen' size='2'>VALID</font>";
 			document.getElementById('submit').disabled=false;
 		}
@@ -223,7 +223,11 @@ function Validate()
 							sql = sql + "   AND CHR_CANCEL='N' AND FIND_A_PAYMENTCOMMITMENT(CHR_SALESNO,'C') > 0  ORDER BY CHR_SALESNO ";  
 							   
 				         	salesSQL="SELECT CHR_SALESNO , DATE_FORMAT(DAT_SALESDATE,'%d-%m-%Y'), INT_CUSTOMERID,DOU_TOTALAMOUNT "
-				         	 +"FROM inv_t_directsales WHERE INT_BRANCHID="+branchId+" AND CHR_CANCEL='N'  AND CHR_PAYMENTSTATUS<>'Y'";
+				         	 +"FROM inv_t_directsales WHERE   CHR_CANCEL='N'  AND CHR_PAYMENTSTATUS<>'Y'";
+							 if(!(""+session.getAttribute("USRTYPE")).equals("F"))
+							{
+								salesSQL = salesSQL +"AND INT_BRANCHID="+branchId+" ";
+							}
 					 	}
 			         	 
 		            	String salesOrder[][]=CommonFunctions.QueryExecute(sql);
@@ -591,9 +595,9 @@ function SalesPaymentMessages()
 }
 function checkAmount()
 {
-	var b =parseFloat(document.getElementById('Balance').value);
-	var b1 =parseFloat(document.getElementById('Paid').value);
-	if((b-b1) < 0)
+	var b =parseFloat(document.getElementById('Balance').value);  
+	var b1 =parseFloat(document.getElementById('Paid').value);  
+	if((b-b1) < -99)
 		{
 			alert("The paid amount should be lessthan or equal to balance amount...");
 			document.getElementById('Paid').value = "0.0";

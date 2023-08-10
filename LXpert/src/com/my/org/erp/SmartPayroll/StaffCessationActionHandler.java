@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Properties;
+
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -15,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
@@ -267,6 +269,43 @@ public class StaffCessationActionHandler extends AbstractActionHandler
 							}
 							else
 							{
+								 
+								asql ="INSERT INTO att_t_register"; 
+			                    asql = asql +" (CHR_EMPID,CHR_MONTH,INT_YEAR,CHR_USRNAME,DT_UPDATEDATE,DAT_CREATEDATE,CHR_UPDATESTATUS)";  
+			                    asql = asql +"  VALUES(?,MONTHNAME(NOW()),YEAR(NOW()),?,DATE(NOW()),NOW(),'Y');";
+			                    apstm = con.prepareStatement(asql);
+			        			apstm.setString(1,staffid);
+			        			apstm.setString(2,auserid);
+			        			System.out.println(apstm);
+			        			apstm.execute();
+			        			apstm.close();
+			        			
+			        			acs = con.prepareCall("{call  ATT_PRO_REGISTER_SUNDAY_MARKING( ?)}");
+			    				acs.setString(1, auserid);
+			    				acs.execute();
+			    				acs.close();
+			    				
+			    				 
+			    		        
+			    				String fromdtsql = DateUtil.FormateDateSQLFromOne(date);
+			    				String todasql = DateUtil.FormateDateSQL(date);
+			    				String dates[] = CommonFunctions.QueryExecute("SELECT FIND_A_DAYS_BETWEEN_TWO_DAYS_EXPECT_SUNDAY('"	+ fromdtsql + "','" + todasql + "')")[0][0].split(",");
+			    				asql = " UPDATE att_t_register SET ";
+			    				for (int y = 0; y < dates.length; y++)
+			    					asql = asql + " CHR_MORNING"+ Integer.parseInt(dates[y].split("-")[2].trim())+ " = 'PRE' , CHR_EVENING"	+ Integer.parseInt(dates[y].split("-")[2].trim())+ "='PRE' , ";
+			    				asql = asql + " CHR_USRNAME='" + auserid	+ "',DAT_MODIFIEDDATE=NOW(),";
+			    				asql = asql + " CHR_UPDATESTATUS='Y' ";
+			    				asql = asql	+ "   WHERE CHR_EMPID=? AND CHR_MONTH =?  AND INT_YEAR=?  ";
+			    				asql = asql.trim();
+			    				apstm = con.prepareStatement(asql);
+			    				apstm.setString(1, staffid);
+			    				apstm.setString(2, monthname);
+			    				apstm.setInt(3, year);
+			    				System.out.println(apstm);
+			    				System.out.println("Entry : "  + "/" + staffid+ "   " + apstm);
+			    				apstm.execute();
+			    				apstm.close();
+								
 								//please check attendance register
 								con.close();   
 								//response.sendRedirect("Smart Payroll/CessationAdd.jsp?er=Kindly check, Attendance register - "+daysInloop+" not close");

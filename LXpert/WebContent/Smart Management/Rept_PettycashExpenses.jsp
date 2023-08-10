@@ -41,17 +41,26 @@ try
  
 
  	String reportheader="TYPE INFORMATIONS "; 
+	String branch=request.getParameter("branch");
+	String paymentmode=request.getParameter("paymentmode");
+	String fromdate=request.getParameter("fromdate");
+	String todate=request.getParameter("todate");
+	
  	String sql="";
 	sql = "  ";
 	sql = " SELECT  a.CHR_EXPENSEREFNO,FUN_GET_BRANCH_NAME(a.INT_BRANCHID), ";
 	sql = sql + " DATE_FORMAT(a.DAT_EXPENSE,'%d-%b-%Y'),b.CHR_NAME,a.CHR_DESC,";
 	sql = sql + " IF(a.CHR_TYPE='E','Employee','Others') , ";
 	sql = sql + " IF(a.CHR_TYPE='E',FIND_A_EMPLOYEE_ID_NAME(a.CHR_EMPID),a.CHR_EMPID) , ";
-	sql = sql + " a.DOU_AMOUNT  ";
-	sql = sql + "  FROM mgt_t_pettycash_expenses a, mgt_m_pettycash b  ";
-	sql = sql + "  WHERE a.INT_CATEGORYID = b.INT_CATEGORYID  ";
+	sql = sql + " a.DOU_AMOUNT , c.CHR_DEPOSITNAME  ";
+	sql = sql + "  FROM mgt_t_pettycash_expenses a, mgt_m_pettycash b ,, com_m_deposit_to c ";
+	sql = sql + "  WHERE a.INT_CATEGORYID = b.INT_CATEGORYID   AND  a.INT_PAYMENTMODE = c.INT_DEPOSITID ";
+	if(!"0".equals(paymentmode))
+		sql = sql + " AND a.INT_PAYMENTMODE = "+paymentmode;	
 	if(!"F".equals(""+session.getAttribute("USERTYPE")))
 		sql = sql + " AND a.INT_BRANCHID = "+session.getAttribute("BRANCHID");
+	sql = sql + " AND a.DAT_EXPENSE >= '" +DateUtil.FormateDateSQL(fromdate)+"' ";
+	sql = sql + " AND a.DAT_EXPENSE <= '" +DateUtil.FormateDateSQL(todate)+"' ";        
 	sql = sql + "   ORDER BY  a.DAT_EXPENSE  ";
 	//out.println(sql);
 	String data[][] = CommonFunctions.QueryExecute(sql);
@@ -69,6 +78,7 @@ try
 			child.addElement(data[u][5]);
 			child.addElement(data[u][6]);
 			child.addElement(data[u][7]);
+			child.addElement(data[u][8]);
 			mn.add(child);
      } 
    
@@ -94,7 +104,8 @@ try
                     <display:column title="EMPLOYEE / OTHERS" sortable="true" ><%=temp.elementAt(6)%></display:column>
                     <display:column title=" ID" sortable="true" ><%=temp.elementAt(7)%></display:column>
                     <display:column title="AMOUNT" sortable="true" ><%=temp.elementAt(8)%></display:column>
-                     
+                    <display:column title="PAYMENTMODE" sortable="true" ><%=temp.elementAt(9)%></display:column>
+					 
 					<display:setProperty name="export.excel.filename" value="Rept_PettycashExpenses.xls"/>
 					<display:setProperty name="export.pdf.filename" value="Rept_PettycashExpenses.pdf"/>
 					<display:setProperty name="export.csv.filename" value="Rept_PettycashExpenses.csv"/>

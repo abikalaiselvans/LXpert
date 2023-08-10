@@ -25,7 +25,6 @@ import com.my.org.erp.common.CommonFunctions;
 
 public class InvMail {
 
-
 	public static void sendEmailWithAttachments(    
               String recipients[],  
             String subject, String message, String[] attachFiles)  
@@ -40,9 +39,10 @@ public class InvMail {
             String from =hData[0][3]   ;
             String toAddress ="";
             for(int i = 0; i < recipients.length; i++) {
-            	toAddress = toAddress+ recipients[i] + ",";
+            	if(recipients[i].length()>0)
+            		toAddress = toAddress+ recipients[i] + ",";
             }
-            
+            System.out.println("*********************************"+toAddress+"****************************");
 			 	Properties properties = new Properties();  
 		        properties.put("mail.smtp.host", host);  
 		        properties.put("mail.smtp.port", "465");  
@@ -70,9 +70,19 @@ public class InvMail {
 		        Session session = Session.getInstance(properties, auth);  
 		      
 		        MimeMessage msg = new MimeMessage(session);  
-		        msg.setFrom(new InternetAddress(userName));  
-		        InternetAddress[] toAddresses = {new InternetAddress(toAddress)};  
-		        msg.setRecipients(Message.RecipientType.BCC, toAddresses);  
+		        msg.setFrom(new InternetAddress(userName)); 
+		        
+		        
+		        InternetAddress[] recipientAddress = new InternetAddress[recipients.length];
+		        int counter = 0;
+		        for (String recipient : recipients) {
+		            recipientAddress[counter] = new InternetAddress(recipient.trim());
+		            counter++;
+		        }
+		        msg.setRecipients(Message.RecipientType.TO, recipientAddress);  
+		        
+		        
+		        
 		        msg.setSubject(subject);  
 		        msg.setSentDate(new Date());  
 		        MimeBodyPart messageBodyPart = new MimeBodyPart();  

@@ -1,9 +1,12 @@
 package com.my.org.erp.SmartInventory;
 import java.io.IOException;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import com.my.org.erp.ServiceLogin.AbstractActionHandler;
 import com.my.org.erp.ServiceLogin.DateUtil;
 import com.my.org.erp.common.CommonFunctions;
@@ -14,6 +17,10 @@ public class PaymentCommitmentActionHandler extends AbstractActionHandler
 		try
 		{
 				String action=request.getParameter("actionS");
+				HttpSession session=request.getSession();			
+				String userId=""+session.getAttribute("USRID");
+				String branchid = session.getAttribute("INVBRANCH").toString();
+				
 				boolean f = false;
 				if(action.equals("INVPaymentCommitmentEntry"))
 				{	
@@ -58,6 +65,29 @@ public class PaymentCommitmentActionHandler extends AbstractActionHandler
 							System.out.println(""+apstm);
 							apstm.execute();
 							apstm.close();
+							
+							/*
+							//Mail trigger
+							String mdata[][] = CommonFunctions.QueryExecute("SELECT  CHR_MAILENABLE ,CHR_INVOICEDELETE FROM m_inventorysetting  WHERE INT_ROWID=1");
+							if(mdata.length>0){
+								if(mdata[0][0].equals("Y")){
+									String subject ="SALES INVOICE:";
+									String email =mdata[0][1];
+									String a[] =(email+",").split(",") ;
+									System.out.println("======");
+									String content = InvoiceHTMLMail.mailContent(salno, branchid, session, request.getRealPath("/")); 
+									System.out.println("******************************************************************************");
+									System.out.println(content);
+									System.out.println("******************************************************************************");
+									String[] attachments = new String [2];
+									attachments[0] =Path+"images\\Header.png";
+									attachments[1] =  Path+"images\\logo.jpg";
+									if(!"".equals(email) || !"null".equals(email) )
+										InvMail.sendEmailWithAttachments(a, subject+": "+salno, content, attachments);
+									con.close();  
+								}
+							}
+							*/
 						}
 						con.close(); 
 						

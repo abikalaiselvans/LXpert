@@ -6,7 +6,7 @@ try
 %>
 <html>
 <head>
-<title>:: MANAGEMENT ::</title> 
+<title>:: INVENTORY ::</title> 
 <link rel="icon" type="image/ico" href="../images/ERP.ico"></link>
 <link rel="shortcut icon" href="../images/ERP.ico"></link>
 
@@ -26,32 +26,40 @@ try
 @import url("../JavaScript/SmartStyles.css");
 -->
 </style>
+
+
+
 </head>
-<script language="javascript" src="../JavaScript/comfunction.js"></script>
+ <script language="javascript" src="../JavaScript/comfunction.js"></script>
 <script language="javascript" src="../JavaScript/jquery/jquery-1.7.1.js"></script>
 <script language="javascript" src="../JavaScript/jquery/ui/jquery.ui.core.js"></script>
 <script language="javascript" src="../JavaScript/jquery/ui/jquery.ui.widget.js"></script>
 <script language="javascript" src="../JavaScript/jquery/ui/jquery.ui.datepicker.js"></script>
+
 <script>
-  
-$(function() {
-		$( "#incomedate" ).datepicker({
-			changeMonth: true,
-			changeYear: true,
+	$(function() {
+		var dates = $( "#fromdate, #todate" ).datepicker({
+			defaultDate: "+1w",
+			changeMonth: true,changeYear: true,
+			numberOfMonths: 1,
 			showOn: "button",
-			buttonImage: "../JavaScript/jquery/images/calendar.gif",
-			buttonImageOnly: true,
-			minDate: "-10D", maxDate: "+0D"
+				buttonImage: "../JavaScript/jquery/images/calendar.gif",
+				buttonImageOnly: true,
+			onSelect: function( selectedDate ) {
+				var option = this.id == "fromdate" ? "minDate" : "maxDate",
+					instance = $( this ).data( "datepicker" ),
+					date = $.datepicker.parseDate(
+						instance.settings.dateFormat ||
+						$.datepicker._defaults.dateFormat,
+						selectedDate, instance.settings );
+				dates.not( this ).datepicker( "option", option, date );
+				
+			}
 		});
-	}); 
-	
-
- 
-
+	});
 	</script>
+	
 <link href="../JavaScript/jquery/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css">
-
-
 
 <script language="JavaScript">
 
@@ -59,15 +67,11 @@ function Validate()
   {
 	
    
-	if(  checkNullSelect( "branch","Select Branch", "" ) 
-		 && checkNullSelect( "category","Select category", "" ) 	
-	     &&  checkNull( "incomedate","Enter The Date" )
-		 &&  checkNull( "income","Enter The Amount" )
-		 &&  checkNull( "desc","Enter The description" )
+	if(  checkNull( "fromdate","Enter The fromdate" ) 
+	     &&  checkNull( "todate","Enter The todate" )
 		  )
 		return true;
-		 
-	else  		
+	else
 		return false;				
 		
 	
@@ -93,7 +97,7 @@ function Validate()
   </tr>
   <tr>
     <td>
-	 <form  AUTOCOMPLETE = "off"   action="../SmartLoginAuth" method="post" name="frm" id="frm" onSubmit="return Validate()">
+	 <form  AUTOCOMPLETE = "off"   action="Rept_PettycashExpenses.jsp" method="post" name="frm" id="frm" onSubmit="return Validate()">
 	<table class="BackGround1" cellspacing="0" cellpadding="0" width="424"
 			align="center" border="0">
       <tbody>
@@ -116,56 +120,74 @@ function Validate()
 		 
 		    <table width="100%" border="0" align="center" cellpadding="3" cellspacing="3">
               <tr>
-                <td colspan="2" class="bold1"><div align="center"><span class="boldThirteen">PETTY CASH REPORTS</span>
-                    			
-                  
-                </div></td>
+                <td colspan="2" class="bold1"><div align="center"><span class="boldThirteen">EXPENSES / PAYMENTS</span></div></td>
                 </tr>
               <tr>
-                <td class="boldEleven">1. </td>
-                <td class="boldEleven"><a href="Rept_Pettycashtypes.jsp" target="_blank">Type</a></td>
+                <td class="boldEleven">Branch</td>
+                <td   class="boldEleven"><span class="whiteMedium">
+                  <select name="branch" class="formText135" id="branch" tabindex="6" style="width:200" >
+                    <option value="0">All</option>
+                    <%
+				 								
+				 String sql ="Select a.INT_BRANCHID,a.CHR_BRANCHNAME ,b.CHR_COMPANYNAME from  com_m_branch  a  ,com_m_company b where  a.INT_COMPANYID = b.INT_COMPANYID  AND b.INT_ACTIVE =1";	
+				 String branchdata[][] =  CommonFunctions.QueryExecute(sql);
+								for(int u=0; u<branchdata.length; u++)
+									out.print("<option value='"+branchdata[u][0]+"'>"+branchdata[u][2]+ "  @  " +branchdata[u][1] +"</option>");
+							%>
+                  </select>
+                </span></td>
               </tr>
               <tr>
-                <td class="boldEleven">2. </td>
-                <td class="boldEleven"><a href="Rept_PettycashIncomes.jsp" target="_blank">INCOME / RECEIPTS</a></td>
+                <td class="boldEleven">Payment Mode</td>
+                <td   class="boldEleven"><select name="paymentmode" class="formText135" id="paymentmode" style="width:200">
+                  <option value="0">All</option>
+                  <%
+					   sql = "SELECT INT_DEPOSITID, CHR_DEPOSITNAME FROM com_m_deposit_to WHERE CHR_STATUS !='N' ORDER BY CHR_DEPOSITNAME";
+					   String deposit[][] = CommonFunctions.QueryExecute(sql);
+					  for(int u=0; u<deposit.length;u++)
+					  		out.println("<option value='"+deposit[u][0]+"'>"+deposit[u][1]+"</option>");
+					  %>
+                </select></td>
               </tr>
               <tr>
-                <td width="9%" class="boldEleven"> <span class="boldred"></span> 3.</td>
-                <td width="91%" class="boldEleven"> 
-                 
-                <script language="javascript">setCurrentDate('incomedate')</script>
-                <a href="Rept_PettycashExpensesBefore.jsp" target="_blank">EXPENSES / PAYMENTS </a></td>
-              </tr>
+                <td width="173" class="boldEleven">From Date </td>
+                <td   class="boldEleven"><input   
+												name="fromdate" type="text" class="formText135"
+												id="fromdate" size="15" maxlength="10"
+												onKeyPress="dateOnly('fromdate')" />
+                  &nbsp;
+                  
+                  <script
+												language='JavaScript' type="text/javascript">
+		<!--
+			
+			setCurrentDate('fromdate');
+		//-->
+	                              </script></td>
+                </tr>
+              <tr>
+                <td class="boldEleven">To Date </td>
+                <td   class="boldEleven"><input
+												name="todate" type="text" class="formText135" id="todate"  
+												size="15" maxlength="10" onKeyPress="dateOnly('todate')" />
+                  <!-- <a href="javascript:cal2.popup();"> <img
+												src="../JavaScript/img/cal.gif" width="16" height="16"
+												border="0" alt="Click Here to Pick up the date" /> </a>-->
+                  <script
+												language='JavaScript' type="text/javascript">
+		<!--
+			
+			setCurrentDate('todate');
+		//-->
+	                              </script></td>
+                </tr>
                
               <tr>
-                <td align="left" valign="top" class="boldEleven">4. </td>
-                <td align="left" valign="top" class="boldEleven"><a href="Rept_PettyCashBalanceSheet.jsp" target="_blank">Analysis report </a></td>
-              </tr>
-              <tr>
-                <td align="left" valign="top" class="boldEleven">5. </td>
-                <td align="left" valign="top" class="boldEleven"><a href="Rept_PettyCashBalanceSheetDetail.jsp" target="_blank">Analysis Detailed report   
-                
-                </a></td>
-              </tr>
-              <tr>
-                <td class="boldEleven">6.</td>
-                <td class="boldEleven"><a href="Rept_PettyCashBalanceSheetProfit.jsp" target="_blank">Abstract
-				</a></td>
-              </tr>
-              
-              <tr>
-                <td class="boldEleven">7.</td>
-                <td class="boldEleven"><a href="Rept_Tally_PettyCashReceipts.jsp">Tally Export Receipts </a></td>
-              </tr>
-              <tr>
-                <td class="boldEleven">8.</td>
-                <td class="boldEleven"><a href="Rept_Tally_PettyCashExpenses.jsp">Tally Export Payments </a></td>
-              </tr>
-              <tr>
-                <td colspan="2" class="boldEleven"><table width="60" border="0" align="center" cellpadding="1"
+                <td colspan="2" class="boldEleven"><table width="112" border="0" align="center" cellpadding="1"
 									cellspacing="1">
                   <tr>
-                     <td><input name="Close" type="button"   class="buttonbold13" id="Close"  value="Close"   accesskey="c"  	onClick="redirect('ManagementMain.jsp')"></td>
+                    <td><input name="Submit" id="Submit" type="submit" 	class="buttonbold13" value="Submit"></td>
+                    <td><input name="Close" type="button"   class="buttonbold13" id="Close"  value="Close"   accesskey="c"  	onClick="redirect('Pettycashreports.jsp')"></td>
                   </tr>
                 </table></td>
                 </tr>

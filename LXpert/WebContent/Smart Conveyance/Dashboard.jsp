@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@ page import="com.my.org.erp.common.CommonFunctions"%>
 <html>
   <head>
     <meta charset="utf-8">
@@ -50,242 +51,66 @@
           <div class="col-xs-12 col-sm-12 content">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h3 class="panel-title"><a href="javascript:void(0);" class="toggle-sidebar"><span class="fa fa-angle-double-left" data-toggle="offcanvas" title="Maximize Panel"></span></a> Modules</h3>
+                <h3 class="panel-title"></h3>
               </div>
               <div class="panel-body">
-                  <div class="content-row col-md-12">
-                    
-                    <div class="row">
-                      <div class="col-md-2">
-                        <div class="color-swatches">
-                          <div class="swatches">
-                            <div class="clearfix">
-                              <div style="background-color:#5D9CEC" class="pull-left light"></div>
-                              <div style="background-color:#4A89DC" class="pull-right dark"></div>
-                            </div>
-                            <div class="infos">
-                              <h4>BLUE JEANS</h4>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="color-swatches">
-                          <div class="swatches">
-                            <div class="clearfix">
-                              <div style="background-color:#4FC1E9" class="pull-left light"></div>
-                              <div style="background-color:#3BAFDA" class="pull-right dark"></div>
-                            </div>
-                            <div class="infos">
-                              <h4>AQUA</h4>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="color-swatches">
-                          <div class="swatches">
-                            <div class="clearfix">
-                              <div style="background-color:#48CFAD" class="pull-left light"></div>
-                              <div style="background-color:#37BC9B" class="pull-right dark"></div>
-                            </div>
-                            <div class="infos">
-                              <h4>MINT</h4>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="color-swatches">
-                          <div class="swatches">
-                            <div class="clearfix">
-                              <div style="background-color:#A0D468" class="pull-left light"></div>
-                              <div style="background-color:#8CC152" class="pull-right dark"></div>
-                            </div>
-                            <div class="infos">
-                              <h4>GRASS</h4>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="color-swatches">
-                          <div class="swatches">
-                            <div class="clearfix">
-                              <div style="background-color:#FFCE54" class="pull-left light"></div>
-                              <div style="background-color:#F6BB42" class="pull-right dark"></div>
-                            </div>
-                            <div class="infos">
-                              <h4>SUNFLOWER</h4>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="color-swatches">
-                          <div class="swatches">
-                            <div class="clearfix">
-                              <div style="background-color:#FC6E51" class="pull-left light"></div>
-                              <div style="background-color:#E9573F" class="pull-right dark"></div>
-                            </div>
-                            <div class="infos">
-                              <h4>BITTERSWEET</h4>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-2">
-                        <div class="color-swatches">
-                          <div class="swatches">
-                            <div class="clearfix">
-                              <div style="background-color:#ED5565" class="pull-left light"></div>
-                              <div style="background-color:#DA4453" class="pull-right dark"></div>
-                            </div>
-                            <div class="infos">
-                              <h4>GRAPEFRUIT</h4>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="color-swatches">
-                          <div class="swatches">
-                            <div class="clearfix">
-                              <div style="background-color:#AC92EC" class="pull-left light"></div>
-                              <div style="background-color:#967ADC" class="pull-right dark"></div>
-                            </div>
-                            <div class="infos">
-                              <h4>LAVENDER</h4>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="color-swatches">
-                          <div class="swatches">
-                            <div class="clearfix">
-                              <div style="background-color:#EC87C0" class="pull-left light"></div>
-                              <div style="background-color:#D770AD" class="pull-right dark"></div>
-                            </div>
-                            <div class="infos">
-                              <h4>PINK ROSE</h4>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="color-swatches">
-                          <div class="swatches">
-                            <div class="clearfix">
-                              <div style="background-color:#F5F7FA" class="pull-left light"></div>
-                              <div style="background-color:#E6E9ED" class="pull-right dark"></div>
-                            </div>
-                            <div class="infos">
-                              <h4>LIGHT GRAY</h4>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="color-swatches">
-                          <div class="swatches">
-                            <div class="clearfix">
-                              <div style="background-color:#CCD1D9" class="pull-left light"></div>
-                              <div style="background-color:#AAB2BD" class="pull-right dark"></div>
-                            </div>
-                            <div class="infos">
-                              <h4>MEDIUM GRAY</h4>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="color-swatches">
-                          <div class="swatches">
-                            <div class="clearfix">
-                              <div style="background-color:#656D78" class="pull-left light"></div>
-                              <div style="background-color:#434A54" class="pull-right dark"></div>
-                            </div>
-                            <div class="infos">
-                              <h4>DARK GRAY</h4>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-
-
+               
 
 
 
 <center>				 <div class="content-row">
-                    <h2 class="content-row-title">Pricing</h2>
+                    <h2 class="content-row-title">CONVEYANCE</h2>
                     <div class="row">
+					
+					<%
+					String csql ="";
+					csql = csql + " SELECT CONCAT(MONTHNAME(DAT_CONDATE),'-',YEAR(DAT_CONDATE)),COUNT(*),  ";
+					csql = csql + " sum(DOU_TRAVEL),sum(DOU_TRAIN),sum(DOU_AUTO),sum(DOU_LUNCH),sum(DOU_TELEPHONE), sum(DOU_OTHERAMT), ";
+					csql = csql + " SUM(DOU_TOTAL) from conveyance_t_conveyance WHERE CHR_ACCEPT='Y' AND CHR_STATUS='Y'  ";
+					csql = csql + " GROUP BY  MONTH(DAT_CONDATE),YEAR(DAT_CONDATE) ";
+					csql = csql + " ORDER BY MONTH(DAT_CONDATE),YEAR(DAT_CONDATE)  ";
+					csql = csql + " LIMIT 0,3 ";
+					String checkdata[][]= CommonFunctions.QueryExecute(csql);
+					if(checkdata.length>0)
+					{
+						out.println("<div class='col-md-12'>");
+						out.println("<div class='pricing'>");
+						out.println("<ul>");
+						for(int i=0;i<checkdata.length;i++)
+						{
+							if(i%2==0)
+								out.println("<li class='unit price-success active'>");
+							else if(i%3==0)
+								out.println("<li class='unit price-warning'>");
+							else
+								out.println("<li class='unit price-primary'>");
+							out.println("<div class='price-title'><h3>"+checkdata[i][8]+"</h3><p>"+checkdata[i][0]+"</p></div>");
+							out.println("<div class='price-body'><h4>Recrd counts</h4> <p>"+checkdata[i][1]+"nos</p>");
+							out.println("<ul>");
+							out.println("<li>Travel:"+checkdata[i][2]+"</li>");
+							out.println("<li>Train:"+checkdata[i][3]+"</li>");
+							out.println("<li>Auto:"+checkdata[i][4]+"</li>");
+							out.println("<li>Lunch:"+checkdata[i][5]+"</li>");
+							out.println("<li>Telephone:"+checkdata[i][6]+"</li>");
+							out.println("<li>Others:"+checkdata[i][7]+"</li>");
+							out.println("</ul>");
+							out.println("</div>");
+							out.println("<div class='price-foot'>");
+							out.println("<button type='button' class='btn btn-primary'>View</button>");
+							out.println("</div>");
+							out.println("</li>");	
+							out.println("");
+							out.println("");
+							out.println("");	
+					 
+						}
+						out.println(" </ul>");
+						out.println("</div>");
+						out.println("</div>");
+					}
+					%>
 
-                      <div class="col-md-12">
-                        <div class="pricing">
-                          <ul>
-                            <li class="unit price-primary">
-                                              <div class="price-title">
-                                                <h3>$599</h3>
-                                                <p>per month</p>
-                                              </div>
-                                              <div class="price-body">
-                                                <h4>Basic</h4>
-                                                <p>Lots of clients &amp; users</p>
-                                                <ul>
-                                                  <li>250 SKU's</li>
-                            <li>1 GB Storage</li>
-                            <li>3,5% transaction fee</li>
-                          </ul>
-                        </div>
-                        <div class="price-foot">
-                          <button type="button" class="btn btn-primary">Try a Week</button>
-                        </div>
-                        </li>
-                        <li class="unit price-success active">
-                                              <div class="price-title">
-                                                <h3>$299</h3>
-                                                <p>per month</p>
-                                              </div>
-                                              <div class="price-body">
-                                                <h4>Premium</h4>
-                                                <p>Lots of clients &amp; users</p>
-                                                <ul>
-                                                  <li>2500 SKU's</li>
-                        <li>5 GB Storage</li>
-                        <li>1,5% transaction fee</li>
-                        </ul>
-                      </div>
-                      <div class="price-foot">
-                        <button type="button" class="btn btn-success">Buy Now</button>
-                      </div>
-                      </li>
-                      <li class="unit price-warning">
-                                              <div class="price-title">
-                                                <h3>$499</h3>
-                                                <p>per month</p>
-                                              </div>
-                                              <div class="price-body">
-                                                <h4>Unlimited</h4>
-                                                <p>Lots of clients &amp; users</p>
-                                                <ul>
-                                                  <li>Unlimited SKU's</li>
-                      <li>20 GB Storage</li>
-                      <li>1% transaction fee</li>
-                      </ul>
-                    </div>
-                    <div class="price-foot">
-                      <button type="button" class="btn btn-warning">Subscribe</button>
-                    </div>
-                    </li>
-                    </ul>
-                  </div>
-                </div>
+                      
                 </div>
                 </div>
 

@@ -28,13 +28,17 @@ function ClearTable(ctr1)
 
 function loadConveyance(claimdate,empid)
 {
- 	var date=document.getElementById(claimdate).value;   	
-    var url = "../Conveyance?actionS=Conveyance&claimdate="+escape(date)+"&empid="+empid;  
-    initRequest(url);
-    req.onreadystatechange = ConveyanceRequest;
-    req.open("GET", url, true);
-    req.send(null);
-    
+ 	try{
+		var date=document.getElementById(claimdate).value;   	
+	    var url = "../Conveyance?actionS=Conveyance&claimdate="+escape(date)+"&empid="+empid;  
+	    initRequest(url);
+	    req.onreadystatechange = ConveyanceRequest;
+	    req.open("GET", url, true);
+	    req.send(null);
+ 	}
+ 	catch(err){
+ 		alert(err);
+ 	}
     
 }
  
@@ -84,6 +88,8 @@ function ConveyanceMessage()
 	           		document.getElementById('buttonitemadd').disabled=false;
 	           	}
 	        }
+	        document.getElementById('ConveyanceEntryAmount').value=ConveyanceEntryAmount.childNodes[0].nodeValue;  
+	       	document.getElementById('ConveyanceLimitAmount').value=ConveyanceLimitAmount.childNodes[0].nodeValue;  
     }
     catch(err){
     	alert(err);

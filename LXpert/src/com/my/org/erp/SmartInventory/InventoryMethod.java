@@ -4769,6 +4769,7 @@ public class InventoryMethod extends HttpServlet
 			String payType = request.getParameter("payType");
 			String division = request.getParameter("division");
 			String Payment = request.getParameter("Payment");
+			String Branch = request.getParameter("Branch");
 			String custid = request.getParameter("customer");
 			String bid = "" + session.getAttribute("BRANCHID");
 			String searchid = "" + request.getParameter("id");
@@ -4815,7 +4816,10 @@ public class InventoryMethod extends HttpServlet
 						+ "   (SELECT   count(*) FROM inv_t_paymentcommitment d WHERE   d.CHR_SALESNO =a.CHR_SALESNO  AND d.CHR_STATUS='N' GROUP BY  d.CHR_SALESNO ) ";
 				sql = sql + " FROM inv_t_directsales a ,inv_m_customerinfo b ";
 				sql = sql + " WHERE a.INT_CUSTOMERID=b.INT_CUSTOMERID AND a.CHR_CANCEL='N' ";
-				sql = sql + " AND  a.INT_BRANCHID =" + bid + " ";
+				
+				if (!"0".equals(Branch))
+					sql = sql + " AND  a.INT_BRANCHID =" + Branch + " ";
+				
 				if (!"0".equals(custid))
 					sql = sql + " AND a.INT_CUSTOMERID=" + custid;
 				if (!"0".equals(division))
@@ -5757,8 +5761,12 @@ public class InventoryMethod extends HttpServlet
 			String year = request.getParameter("year");
 			String searchid = request.getParameter("id");
 			String type = request.getParameter("type"); 
+			String Branch = request.getParameter("Branch"); 
 			String sql = "";
 
+			/*if (!"0".equals(custid))
+				sql = sql + " AND a.INT_CUSTOMERID=" + custid;
+			*/
 			if ("Purchase".equals(payment)) 
 			{
 				sql = " SELECT a.CHR_PURCHASEORDERNO  , "
@@ -5779,6 +5787,10 @@ public class InventoryMethod extends HttpServlet
 				if (!"0".equals(year))
 					sql = sql + "   AND  YEAR(a.DAT_ORDERDATE) = " + year;
 
+				if (!"0".equals(Branch))
+					sql = sql + " AND  a.INT_BRANCHID =" + Branch + " ";
+				
+				
 				if("1".equals(type))
 				{	
 					if (!"0".equals(searchid))
@@ -5832,6 +5844,9 @@ ORDER BY b.CHR_VENDORNAME, a.CHR_PURCHASEORDERNO
 				if (!"0".equals(year))
 					sql = sql + "   AND  YEAR(a.DAT_ORDERDATE) = " + year;
 
+				if (!"0".equals(Branch))
+					sql = sql + " AND  a.INT_BRANCHID =" + Branch + " ";
+				
 				if("1".equals(type))
 				{	
 					if (!"0".equals(searchid))
@@ -7331,17 +7346,18 @@ ORDER BY b.CHR_VENDORNAME, a.CHR_PURCHASEORDERNO
 			String query = "";
 			query = " SELECT a.INT_SALESID,a.CHR_SALESNO,FIND_A_CUSTOMER_NAME(b.INT_CUSTOMERID),DATE_FORMAT(a.DAT_SALESDATE,'%d-%m-%Y') ,";
 			query = query + " a.DOU_TOTALAMOUNT,a.CHR_PAYMENTSTATUS,a.INT_SALESSTATUS,";
-			query = query + " (SELECT   count(*) FROM inv_t_paymentcommitment d WHERE   d.CHR_SALESNO =a.CHR_SALESNO  AND d.CHR_STATUS='N' GROUP BY  d.CHR_SALESNO ),";
-			query = query + " a.DOU_TOTALAMOUNT,  (SELECT f.CHR_STAFFNAME FROM com_m_staff  f WHERE f.CHR_USERID= a.CHR_USRNAME),";
+			//query = query + " (SELECT   count(*) FROM inv_t_paymentcommitment d WHERE   d.CHR_SALESNO =a.CHR_SALESNO  AND d.CHR_STATUS='N' GROUP BY  d.CHR_SALESNO ),";
+			query = query + "  FUN_INV_GET_PAYMENTCOMMITMENTCOUNT(a.CHR_SALESNO ), ";
+			query = query + " a.DOU_TOTALAMOUNT,  FUN_INV_GET_STAFFNAMEBYUSERNAME(a.CHR_USRNAME), ";
 			query = query + " a.CHR_INVOICEBLOCK,a.CHR_SALESTYPE,a.CHR_DELIVERY,DATEDIFF(DATE(a.DAT_COURIERDATE),a.DAT_SALESDATE),a.CHR_CANCEL,   ";
 			query = query + " FUN_INV_DIVISION(a.INT_DIVIID) ,a.CHR_CPONUMBER ,";
-			query = query + " (NOW() > DATE_ADD(a.DAT_SALESDATE, INTERVAL (SELECT INT_INVOCECHANGES FROM m_inventorysetting WHERE INT_ROWID= 1) DAY )) ";
+			query = query + " (NOW() > DATE_ADD(a.DAT_SALESDATE, INTERVAL (SELECT INT_INVOCECHANGES FROM m_inventorysetting WHERE INT_ROWID= 1) DAY ))  dd";
 
 			query = query + " ,IF(CHR_GST_TYPE='S','State','Central'),CHR_DISCOUNTBILL FROM inv_t_directsales  a ,inv_m_customerinfo b   ";//,inv_t_paymentcommitment c
 			query = query + " where  a.INT_CUSTOMERID = b.INT_CUSTOMERID   ";// AND a.CHR_SALESNO =c.CHR_SALESNO  AND
 			
 			// a.CHR_SALESTYPE='S'taxtype
-			query = query + " AND a.INT_BRANCHID = " + branchid + "  ";
+			//query = query + " AND a.INT_BRANCHID = " + branchid + "  ";
 			if (!"0".equals(month))
 				query = query + " AND MONTH(a.DAT_SALESDATE) =" + month;
 
@@ -7414,6 +7430,7 @@ ORDER BY b.CHR_VENDORNAME, a.CHR_PURCHASEORDERNO
 				response.setHeader("Cache-Control", "no-cache");
 				response.getWriter().write(
 						"<directSales>" + sb.toString() + "</directSales>");
+				System.out.println("============="+sb.toString());
 			} else {
 				response.setStatus(HttpServletResponse.SC_NO_CONTENT);
 			}
@@ -7617,7 +7634,8 @@ ORDER BY b.CHR_VENDORNAME, a.CHR_PURCHASEORDERNO
 			sql = sql + " a.DOU_TOTALAMOUNT, if(a.CHR_PAYMENTSTATUS='Y','Paid','Pending') ,a.CHR_FLAG,a.CHR_SALEFLAG,a.DOU_TOTALAMOUNT,a.CHR_POREQUESTNO,a.CHR_CANCEL, "; 
 			sql = sql + " FUN_INV_DIVISION(a.INT_DIVIID),FIND_A_EMPLOYEE_ID_NAMEONLY_BY_USERID(a.CHR_USRNAME),a.CHR_GST_TYPE,if(a.CHR_GST_TYPE='S','GST','IST')  FROM inv_t_directpurchase  a, inv_m_vendorsinformation  b ";
 			sql = sql + " where   a.INT_VENDORID=b.INT_VENDORID ";
-			sql = sql + " AND a.INT_BRANCHID =" + branchId + " " + ssql;
+			if (!"F".equals(usertype))
+				sql = sql + " AND a.INT_BRANCHID =" + branchId ;
 			if (!"0".equals(month))
 				sql = sql + " AND month(a.DAT_ORDERDATE) = " + month;
 			if (!"0".equals(day))
@@ -7631,8 +7649,6 @@ ORDER BY b.CHR_VENDORNAME, a.CHR_PURCHASEORDERNO
 				sql = sql + " AND a.CHR_CANCEL = '"+cancel+"' ";
 			if(!"0".equals(taxtype))
 				sql = sql + " AND a.CHR_GST_TYPE = '"+taxtype+"' ";
-			
-			 
 			if (!"0".equals(txtSer))
 				sql = sql + " AND b.CHR_VENDORNAME LIKE '" + txtSer + "%'";
 			sql = sql + "   order by a.INT_PURCHASEORDERID ";
@@ -7668,9 +7684,9 @@ ORDER BY b.CHR_VENDORNAME, a.CHR_PURCHASEORDERNO
 					sb.append("<Taxtype>" + readData[u][13] + "</Taxtype>");
 					sb.append("<TaxtypeGST>" + readData[u][14] + "</TaxtypeGST>");
 					sb.append("<usertype>" + usertype + "</usertype>");
-					
 					sb.append("</directPurchase>");
 				}
+				System.out.println("\n\n"+sb.toString());
 				response.setContentType("text/xml");
 				response.setHeader("Cache-Control", "no-cache");
 				response.getWriter().write("<DirectPurchases>" + sb.toString()+ "</DirectPurchases>");

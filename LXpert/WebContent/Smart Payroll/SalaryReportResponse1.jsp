@@ -161,7 +161,7 @@ try
 	
 	
 	sql = sql + "  GROUP BY a.CHR_EMPID  ";
-	//out.println(sql);
+	out.println(sql);
 	 
 	 
 	 int columncount = CommonFunctions.intGetColumnCount(sql);

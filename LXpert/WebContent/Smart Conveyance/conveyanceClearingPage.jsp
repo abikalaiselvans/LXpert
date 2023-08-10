@@ -65,7 +65,16 @@ try
                   <td class="BorderLine" width="1"><spacer height="1" width="1"
 						type="block" /></td>
                   <td width="7"><spacer height="1" width="1" type="block" /></td>
-                  <td width="575"><table width="100%" border="0" align="center" cellpadding="3" cellspacing="3">
+                  <td width="575">
+				  <%
+				  try
+				  {
+				  	String cdata[][] = CommonFunctions.QueryExecute("SELECT  (DAT_CLEARINGDATE is null),DATE_FORMAT(DAT_ACCDATE,'%d-%m-%Y') FROM conveyance_t_conveyance WHERE CHR_ACCSTATUS='Y'  and DAT_CLEARINGDATE is null GROUP BY DAT_ACCDATE  ORDER BY DAT_ACCDATE  DESC LIMIT 0,1");
+					if(cdata.length>0)
+					{
+				  %>
+				  
+				  <table width="100%" border="0" align="center" cellpadding="3" cellspacing="3">
                     <tr>
                       <td colspan="2" class="boldEleven"><div align="center"><span
 								class="boldThirteen">CONVEYANCE CLEAR </span></div></td>
@@ -73,7 +82,7 @@ try
                     <tr>
                       <td width="33%" class="boldEleven">Conveyance Paid Date </td>
                       <td width="67%" class="boldEleven">
-					  <%=com.my.org.erp.common.CommonFunctions.QueryExecute("SELECT  (DAT_CLEARINGDATE is null),DATE_FORMAT(DAT_ACCDATE,'%d-%m-%Y') FROM conveyance_t_conveyance WHERE CHR_ACCSTATUS='Y' GROUP BY DAT_ACCDATE  ORDER BY DAT_ACCDATE  DESC LIMIT 0,1")[0][1]%>
+					  <%=com.my.org.erp.common.CommonFunctions.QueryExecute("SELECT  (DAT_CLEARINGDATE is null),DATE_FORMAT(DAT_ACCDATE,'%d-%m-%Y') FROM conveyance_t_conveyance WHERE CHR_ACCSTATUS='Y'  and DAT_CLEARINGDATE is null GROUP BY DAT_ACCDATE  ORDER BY DAT_ACCDATE  DESC LIMIT 0,1")[0][1]%>
 					  
 					  <input name="paiddate" type="hidden" value="<%=com.my.org.erp.common.CommonFunctions.QueryExecute("SELECT  (DAT_CLEARINGDATE is null),DATE_FORMAT(DAT_ACCDATE,'%d-%m-%Y') FROM conveyance_t_conveyance WHERE CHR_ACCSTATUS='Y' GROUP BY DAT_ACCDATE  ORDER BY DAT_ACCDATE  DESC LIMIT 0,1")[0][1]%>">					  </td>
                     </tr>
@@ -110,9 +119,16 @@ try
 					  for(int u=0; u<deposit.length;u++)
 					  		out.println("<option value='"+deposit[u][0]+"'>"+deposit[u][1]+"</option>");
 					  %>
-                      </select></td>
+                      </select>
+                        <span class="boldEleven">
+                        <input name="filename" type="hidden" id="filename"
+						value="Conveyance">
+                        <input name="actionS" type="hidden"
+						id="actionS" value="CONConveyanceClearing">
+                      </span></td>
                     </tr>
-                    <tr>
+                   <!--
+				    <tr>
                       <td class="boldEleven">Bank Name </td>
                       <td class="boldEleven">
 					  <select name="bank" id="bank" style="width:200">
@@ -122,13 +138,11 @@ try
 					 for(int u=0; u<bankdata.length; u++)
 						out.print("<option selected='selected' value='"+bankdata[u][0]+"'>"+bankdata[u][1]  +"</option>");
 					  %>
-					  </select>
-					  <input name="filename" type="hidden" id="filename"
-						value="Conveyance">
-                      <input name="actionS" type="hidden"
-						id="actionS" value="CONConveyanceClearing"></td>
+					  </select></td>
                     </tr>
                     <tr>
+					-->
+					
                       <td class="boldEleven">Description</td>
                       <td class="boldEleven"><textarea name="descriptions" id="descriptions" cols="0" rows="0" style="width:250px;height:80px;"  onBlur="textArea('descriptions','120')" ></textarea></td>
                     </tr>
@@ -144,7 +158,23 @@ try
                           </tr>
                       </table></td>
                     </tr>
-                  </table></td>
+                  </table>
+				  <%
+				  	}
+					else 
+					{
+						out.println("<div align='center' >Datat not found</div>");
+					}
+				  }
+				  catch(Exception e)
+				  {
+				  	out.println("Error : "+e.getMessage());
+				  }
+				  %>
+				  
+				  
+				  
+				  </td>
                   <td nowrap="nowrap" width="4"><spacer height="1" width="1"
 						type="block" /></td>
                   <td class="BorderLine" width="1"><spacer height="1" width="1"
@@ -186,7 +216,7 @@ function validate()
 		 if(  
 			checkNull("clearingdate","Enter Clearing date") 
 			&& checkNullSelect("creditto","Select credited to",'')  
-			&&checkNullSelect("bank","Select Bank",'0') 
+			//&&checkNullSelect("bank","Select Bank",'0') 
 			&&checkNull("descriptions","Enter Descriptions...")  )
 			
 			return true;

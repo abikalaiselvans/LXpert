@@ -445,7 +445,7 @@ for(int x=0; x<purchaseids.length;x++)
 		var gval=gctr.value;
 		bval=parseInt(bval);
 		gval=parseInt(gval);
-		if(gval<=bval)
+		if(gval<=(bval+100))
 		{
 			document.getElementById('Valid').innerHTML="<font class='boldgreen'>VALID</font>";
 			document.getElementById('submit').disabled=false;

@@ -41,7 +41,8 @@ function LoadPayment(startLetter)
 	var Status=document.getElementById('Status').value;
 	var month=document.getElementById('month').value;
 	var year=document.getElementById('year').value; 
-    var url = "../inventory?actionS=INVPurchasePayment&type=1&payment="+payment+"&id="+escape(startLetter)+"&vendorid="+vendorid+"&month="+month+"&year="+year;
+	var Branch=document.getElementById('Branch').value;
+    var url = "../inventory?actionS=INVPurchasePayment&type=1&payment="+payment+"&id="+escape(startLetter)+"&vendorid="+vendorid+"&month="+month+"&year="+year+"&Branch="+Branch;
     url = url+"&Status="+Status+"&divis="+divis;
     initRequest(url);
  	req.onreadystatechange = PaymentRequest;
@@ -58,7 +59,8 @@ function LoadPayments(ctr)
 	var Status=document.getElementById('Status').value;
 	var month=document.getElementById('month').value;
 	var year=document.getElementById('year').value; 
-    var url = "../inventory?actionS=INVPurchasePayment&type=2&payment="+payment+"&id="+escape(ctr.value)+"&vendorid="+vendorid+"&month="+month+"&year="+year;
+	var Branch=document.getElementById('Branch').value;
+    var url = "../inventory?actionS=INVPurchasePayment&type=2&payment="+payment+"&id="+escape(ctr.value)+"&vendorid="+vendorid+"&month="+month+"&year="+year+"&Branch="+Branch;
     url = url+"&Status="+Status+"&divis="+divis;
     initRequest(url);
  	req.onreadystatechange = PaymentRequest;

@@ -601,8 +601,7 @@ public static void loadState(HttpServletRequest request, HttpServletResponse  re
   	 	} 
   	 	catch (Exception e) 
   	 	{
-			 
-  	 		System.out.println(e.getMessage());
+   	 		 System.out.println(e.getMessage());
   	 		 request.setAttribute("error", e.getMessage() );
   	         RequestDispatcher dispatchers = request.getRequestDispatcher("/error/index.jsp");
   			 dispatchers.forward(request, response); 

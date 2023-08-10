@@ -138,6 +138,18 @@ function Validate()
                 </span></td>
               </tr>
               <tr>
+                <td class="boldEleven">Payment Mode</td>
+                <td   class="boldEleven"><select name="paymentmode" class="formText135" id="paymentmode" style="width:200">
+                  <option value="0">All</option>
+                  <%
+					   sql = "SELECT INT_DEPOSITID, CHR_DEPOSITNAME FROM com_m_deposit_to WHERE CHR_STATUS !='N' ORDER BY CHR_DEPOSITNAME";
+					   String deposit[][] = CommonFunctions.QueryExecute(sql);
+					  for(int u=0; u<deposit.length;u++)
+					  		out.println("<option value='"+deposit[u][0]+"'>"+deposit[u][1]+"</option>");
+					  %>
+                </select></td>
+              </tr>
+              <tr>
                 <td width="173" class="boldEleven">From Date </td>
                 <td   class="boldEleven"><input   
 												name="fromdate" type="text" class="formText135"
