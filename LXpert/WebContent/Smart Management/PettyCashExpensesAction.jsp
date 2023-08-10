@@ -318,8 +318,8 @@ background-color: #99cc99;
               <tr>
                 <td align="left" valign="top" class="boldEleven">Amount <span class="errormessage">*</span></td>
                 <td align="left" valign="top" class="boldEleven"><input name="income" type="text" value="<%=income%>"
-										class="formText135" id="income" onKeyPress="return numeric_only(event,'income','15')" size="31" maxlength="8"/></td>
-              </tr>
+										class="formText135" id="income" onKeyPress="return numeric_priceonly(event,'income','15')" size="31" maxlength="8"/></td>
+              </tr> 
               <tr>
                 <td align="left" valign="top" class="boldEleven">Payment Mode  <span class="errormessage">*</span></td>
                 <td align="left" valign="top" class="boldEleven"><select name="paymentmode" class="formText135" id="paymentmode" style="width:200">

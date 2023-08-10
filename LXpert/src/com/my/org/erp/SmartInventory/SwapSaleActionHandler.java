@@ -751,6 +751,55 @@ public class SwapSaleActionHandler extends AbstractActionHandler
 								apstm.close();
 							}
 						}
+						
+						
+						//Mail trigger
+						String mdata[][] = CommonFunctions.QueryExecute("SELECT  CHR_MAILENABLE ,CHR_INVOICEDELETE FROM m_inventorysetting  WHERE INT_ROWID=1");
+						if(mdata.length>0){
+							System.out.println("******************************** MAIL TRIGGER START **********************************");
+							if(mdata[0][0].equals("Y")){
+								String subject ="SALES INVOICE:";
+								String empmaildata[][] = CommonFunctions.QueryExecute("SELECT a.CHR_EMAILID FROM com_m_staff a, inv_t_directsales b  WHERE a.CHR_EMPID = b.CHR_REF AND b.CHR_SALESNO = '"+salesno+"'");
+								String email =mdata[0][1];
+								if(empmaildata.length >0 && empmaildata[0][0].length()>0)
+								{
+									email = email +","+ empmaildata[0][0];
+								}
+								
+								System.out.println("******************************** MAIL IDS "+email+" **********************************");
+								String a[] =(email).split(",") ;
+								String content = InvoiceHTMLMail.employeeBasedMailContent(salesno, branchid, session, request.getRealPath("/")); 
+								String[] attachments = new String [2];
+								attachments[0] =Path+"images\\Header.png";
+								attachments[1] =  Path+"images\\logo.jpg";
+								if(!"".equals(email) || !"null".equals(email) )
+									InvMail.sendEmailWithAttachments(a, subject+": "+salesno, content, attachments);
+							}
+							System.out.println("******************************** MAIL TRIGGER END **********************************");
+						}
+						
+						/*
+						 
+						 
+						 String salesno =request.getParameter("salesno");
+					String subject =request.getParameter("subject");
+					String email =request.getParameter("email");
+					String a[] =(email+",").split(",") ;
+					System.out.println("======");
+					String content = InvoiceHTMLMail.mailContent(salesno, branchid, session, request.getRealPath("/")); 
+					System.out.println("******************************************************************************");
+					System.out.println(content);
+					System.out.println("******************************************************************************");
+					String[] attachments = new String [2];
+					attachments[0] =Path+"images\\Header.png";
+					attachments[1] =  Path+"images\\logo.jpg";
+					
+					
+					if(!"".equals(email) || !"null".equals(email) )
+						InvMail.sendEmailWithAttachments(a, subject+": "+salesno, content, attachments);
+					
+					  
+						 */
 						response.sendRedirect("Smart Inventory/PaymentCommitmentEdit.jsp?salno="+salesno+"&Billinttype=C");	
 					}
 					else

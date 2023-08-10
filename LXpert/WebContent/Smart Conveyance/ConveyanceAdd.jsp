@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <%@ page import="com.my.org.erp.common.*"%>
 <%@ page import="com.my.org.erp.common.CommonFunctions"%>
 
@@ -151,22 +152,31 @@ try
 	
 	function chk()
 	{
-		//checkNullSelect("vtype","Select Type of Vehicle ","Select")
-		var sf = false;
-		if(checkNull('opendate',"Select Date"))
-			sf = true;
-		var df =false;
-		var ddf = false;
-		var op=	document.getElementById('opendate').value;
-		var sp = document.getElementById('serverdate').value;	
-		var fg =Datecheck();
-		
-		if((sf) &&(fg))	
+		try
 		{
-		 	loadConveyance('opendate',"<%=""+session.getAttribute("EMPID")%>");	 
-			if(checkNullSelect("division","Select Division ","Select") )
-				insRow();
-		}		
+			//checkNullSelect("vtype","Select Type of Vehicle ","Select")
+			document.getElementById("limitmessage").innerHTML = "";
+			var sf = false;
+			if(checkNull('opendate',"Select Date"))
+				sf = true;
+			var df =false;
+			var ddf = false;
+			var op=	document.getElementById('opendate').value;
+			var sp = document.getElementById('serverdate').value;	
+			var fg =Datecheck();
+			
+			if((sf) &&(fg))	
+			{
+				
+				loadConveyance('opendate',"<%=""+session.getAttribute("EMPID")%>");	 
+				if(checkNullSelect("division","Select Division ","Select") )
+					insRow();
+			}
+		}
+		catch(err)
+		{
+			alert(err);
+		}			
 		
 	}
 	var plc ="";
@@ -581,6 +591,19 @@ function deleteRow(i,rx)
 			tot = tot +parseFloat(tvalue);
 		}
 		document.getElementById('ntotal').value = Round(tot);
+		
+		var entryamount = parseFloat(document.getElementById('ConveyanceEntryAmount').value);  
+	    var limitamount = parseFloat(document.getElementById('ConveyanceLimitAmount').value);
+		var chkamount = entryamount+Round(tot);
+		if ( chkamount>limitamount ){
+			alert("Conveyance limit crossed  Limit:"+limitamount+"  Previous Amount::" +entryamount +" Claim Amount::"+chkamount);
+			document.getElementById("limitmessage").innerHTML = "Conveyance limit crossed  Limit:"+limitamount+"  Previous Amount::" +entryamount +" Claim Amount::"+chkamount;
+			submitdisable();	
+		} else {
+			submitenable();
+		}
+		  
+			
 	}
 	
 	
@@ -724,6 +747,8 @@ function datevalid()
 
 
 <input name="serverdate" id="serverdate"  type="hidden" value="<%=d%>">
+<input name="ConveyanceEntryAmount" id="ConveyanceEntryAmount"  type="hidden" value="0">
+<input name="ConveyanceLimitAmount" id="ConveyanceLimitAmount"  type="hidden" value="0">
 
 
 <script language="javascript">
@@ -826,6 +851,12 @@ function datevalid()
 			      </div></TD>
 				  <TD class="boldEleven"   bgColor="#ffffff" >&nbsp;</TD>
 				  <TD   align=middle bgColor=#ffffff
+						class="boldEleven">&nbsp;</TD>
+			  </TR>
+				<TR id="ppf0">
+				  <TD bgColor=#ffffff>&nbsp;</TD>
+				  <TD class="ui-state-error-text"   bgColor="#ffffff" ><div align="center" id="limitmessage">&nbsp;</div></TD>
+				  <TD align=middle bgColor=#ffffff
 						class="boldEleven">&nbsp;</TD>
 			  </TR>
 				<TR id="ppf0">

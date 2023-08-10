@@ -41,6 +41,10 @@ try
  
 
  	String reportheader="INCOME/RECEIPTS INFORMATIONS "; 
+	String branch=request.getParameter("branch");
+	String paymentmode=request.getParameter("paymentmode");
+	String fromdate=request.getParameter("fromdate");
+	String todate=request.getParameter("todate");
  	String sql="";
 	sql = "  ";
 	sql = " SELECT a.CHR_INCOMEREFNO, FUN_GET_BRANCH_NAME(a.INT_BRANCHID), ";

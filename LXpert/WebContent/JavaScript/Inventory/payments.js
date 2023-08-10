@@ -47,9 +47,11 @@ function SalesPayment(startLetter)
 	var month=document.getElementById('month').value;
 	var year=document.getElementById('year').value;
 	var day=document.getElementById('day').value;
+	var Branch=document.getElementById('Branch').value;
 	var tb=document.getElementById('SalesPaymentTables');
   	tb.innerHTML=""  ; 
-	var url = "../inventory?actionS=INVLoadSalesPayment&type=1&payType="+escape(pType)+"&id="+escape(startLetter)+"&division="+division+"&Payment="+Payment+"&customer="+customer+"&year="+year+"&month="+month+"&day="+day;
+	var url = "../inventory?actionS=INVLoadSalesPayment&type=1&payType="+escape(pType)+"&id="+escape(startLetter)+"&division="+division+"&Payment="+Payment+"&customer="+customer+"&year="+year+"&month="+month+"&day="+day+"&Branch="+Branch;
+	console.log(url);
 	var tb=document.getElementById('SalesPaymentTables');
   	tb.innerHTML=""  ; 
    	initRequest(url);
@@ -68,8 +70,10 @@ function SalesPayments(ctr)
 	var year=document.getElementById('year').value;
 	var day=document.getElementById('day').value;
 	var tb=document.getElementById('SalesPaymentTables');
+	var Branch=document.getElementById('Branch').value;
   	tb.innerHTML=""  ; 
-	var url = "../inventory?actionS=INVLoadSalesPayment&type=2&payType="+escape(pType)+"&id="+escape(ctr.value)+"&division="+division+"&Payment="+Payment+"&customer="+customer+"&year="+year+"&month="+month+"&day="+day;
+	var url = "../inventory?actionS=INVLoadSalesPayment&type=2&payType="+escape(pType)+"&id="+escape(ctr.value)+"&division="+division+"&Payment="+Payment+"&customer="+customer+"&year="+year+"&month="+month+"&day="+day+"&Branch="+Branch;
+	console.log(url);
 	var tb=document.getElementById('SalesPaymentTables');
   	tb.innerHTML=""  ; 
    	initRequest(url);
@@ -162,11 +166,11 @@ function SalesMessages()
 		window.status=(loop+1);
      }
      
-     
+       
      str=str+"<tr height='25' class='MRow1'><td  colspan='3' align=right class='boldEleven'><b><font Color='red'>Total Amount</font></b></td>";
      str=str+"<td align=right class='boldEleven'><b><font Color='red'>"+  sumtotal.toFixed(2)+"</font></b></td>";
      str=str+"<td align=right class='boldEleven'><b><font Color='red'>"+  paidamount.toFixed(2)+"</font></b></td>  ";
-     str=str+"<td align=right class='boldEleven'><b><font Color='red'>"+  (sumtotal.toFixed(2)-paidamount.toFixed(2))+"</font></b></td><td>&nbsp;</td><td>&nbsp;</td>"; 
+     str=str+"<td align=right class='boldEleven'><b><font Color='red'>"+  (sumtotal.toFixed(2)-paidamount.toFixed(2))+"</font></b></td><td>&nbsp;</td>"; 
     
      str=str+"</table>";
      

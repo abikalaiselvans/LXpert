@@ -60,7 +60,6 @@ public class PettyCashExpensesActionHandler extends AbstractActionHandler {
 	{
 		try
 		{
-			 
 			PettyCashExpense c =new PettyCashExpense();
 			Map map=request.getParameterMap();
 			BeanUtils.populate(c,map);

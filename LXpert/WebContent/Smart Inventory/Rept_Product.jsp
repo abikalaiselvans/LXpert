@@ -35,7 +35,7 @@ try
 {
  		String reportheader="PRODUCT "; 
 		String sql =" SELECT a.CHR_NAME,b.CHR_PRODUCTCODE,b.CHR_PRODUCTDESC,IF(b.INT_ACTIVE =1,'Active','Inactive') ,  ";
- 		sql = sql +" IF(b.CHR_PTYPE ='S' ,'Consumable Product', IF(b.CHR_PTYPE ='F','Full Product','Combinational Product ') )  ";
+ 		sql = sql +" IF(b.CHR_PTYPE ='S' ,'Consumable Product', IF(b.CHR_PTYPE ='F','Full Product','Combinational Product ') ) , b.CHR_HSNCODE, LENGTH(b.CHR_HSNCODE) ";
   		sql = sql +" FROM inv_m_productgroup  a , inv_m_produtlist b    ";
   		sql = sql +" WHERE a.INT_PRODUCTGROUPID =b.INT_PRODUCTGROUPID   ";
   		sql = sql +" ORDER BY b.CHR_PRODUCTCODE  ";
@@ -56,6 +56,8 @@ try
 				child.addElement(data[u][2]);
 				child.addElement(data[u][3]);
 				child.addElement(data[u][4]);
+				child.addElement(data[u][5]);
+				child.addElement(data[u][6]);
 				mn.add(child); 
 			}
 		} 
@@ -72,7 +74,8 @@ try
 					<display:column title="DESCRIPTION"   sortable="true"><%=temp.elementAt(3)%></display:column>
 					<display:column title="ACTIVE"   sortable="true"><%=temp.elementAt(4)%></display:column>
 					<display:column title="TYPE"   sortable="true"><%=temp.elementAt(5)%></display:column>
-	
+					<display:column title="HSNCODE"   sortable="true"><%=temp.elementAt(6)%></display:column>
+					<display:column title="HSNCODE - LENGTH"   sortable="true"><%=temp.elementAt(7)%></display:column>
 					<display:setProperty name="export.excel.filename" value="Rept_Product.xls"/>
 					<display:setProperty name="export.pdf.filename" value="Rept_Product.pdf"/>
 					<display:setProperty name="export.csv.filename" value="Rept_Product.csv"/>

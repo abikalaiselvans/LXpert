@@ -42,22 +42,25 @@ try
 
  	String reportheader="INCOME/RECEIPTS INFORMATIONS "; 
 	String branch=request.getParameter("branch");
+	String paymentmode=request.getParameter("paymentmode");
 	String fromdate=request.getParameter("fromdate");
 	String todate=request.getParameter("todate");
  	String sql="";
-	sql = "  ";
-	sql = sql + " SELECT a.INT_INCOMEID,a.CHR_INCOMEREFNO ,FUN_GET_BRANCH_NAME(a.INT_BRANCHID), ";
-	sql = sql + " DATE_FORMAT(a.DAT_INCOME,'%d-%b-%Y'), b.CHR_NAME, CONCAT('Branch:', FUN_GET_BRANCH_NAME(a.INT_BRANCHID), '  Ref No: ',CHR_INCOMEREFNO, '  Desc: ', a.CHR_DESC),a.DOU_AMOUNT,FIND_A_EMPLOYEE_ID_NAME_BY_USERID(a.CHR_USRNAME), c.CHR_DEPOSITNAME  ";
+	sql = "  ";// CONCAT('Branch:', FUN_GET_BRANCH_NAME(a.INT_BRANCHID), '  Ref No: ',CHR_INCOMEREFNO, '  Desc: ', a.CHR_DESC),
+	sql = sql + " SELECT a.INT_INCOMEID,a.CHR_INCOMEREFNO ,FUN_GET_BRANCH_NAME(a.INT_BRANCHID), a.CHR_DESC,";
+	sql = sql + " DATE_FORMAT(a.DAT_INCOME,'%d-%b-%Y'), b.CHR_NAME,a.DOU_AMOUNT,FIND_A_EMPLOYEE_ID_NAME_BY_USERID(a.CHR_USRNAME), c.CHR_DEPOSITNAME  ";
 	sql = sql + " FROM mgt_t_pettycash_income a, mgt_m_pettycash b , com_m_deposit_to c ";
-	sql = sql + " WHERE a.INT_CATEGORYID = b.INT_CATEGORYID  AND  a.INT_PAYMENTMODE = c.INT_DEPOSITID";
+	sql = sql + " WHERE a.INT_SOURCEID = b.INT_CATEGORYID  AND  a.INT_PAYMENTMODE = c.INT_DEPOSITID";
 	sql = sql + " AND a.DAT_INCOME >= '" +DateUtil.FormateDateSQL(fromdate)+"' ";
 	sql = sql + " AND a.DAT_INCOME <= '" +DateUtil.FormateDateSQL(todate)+"' ";        
 	 
 	if(!"0".equals(branch))
 		sql = sql + " AND a.INT_BRANCHID = "+branch;
-	 
+	if(!"0".equals(paymentmode))
+		sql = sql + " a.INT_PAYMENTMODE = "+paymentmode;
+	  
 	sql = sql + "   ORDER BY a.INT_INCOMEID  ";
-	out.println(sql);
+	//out.println(sql);
 	String data[][] = CommonFunctions.QueryExecute(sql);
     Vector mn = new Vector();
 	Vector child= null;
@@ -88,7 +91,7 @@ try
 	 
 	request.setAttribute("table",mn);
 	
-  
+  //<display:column title="2NDLEDGERNAME"   sortable="true">PETTY CASH EXPENSES</display:column>
   
  
 %>
@@ -101,16 +104,16 @@ try
 					<display:column title="SALESINVOICENO"   sortable="true"></display:column>
 					<display:column title="SALESINVOICENO" sortable="true"></display:column>
 					<display:column title="LEDGERCODE"   sortable="true"></display:column>
-					<display:column title="1STLEDGERNAMEPARTYLEDG"   sortable="true"><%=temp.elementAt(4)%></display:column>
+					<display:column title="1STLEDGERNAMEPARTYLEDG"   sortable="true"><%=temp.elementAt(5)%></display:column>
 					<display:column title="CUSTOMERGSTINNO"   sortable="true"></display:column>
 					<display:column title="PAYMENTMODE"   sortable="true"><%=temp.elementAt(8)%></display:column>
 					<display:column title="PAYMENTREFNUMBER"   sortable="true"></display:column>
-					<display:column title="TALLY_DATE"   sortable="true"><%=temp.elementAt(3)%></display:column>
+					<display:column title="TALLY_DATE"   sortable="true"><%=temp.elementAt(4)%></display:column>
 					<display:column title="ISSUE_ENTRYDATE"  sortable="true"></display:column>
 					
-					<display:column title="NARRATION"   sortable="true"><%=temp.elementAt(5)%></display:column>
+					<display:column title="NARRATION"   sortable="true"><%=temp.elementAt(3)%></display:column>
 					<display:column title="INVOICE_NETAMOUNT" style="text-align:right"   sortable="true"></display:column>
-					<display:column title="2NDLEDGERNAME"   sortable="true">PETTY CASH EXPENSES</display:column>
+					<display:column title="2NDLEDGERNAME"   sortable="true"><%=temp.elementAt(8)%></display:column>
 					<display:column title="TTYPE"   sortable="true">+</display:column>
 					<display:column title="PAIDAMOUNT"  style="text-align:right"  sortable="true"><%=temp.elementAt(6)%></display:column>
 					<display:column title="SYSTEM_ENTRYDATE"  style="text-align:right" sortable="true"></display:column>

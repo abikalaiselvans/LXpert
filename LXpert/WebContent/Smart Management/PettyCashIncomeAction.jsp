@@ -183,12 +183,12 @@ function Validate()
               <tr>
                 <td align="left" valign="top" class="boldEleven">Amount</td>
                 <td align="left" valign="top" class="boldEleven"><input name="income" type="text" value="<%=income%>"
-										class="formText135" id="income" onKeyPress="return numeric_only(event,'income','15')" size="31" maxlength="8"/></td>
+										class="formText135" id="income" onKeyPress="return numeric_priceonly(event,'income','15')" size="31" maxlength="8"/></td>
               </tr>
               <tr>
                 <td align="left" valign="top" class="boldEleven">Payment Mode <span class="errormessage">*</span></td>
                 <td align="left" valign="top" class="boldEleven"><select name="paymentmode" class="formText135" id="paymentmode" style="width:200">
-                  <option value="">Select</option>
+                  <option value="">SELECT</option>
                   <%
 					   sql = "SELECT INT_DEPOSITID, CHR_DEPOSITNAME FROM com_m_deposit_to WHERE CHR_STATUS !='N' ORDER BY CHR_DEPOSITNAME";
 					   String deposit[][] = CommonFunctions.QueryExecute(sql);

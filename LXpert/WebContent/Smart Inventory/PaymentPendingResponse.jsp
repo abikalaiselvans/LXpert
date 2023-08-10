@@ -70,7 +70,7 @@ try
 			sql = sql+" ,FIND_A_CUSTOMER_NAME(b.INT_CUSTOMERID) ,c.CHR_STAFFNAME,d.CHR_DIVICODE,f.CHR_COMPANYNAME,e.CHR_BRANCHNAME ,   ";
 			sql = sql+" ( SELECT DATE_FORMAT(max(h.DT_COMMITMENTDATE ),'%e-%M-%Y') FROM inv_t_paymentcommitment h   WHERE a.CHR_SALESNO = h.CHR_SALESNO ) ";
 			sql = sql+" , DATEDIFF(( SELECT max(h.DT_COMMITMENTDATE ) FROM inv_t_paymentcommitment h   WHERE a.CHR_SALESNO = h.CHR_SALESNO ),a.DAT_SALESDATE) ";
-			sql = sql+" ,a.CHR_OTHERREF ,FIND_A_CUSTOMER_ADDRESS(b.INT_CUSTOMERID) from inv_t_directsales a ,inv_m_customerinfo b ,com_m_staff c ,inv_m_division d, com_m_branch e,com_m_company f,inv_t_paymentcommitment g WHERE a.CHR_PAYMENTSTATUS !='Y'   AND a.CHR_SALESNO = g.CHR_SALESNO AND g.CHR_INVOICETYPE='C' AND a.INT_SALESSTATUS=1  AND a.CHR_CANCEL ='N' AND a.CHR_SALESTYPE !='R'  AND a.DOU_TOTALAMOUNT >0 ";
+			sql = sql+" ,a.CHR_OTHERREF ,FIND_A_CUSTOMER_ADDRESS(b.INT_CUSTOMERID), FUN_INV_GET_COMMITMENTDATE_AGE(a.CHR_SALESNO) from inv_t_directsales a ,inv_m_customerinfo b ,com_m_staff c ,inv_m_division d, com_m_branch e,com_m_company f,inv_t_paymentcommitment g WHERE a.CHR_PAYMENTSTATUS !='Y'   AND a.CHR_SALESNO = g.CHR_SALESNO AND g.CHR_INVOICETYPE='C' AND a.INT_SALESSTATUS=1  AND a.CHR_CANCEL ='N' AND a.CHR_SALESTYPE !='R'  AND a.DOU_TOTALAMOUNT >0 ";
 			sql = sql+" AND a.CHR_PAYMENTSTATUS !='S'  AND a.INT_CUSTOMERID = b.INT_CUSTOMERID AND a.CHR_REF = c.CHR_EMPID";
 			sql = sql+" AND a.INT_DIVIID=d.INT_DIVIID  AND a.INT_BRANCHID = e.INT_BRANCHID  AND e.INT_COMPANYID = f.INT_COMPANYID" ;
 			
@@ -132,6 +132,7 @@ try
 					child.addElement(data[y][7]);
 					child.addElement(data[y][12]);
 					child.addElement(data[y][13]);
+					child.addElement(data[y][14]);
 					mn.add(child);
 					 
 				}
@@ -221,6 +222,7 @@ try
 					child.addElement(data[y][7]);
 					child.addElement(data[y][12]);
 					child.addElement(data[y][13]);
+					child.addElement("");
 					mn.add(child);
 				 
 				}
@@ -306,7 +308,7 @@ try
 					child.addElement(data[y][7]);
 					child.addElement(data[y][12]);
 					child.addElement(data[y][13]);
-					
+					child.addElement("");
 					mn.add(child);
 					
 					
@@ -344,6 +346,7 @@ try
 					<display:column title="M.E. NAME" sortable="true"><%=temp.elementAt(12)%></display:column>
 					<display:column title="DIVISION" sortable="true"><%=temp.elementAt(13)%></display:column>
 					<display:column title="Reference" sortable="true"><%=temp.elementAt(14)%></display:column>
+					<display:column title="AGE" sortable="true"><%=temp.elementAt(16)%></display:column>
 					  
 					<display:setProperty name="export.excel.filename" value="Rept_Paymentpending.xls"/>
 					<display:setProperty name="export.pdf.filename" value="Rept_Paymentpending.pdf"/>

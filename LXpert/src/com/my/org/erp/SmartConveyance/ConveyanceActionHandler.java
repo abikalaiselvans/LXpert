@@ -663,7 +663,8 @@ public class ConveyanceActionHandler extends AbstractActionHandler
 				apstm.execute();
 				apstm.close(); 
 				con.close();   
-				response.sendRedirect("Smart Conveyance/PaidConveyanceOfficewise.jsp");
+				//response.sendRedirect("Smart Conveyance/PaidConveyanceOfficewise.jsp");
+				response.sendRedirect("Smart Conveyance/Conveyancemain.jsp");
 			}
 			else if (action.equals("CONConveyanceAddUploadedExcel")) 
 			{
@@ -691,7 +692,6 @@ public class ConveyanceActionHandler extends AbstractActionHandler
             int rowcount =0;
             String opendate="",From="",To="",CallNumber="",OthersDesc="";
             double NoofKms=0,TrainFare=0,AutoFare=0,Lunch=0,Telephone=0,OthersAmt=0, total =0;
-
             String cdata[][]= CommonFunctions.QueryExecute("SELECT DOU_PETROL FROM m_institution  WHERE INT_ID=1");
             String repto= CommonFunctions.QueryExecute("SELECT CHR_REPTO from com_m_staff where CHR_EMPID='"+empid+"'")[0][0];
 			double price = Double.parseDouble(cdata[0][0]);

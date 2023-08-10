@@ -124,8 +124,6 @@ $(document).ready(function() {
 
 $(document).ready(function()
 		{ 
-		 
-		
 		
 	$.ajax({
         url: "../SmartCommonAjax?actionS=DatatableLoadQualification",

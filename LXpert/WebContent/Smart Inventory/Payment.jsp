@@ -149,7 +149,11 @@ try
 			<tr  >
 				<td width="843" height="31"  >
 				<div align="center"><span class="boldThirteen">Purchase
-				Payment Details</span></div>
+				Payment Details<%
+									String branchid=""+session.getAttribute("BRANCHID");
+				String usertype=""+session.getAttribute("USRTYPE");
+				String user= ""+session.getAttribute("USRID"); 
+									%> </span></div>
 				</td>
 			</tr>
 			<tr  >
@@ -169,7 +173,7 @@ try
 							%>
 						</select></td>
 						<td  >Vendors</td>
-						<td colspan="3">
+						<td>
 						<select name="vendorid" class="formText135" id="vendorid" onChange="LoadPayment('0')">
 						<option value=0>All</option>
 						<%
@@ -179,14 +183,46 @@ try
 						%>			
 						</select>						</td>
 						<td>Status</td>
-				        <td><span class="boldThirteen">
+						<td><span class="boldThirteen">
 				          <select name="Status"
 							id="Status" onChange="LoadPayment('0')">
                             <option value=0>All</option>
                             <option value=1>Pending</option>
                             <option value=2>completed</option>
                           </select>
-				        </span></td>
+				        </span>&nbsp;</td>
+						<td>&nbsp;</td>
+				        <td><div align="left">
+							    <select name="Branch" class="formText135"
+							id="Branch" tabindex="6" style="width:200"  onBlur="LoadPayment('0')"  >
+							       
+							      <%
+								
+				String sql ="Select a.INT_BRANCHID,a.CHR_BRANCHNAME ,b.CHR_COMPANYNAME from  com_m_branch  a  ,com_m_company b where  a.INT_COMPANYID = b.INT_COMPANYID ";	
+				if("N".equals(CommonFunctions.QueryExecute("SELECT  CHR_DISPLAYINACTIVECOMPANY FROM m_institution  WHERE INT_ID=1")[0][0]))			  
+					sql = sql + " AND b.INT_ACTIVE =1 ";
+								
+				String shipids[][] =  CommonFunctions.QueryExecute(sql);
+				if(usertype.equals("F") || usertype.equals("B"))
+				{
+				  out.print("<option value='0'>All</option>");	
+				  for(int u=0; u<shipids.length; u++)
+					out.print("<option value='"+shipids[u][0]+"'>"+shipids[u][2]+" @ "+shipids[u][1]+"</option>");
+				}
+				else
+				{
+					for(int u=0; u<shipids.length; u++)
+						if(shipids[u][0].equals(branchid))
+							out.print("<option value='"+shipids[u][0]+"'>"+shipids[u][2]+" @ "+shipids[u][1]+"</option>");
+												
+				}
+						
+							%>
+				                </select> 
+							    <script language="javascript">
+						  	setOptionValue("Branch","<%=branchid%>") 
+						      </script>
+						      </div></td>
 					</tr>
 					<tr>
 					  <td>Payment for </td>

@@ -96,7 +96,7 @@ function RDelete()
 {
 
 
-	obj = findObj("rowid"); 
+	obj = findObj("target"); 
 	if(obj == null)
 	{
 		alert("Delete not available");
@@ -130,7 +130,7 @@ function RDelete()
 		if(name == true)
 		{
 				document.frm.action="../SmartLoginAuth";
-				return true;
+				//return true;
 		}
 		else
 		{
@@ -138,15 +138,57 @@ function RDelete()
 		}
 	}	
 }
+
+function CDelete()
+ 	{		
+		
+		obj = findObj("target"); 
+		if(obj == null)
+		{
+			alert("Delete not available");
+			return false;
+		}	
+		
+		var count;
+		count=0;
+		coffee1=document.forms[0].target
+		txt=""
+		for (i=0;i<coffee1.length;++ i)
+		{
+			if (coffee1[i].checked)
+			{
+			count=count+1;
+			}
+		}
+		if(count==0)
+		{
+			if (document.forms[0].target.checked) { count=1;}
+		}
+		if(count>=1){			
+			var name=confirm("Confirm to Delete")
+			if (name==true)
+			{ 
+				document.frm.action="../SmartLoginAuth";
+				return true;			
+			}
+			else
+				return false;
+		}
+		else
+		{
+		    alert("Select Atleast One Value");
+		    return false;
+		}		
+ 	}
  	
 
-  
+   //action="../SmartLoginAuth"
  	
 </script>
 
 <body    onLoad="loadTargetAssign('0')">
 <%@ include file="indexinv.jsp"%>
-<form  AUTOCOMPLETE = "off"   action="../SmartLoginAuth" method="get" name="frm"  >
+<form  AUTOCOMPLETE = "off"   method="get" name="frm"   id="frm" >
 <table width="100%" border="0" cellspacing="1" cellpadding="1">
 	<tr>
 	  <td>&nbsp;</td>
@@ -284,7 +326,7 @@ function RDelete()
 			
 			out.println("<td ' valign='top'>");
 			if("Y".equals(CommonFunctions.QueryExecute("SELECT CHR_DELETE_INV FROM m_user_privilege WHERE CHR_USRNAME ='"+session.getAttribute("USRID").toString()+"'")[0][0]))
-				out.println("<input class='ButtonHead' type='button' onClick='return  RDelete()' name='Delete' id='Delete' value='Delete'>");
+				out.println("<input class='ButtonHead' type='submit' onClick='return  CDelete()' name='Delete' id='Delete' value='Delete'>");
 			else	
 				out.println("<input type='hidden'  name='Delete' id='Delete' value='Delete'>");
 			out.println("</td>");	

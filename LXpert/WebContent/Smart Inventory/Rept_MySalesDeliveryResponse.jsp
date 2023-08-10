@@ -43,7 +43,7 @@ try
 		String saleDate2  = request.getParameter("saleDate2");
 		saleDate = DateUtil.FormateDateSQL(saleDate);
 		saleDate2 = DateUtil.FormateDateSQL(saleDate2);
-		
+		String usertype=""+session.getAttribute("USRTYPE");
 		
 			
 			
@@ -68,7 +68,11 @@ try
 		sql = sql + " WHERE a.INT_CUSTOMERID = b.INT_CUSTOMERID ";
 		sql = sql + " AND a.INT_BRANCHID  = c.INT_BRANCHID  ";
 		sql = sql + " AND a.INT_DIVIID =d.INT_DIVIID AND a.CHR_SALESNO =e.CHR_SALESNO ";
-		sql = sql +" AND a.CHR_REF='"+session.getAttribute("EMPID")+"'";
+		//out.println(usertype.equals("F"));
+		
+		if( !usertype.equals("F") )
+			sql = sql +" AND a.CHR_REF='"+session.getAttribute("EMPID")+"'";
+		
 		sql = sql + " AND a.DAT_SALESDATE >='"+saleDate+"' ";
 		sql = sql + " AND a.DAT_SALESDATE <='"+saleDate2+"' ";
 		if(!"0".equals(Branch)) 

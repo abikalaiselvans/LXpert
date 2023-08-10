@@ -34,7 +34,7 @@
 try
 {
  		String reportheader="ITEM "; 
-		String sql =" SELECT a.CHR_GROUPNAME,b.CHR_ITEMNAME,b.CHR_DES,IF(b.INT_ACTIVE =1,'Active','Inactive')   FROM inv_m_itemgroup  a , inv_m_item b  WHERE a.INT_ITEMGROUPID = b.INT_ITEMGROUPID  ORDER BY b.CHR_ITEMNAME ";
+		String sql =" SELECT a.CHR_GROUPNAME,b.CHR_ITEMNAME,b.CHR_DES,IF(b.INT_ACTIVE =1,'Active','Inactive'), b.CHR_HSNCODE, LENGTH(b.CHR_HSNCODE)    FROM inv_m_itemgroup  a , inv_m_item b  WHERE a.INT_ITEMGROUPID = b.INT_ITEMGROUPID  ORDER BY b.CHR_ITEMNAME ";
 		Vector mn = new Vector();
 	 	Vector child= null;
 		String data[][] = com.my.org.erp.common.CommonFunctions.QueryExecute(sql);
@@ -49,6 +49,8 @@ try
 				child.addElement(data[u][1]);
 				child.addElement(data[u][2]);
 				child.addElement(data[u][3]);
+				child.addElement(data[u][4]);
+				child.addElement(data[u][5]);
 				mn.add(child); 
 			}
 		} 
@@ -64,7 +66,8 @@ try
 					<display:column title="ITEM NAME"   sortable="true"><%=temp.elementAt(2)%></display:column>
 					<display:column title="DESCRIPTION"   sortable="true"><%=temp.elementAt(3)%></display:column>
 					<display:column title="ACTIVE"   sortable="true"><%=temp.elementAt(4)%></display:column>
-	
+					<display:column title="HSNCODE"   sortable="true"><%=temp.elementAt(5)%></display:column>
+					<display:column title="HSNCODE - LENGTH"   sortable="true"><%=temp.elementAt(6)%></display:column>
 					<display:setProperty name="export.excel.filename" value="Rept_Item.xls"/>
 					<display:setProperty name="export.pdf.filename" value="Rept_Item.pdf"/>
 					<display:setProperty name="export.csv.filename" value="Rept_Item.csv"/>

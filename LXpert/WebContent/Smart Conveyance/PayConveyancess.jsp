@@ -143,7 +143,7 @@ try
 	{
 		try
 		{
-			sql ="SELECT  (DAT_CLEARINGDATE is null),DATE_FORMAT(DAT_ACCDATE,'%d-%b-%Y') FROM conveyance_t_conveyance WHERE CHR_ACCSTATUS='Y' GROUP BY DAT_ACCDATE  ORDER BY DAT_ACCDATE  DESC LIMIT 0,1";
+			sql ="SELECT  (DAT_CLEARINGDATE is null),DATE_FORMAT(DAT_ACCDATE,'%d-%b-%Y') FROM conveyance_t_conveyance WHERE CHR_ACCSTATUS='Y'  and DAT_CLEARINGDATE is null  GROUP BY DAT_ACCDATE  ORDER BY DAT_ACCDATE  DESC LIMIT 0,1";
 			String checkdata[][]= CommonFunctions.QueryExecute(sql);
 			f = "1".equals(checkdata[0][0]);
 			 

@@ -1,3 +1,4 @@
+<!doctype html>
 <%@ page import="java.io.*,java.util.*" isErrorPage="false" errorPage="../error/error.jsp"%>
 <%@ page import="com.my.org.erp.common.CommonFunctions"%>
 <%@ page import="org.apache.commons.lang.ArrayUtils"%> 
@@ -161,7 +162,11 @@ try
 			<tr >
 				<td height="31" >
 				<div align="center" class="whiteMedium"><span  >Sales
-				Payment Details  </span></div>
+				Payment Details <%
+									String branchid=""+session.getAttribute("BRANCHID");
+				String usertype=""+session.getAttribute("USRTYPE");
+				String user= ""+session.getAttribute("USRID"); 
+									%> </span></div>
 				</td>
 			</tr>
 			<tr >
@@ -229,10 +234,41 @@ try
 				 
           </script>
                         </td>
-						<td  >&nbsp;</td>
-						<td  ><span  >
-						  
-						</span></td>
+						<td  >Company</td>
+						<td  >
+						
+						<div align="left">
+							    <select name="Branch" class="formText135"
+							id="Branch" tabindex="6" style="width:200"  onBlur="SalesPayment('0')"  >
+							       
+							      <%
+								
+				String sql ="Select a.INT_BRANCHID,a.CHR_BRANCHNAME ,b.CHR_COMPANYNAME from  com_m_branch  a  ,com_m_company b where  a.INT_COMPANYID = b.INT_COMPANYID ";	
+				if("N".equals(CommonFunctions.QueryExecute("SELECT  CHR_DISPLAYINACTIVECOMPANY FROM m_institution  WHERE INT_ID=1")[0][0]))			  
+					sql = sql + " AND b.INT_ACTIVE =1 ";
+								
+				String shipids[][] =  CommonFunctions.QueryExecute(sql);
+				if(usertype.equals("F") || usertype.equals("B"))
+				{
+				  out.print("<option value='0'>All</option>");	
+				  for(int u=0; u<shipids.length; u++)
+					out.print("<option value='"+shipids[u][0]+"'>"+shipids[u][2]+" @ "+shipids[u][1]+"</option>");
+				}
+				else
+				{
+					for(int u=0; u<shipids.length; u++)
+						if(shipids[u][0].equals(branchid))
+							out.print("<option value='"+shipids[u][0]+"'>"+shipids[u][2]+" @ "+shipids[u][1]+"</option>");
+												
+				}
+						
+							%>
+				                </select> 
+							    <script language="javascript">
+						  	setOptionValue("Branch","<%=branchid%>") 
+						      </script>
+						      </div>
+						</td>
 					</tr>
 				</table>
 			  </td>

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <%@ page import="java.io.*,java.util.*"%>
 <%@ page import="com.my.org.erp.common.*"%>
 

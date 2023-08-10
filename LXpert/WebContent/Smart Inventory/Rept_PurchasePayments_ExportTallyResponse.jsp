@@ -66,7 +66,7 @@ try
 			sql = sql + " AND b.DAT_DDDATE >= '" +DateUtil.FormateDateSQL(fromdate)+"' ";
 			sql = sql + " AND b.DAT_DDDATE <= '" +DateUtil.FormateDateSQL(todate)+"' "; 
 			sql = sql + " ORDER BY b.INT_PAYMENTID, b.DAT_DDDATE ";
-			//System.out.println(sql);
+			out.println(sql);
 			
 				 
 				String data[][] = CommonFunctions.QueryExecute(sql);
